@@ -2,17 +2,15 @@ import swisseph from 'swisseph';
 import { BirthInput } from '@/app/types/astrology';
 
 export function toJulianDay(input: BirthInput): number {
-  // Convert local time to UTC
-  const utcHour = input.hour + input.minute / 60 - input.utcOffset;
+  const { year, month, day, hour, minute, second = 0, utcOffset } = input;
 
-  // swisseph.swe_julday: year, month, day, hour(decimal UTC), calendar(1=Gregorian)
-  const julday = swisseph.swe_julday(
-    input.year,
-    input.month,
-    input.day,
-    utcHour,
+  // Calculate exact decimal time including seconds
+  const decimalHour = hour + minute / 60.0 + second / 3600.0 - utcOffset;
+  return swisseph.swe_julday(
+    year,
+    month,
+    day,
+    decimalHour,
     swisseph.SE_GREG_CAL,
   );
-
-  return julday;
 }

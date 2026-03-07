@@ -1,13 +1,14 @@
 export interface BirthInput {
-  name: string;
-  day: number; // 1-31
-  month: number; // 1-12
-  year: number; // CE (Gregorian, e.g., 1996)
-  hour: number; // 0-23 local time
-  minute: number; // 0-59
-  latitude: number; // Decimal degrees N+
-  longitude: number; // Decimal degrees E+
-  utcOffset: number; // e.g., 7 for UTC+07:00 (Thailand)
+  name?: string;
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  second?: number; // <--- Add this line!
+  latitude: number;
+  longitude: number;
+  utcOffset: number;
 }
 
 export interface PlanetPosition {
