@@ -1,20 +1,36 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { translations, Language } from '@/lib/i18n/translations';
 
-const PLANET_EN_TO_TH: Record<string, string> = {
-  SUN: 'อาทิตย์',
-  MOON: 'จันทร์',
-  MARS: 'อังคาร',
-  MERCURY: 'พุธ',
-  JUPITER: 'พฤหัสบดี',
-  VENUS: 'ศุกร์',
-  SATURN: 'เสาร์',
-  RAHU: 'ราหู',
-  KETU: 'เกตุ',
-};
+// Helper to format localized Date (adds 543 for Thai BE)
+function formatLocalDate(isoStr: string, lang: Language) {
+  const d = dayjs(isoStr);
+  if (lang === 'th') {
+    const thMonths = [
+      'ม.ค.',
+      'ก.พ.',
+      'มี.ค.',
+      'เม.ย.',
+      'พ.ค.',
+      'มิ.ย.',
+      'ก.ค.',
+      'ส.ค.',
+      'ก.ย.',
+      'ต.ค.',
+      'พ.ย.',
+      'ธ.ค.',
+    ];
+    return `${d.date()} ${thMonths[d.month()]} ${d.year() + 543}`;
+  }
+  return d.format('MMM DD, YYYY');
+}
 
-// Precise calendar-walk logic to compute exact Yy Mm Dd format
-function formatDuration(startISO: string, endISO: string) {
+// Precise calendar-walk logic returning string based on language
+function formatDuration(
+  startISO: string,
+  endISO: string,
+  tStr: typeof translations.en.dashaTable,
+) {
   const start = dayjs(startISO);
   const end = dayjs(endISO);
   const years = end.diff(start, 'year');
@@ -22,40 +38,40 @@ function formatDuration(startISO: string, endISO: string) {
   const months = end.diff(temp, 'month');
   temp = temp.add(months, 'month');
   const days = end.diff(temp, 'day');
-  return `${years}y ${months}m ${days}d`;
+  return `${years}${tStr.y}${months}${tStr.m}${days}${tStr.d}`;
 }
 
 // --- TypeScript Interfaces ---
 interface BhuktiData {
-  lord: string;
+  lord: keyof typeof translations.en.planets;
   startDate: string;
   endDate: string;
 }
-
 interface MahaDashaData {
-  lord: string;
+  lord: keyof typeof translations.en.planets;
   years: number;
   startDate: string;
   endDate: string;
   bhuktis: BhuktiData[];
 }
-
 interface VimshottariData {
   firstLord: string;
   elapsedFraction: number;
   dashas: MahaDashaData[];
 }
-
 interface DashaTableProps {
   dashaData: VimshottariData;
   birthDateLocalStr: string;
+  lang: Language;
 }
 
 export default function DashaTable({
   dashaData,
   birthDateLocalStr,
+  lang,
 }: DashaTableProps) {
   const birthDate = dayjs(birthDateLocalStr);
+  const t = translations[lang];
 
   return (
     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-6">
@@ -63,7 +79,6 @@ export default function DashaTable({
         const isFirstDasha = dIndex === 0;
         const headerStart = isFirstDasha ? birthDate : dayjs(dasha.startDate);
 
-        // Hide fully elapsed past dashas (edge case if someone generates for a very old age)
         if (dayjs(dasha.endDate).isBefore(birthDate)) return null;
 
         return (
@@ -74,17 +89,17 @@ export default function DashaTable({
             <div className="bg-indigo-50 border-b border-indigo-100 p-4">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-bold text-indigo-900">
-                  {PLANET_EN_TO_TH[dasha.lord]}
+                  {t.planets[dasha.lord]}
                 </span>
                 <span className="text-sm font-semibold text-indigo-700">
-                  {headerStart.format('MMM DD, YYYY')} -{' '}
-                  {dayjs(dasha.endDate).format('MMM DD, YYYY')}
+                  {formatLocalDate(headerStart.toISOString(), lang)} -{' '}
+                  {formatLocalDate(dasha.endDate, lang)}
                 </span>
               </div>
               <div className="text-xs text-indigo-600 mt-1 font-medium">
                 {isFirstDasha
-                  ? `${formatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), dasha.endDate)} remaining of the first ${dasha.years}-year period`
-                  : `(${dasha.years}-year period)`}
+                  ? `${formatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), dasha.endDate, t.dashaTable)} ${t.dashaTable.ofFirst} ${dasha.years}${t.dashaTable.yearPeriod}`
+                  : `(${dasha.years}${t.dashaTable.yearPeriod})`}
               </div>
             </div>
 
@@ -92,63 +107,72 @@ export default function DashaTable({
               <table className="w-full text-sm text-left text-gray-700">
                 <thead className="bg-gray-100 text-xs uppercase text-gray-500 border-b border-gray-200">
                   <tr>
-                    <th className="px-4 py-3 font-semibold">Age</th>
-                    <th className="px-4 py-3 font-semibold">Dasha / Bhukti</th>
-                    <th className="px-4 py-3 font-semibold">Start Date</th>
-                    <th className="px-4 py-3 font-semibold">Duration</th>
+                    <th className="px-4 py-3 font-semibold">
+                      {t.dashaTable.age}
+                    </th>
+                    <th className="px-4 py-3 font-semibold">
+                      {t.dashaTable.dashaBhukti}
+                    </th>
+                    <th className="px-4 py-3 font-semibold">
+                      {t.dashaTable.startDate}
+                    </th>
+                    <th className="px-4 py-3 font-semibold">
+                      {t.dashaTable.duration}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {dasha.bhuktis.map((bhukti: BhuktiData) => {
-                    const isBeforeBirth = dayjs(bhukti.endDate).isBefore(
-                      birthDate,
-                    );
-                    if (isBeforeBirth) return null; // fully elapsed
-
+                    if (dayjs(bhukti.endDate).isBefore(birthDate)) return null;
                     const isPartiallyElapsed =
                       dayjs(bhukti.startDate).isBefore(birthDate) &&
                       dayjs(bhukti.endDate).isAfter(birthDate);
 
-                    // --- NEW AGE LOGIC: Reusing our highly precise formatDuration function! ---
-                    const displayAge = isPartiallyElapsed
-                      ? '0y 0m 0d'
-                      : formatDuration(
-                          birthDate.format('YYYY-MM-DDTHH:mm:ss'),
-                          bhukti.startDate,
-                        );
+                    let displayAge = `0${t.dashaTable.y} 0${t.dashaTable.m}`;
+                    if (!isPartiallyElapsed) {
+                      const ageYears = dayjs(bhukti.startDate).diff(
+                        birthDate,
+                        'year',
+                      );
+                      const ageMonths = dayjs(bhukti.startDate).diff(
+                        birthDate.add(ageYears, 'year'),
+                        'month',
+                      );
+                      displayAge =
+                        `${Math.max(0, ageYears)}${t.dashaTable.y}${Math.max(0, ageMonths)}${t.dashaTable.m}`.trim();
+                    }
 
                     const displayStartDate = isPartiallyElapsed
-                      ? birthDate
-                      : dayjs(bhukti.startDate);
-
+                      ? birthDate.toISOString()
+                      : bhukti.startDate;
                     const durationStr = isPartiallyElapsed ? (
                       <span className="text-red-600 font-medium">
-                        Remaining:{' '}
+                        {t.dashaTable.remaining}{' '}
                         {formatDuration(
                           birthDate.format('YYYY-MM-DDTHH:mm:ss'),
                           bhukti.endDate,
+                          t.dashaTable,
                         )}
                       </span>
                     ) : (
-                      `(${formatDuration(bhukti.startDate, bhukti.endDate)})`
+                      `(${formatDuration(bhukti.startDate, bhukti.endDate, t.dashaTable)})`
                     );
 
                     return (
                       <tr
                         key={bhukti.lord}
-                        className="border-b last:border-0 hover:bg-gray-50 transition-colors"
+                        className="border-b hover:bg-gray-50 whitespace-nowrap"
                       >
-                        <td className="px-4 py-3 text-gray-500 font-medium whitespace-nowrap">
+                        <td className="px-4 py-3 text-gray-500 font-medium">
                           {displayAge}
                         </td>
-                        <td className="px-4 py-3 font-medium text-gray-800 whitespace-nowrap">
-                          {PLANET_EN_TO_TH[dasha.lord]} /{' '}
-                          {PLANET_EN_TO_TH[bhukti.lord]}
+                        <td className="px-4 py-3 font-medium text-gray-800">
+                          {t.planets[dasha.lord]} / {t.planets[bhukti.lord]}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {displayStartDate.format('MMM DD, YYYY')}
+                        <td className="px-4 py-3">
+                          {formatLocalDate(displayStartDate, lang)}
                         </td>
-                        <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
+                        <td className="px-4 py-3 text-gray-600">
                           {durationStr}
                         </td>
                       </tr>

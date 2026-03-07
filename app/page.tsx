@@ -4,12 +4,12 @@ import { useState, ComponentProps } from 'react';
 import { BirthInput } from './types/astrology';
 import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
+import { translations, Language } from '@/lib/i18n/translations';
 
 // Dynamically extract the exact types your table components expect
 type PlanetTableData = ComponentProps<typeof PlanetTable>['data'];
 type DashaTableData = ComponentProps<typeof DashaTable>['dashaData'];
 
-// Combine them to create a perfectly typed result object (no 'any' allowed!)
 type ChartResult = PlanetTableData & {
   julianDay?: number;
   ayanamsa?: number;
@@ -18,22 +18,24 @@ type ChartResult = PlanetTableData & {
 };
 
 export default function Home() {
+  const [lang, setLang] = useState<Language>('en'); // Default to English
+  const t = translations[lang]; // Load current dictionary
+
   const [formData, setFormData] = useState<BirthInput>({
     name: 'Test Chart',
     day: 19,
     month: 11,
     year: 1996,
-    hour: 9, // Changed back to 8:40 to exactly match the reference documentation!
+    hour: 9,
     minute: 40,
     latitude: 15.705,
     longitude: 100.138,
     utcOffset: 7,
   });
 
-  // Apply our perfect new type to the state
   const [result, setResult] = useState<ChartResult | null>(null);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'planets' | 'dasha'>('planets'); // Controls UI Tabs
+  const [activeTab, setActiveTab] = useState<'planets' | 'dasha'>('planets');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,12 +61,30 @@ export default function Home() {
     setFormData({ ...formData, [e.target.name]: Number(e.target.value) });
   };
 
+  // Special handler for Year to convert Buddhist Era back to CE for the backend
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = Number(e.target.value);
+    if (lang === 'th' && val > 0) val -= 543;
+    setFormData({ ...formData, year: val });
+  };
+
+  // Display value for the input field (adds 543 if in Thai mode)
+  const displayYear =
+    lang === 'th' && formData.year > 0 ? formData.year + 543 : formData.year;
+
   return (
     <main className="min-h-screen p-8 bg-gray-50 text-black">
       <div className="max-w-5xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-center text-indigo-900">
-          Astrology Calculation Engine
-        </h1>
+        {/* Header & Language Toggle */}
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-indigo-900">{t.appTitle}</h1>
+          <button
+            onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
+            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-full transition-colors"
+          >
+            {t.form.langToggle}
+          </button>
+        </div>
 
         <form
           onSubmit={handleSubmit}
@@ -75,7 +95,7 @@ export default function Home() {
               htmlFor="day"
               className="block text-sm font-semibold text-gray-700"
             >
-              Day
+              {t.form.day}
             </label>
             <input
               id="day"
@@ -91,7 +111,7 @@ export default function Home() {
               htmlFor="month"
               className="block text-sm font-semibold text-gray-700"
             >
-              Month
+              {t.form.month}
             </label>
             <input
               id="month"
@@ -107,14 +127,14 @@ export default function Home() {
               htmlFor="year"
               className="block text-sm font-semibold text-gray-700"
             >
-              Year (CE)
+              {t.form.year}
             </label>
             <input
               id="year"
               type="number"
               name="year"
-              value={formData.year}
-              onChange={handleChange}
+              value={displayYear}
+              onChange={handleYearChange}
               className="mt-1 border p-2 rounded w-full focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -123,7 +143,7 @@ export default function Home() {
               htmlFor="hour"
               className="block text-sm font-semibold text-gray-700"
             >
-              Hour (0-23)
+              {t.form.hour}
             </label>
             <input
               id="hour"
@@ -139,7 +159,7 @@ export default function Home() {
               htmlFor="minute"
               className="block text-sm font-semibold text-gray-700"
             >
-              Minute
+              {t.form.minute}
             </label>
             <input
               id="minute"
@@ -156,7 +176,7 @@ export default function Home() {
               htmlFor="latitude"
               className="block text-sm font-semibold text-gray-700"
             >
-              Latitude
+              {t.form.lat}
             </label>
             <input
               id="latitude"
@@ -173,7 +193,7 @@ export default function Home() {
               htmlFor="longitude"
               className="block text-sm font-semibold text-gray-700"
             >
-              Longitude
+              {t.form.lng}
             </label>
             <input
               id="longitude"
@@ -188,45 +208,35 @@ export default function Home() {
 
           <div className="col-span-2 md:col-span-3 mt-4">
             <button
-              type="submit"
               disabled={loading}
+              type="submit"
               className="w-full bg-indigo-600 text-white p-3 rounded-lg font-bold shadow-md hover:bg-indigo-700 transition duration-200 disabled:opacity-50"
             >
-              {loading ? 'Calculating...' : 'Calculate Chart & Dasha'}
+              {loading ? t.form.loading : t.form.submit}
             </button>
           </div>
         </form>
 
         {result && (
           <div className="mt-8">
-            {/* TAB SYSTEM */}
             <div className="flex space-x-6 border-b border-gray-300 mb-6 px-2">
               <button
                 onClick={() => setActiveTab('planets')}
-                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 ${
-                  activeTab === 'planets'
-                    ? 'border-b-4 border-indigo-600 text-indigo-900'
-                    : 'text-gray-400 hover:text-indigo-600'
-                }`}
+                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 ${activeTab === 'planets' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
               >
-                ตำแหน่งดาว (Planet Positions)
+                {t.tabs.planets}
               </button>
               <button
                 onClick={() => setActiveTab('dasha')}
-                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 ${
-                  activeTab === 'dasha'
-                    ? 'border-b-4 border-indigo-600 text-indigo-900'
-                    : 'text-gray-400 hover:text-indigo-600'
-                }`}
+                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 ${activeTab === 'dasha' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
               >
-                ทศา (Vimshottari Dasha)
+                {t.tabs.dasha}
               </button>
             </div>
 
-            {/* TAB CONTENT */}
             {activeTab === 'planets' && (
               <div className="animate-fade-in-up">
-                <PlanetTable data={result} />
+                <PlanetTable data={result} lang={lang} />
               </div>
             )}
 
@@ -235,6 +245,7 @@ export default function Home() {
                 <DashaTable
                   dashaData={result.dasha}
                   birthDateLocalStr={result.birthDateLocalStr}
+                  lang={lang}
                 />
               </div>
             )}
