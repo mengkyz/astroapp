@@ -6,6 +6,8 @@ import { calcLagna } from '@/lib/charts/lagna';
 import { getRasi, getDegreesInRasi } from '@/lib/charts/rasi';
 import { getNakshatra } from '@/lib/charts/nakshatra';
 import { BirthInput } from '@/app/types/astrology';
+import { RASI_NAMES } from '@/lib/data/signs';
+import { NAKSHATRA_NAMES } from '@/lib/data/nakshatras';
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,10 +41,12 @@ export async function POST(req: NextRequest) {
         key,
         longitude,
         rasi,
+        rasiName: RASI_NAMES[rasi],
         degrees: deg,
         minutes: min,
         seconds: sec,
         nakshatraIndex: nakshatraIdx,
+        nakshatraName: NAKSHATRA_NAMES[nakshatraIdx],
         pada,
         house,
         isRetrograde,
@@ -62,10 +66,12 @@ export async function POST(req: NextRequest) {
         key: 'KETU',
         longitude: ketuLon,
         rasi: ketuRasi,
+        rasiName: RASI_NAMES[ketuRasi],
         degrees: deg,
         minutes: min,
         seconds: sec,
         nakshatraIndex: nakshatraIdx,
+        nakshatraName: NAKSHATRA_NAMES[nakshatraIdx],
         pada,
         house,
         isRetrograde: true, // Nodes are generally retrograde
@@ -79,6 +85,7 @@ export async function POST(req: NextRequest) {
       lagna: {
         longitude: lagnaLon,
         rasi: lagnaRasi,
+        rasiName: RASI_NAMES[lagnaRasi],
         ...getDegreesInRasi(lagnaLon),
       },
       planets,
