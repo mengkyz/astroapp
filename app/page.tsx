@@ -16,6 +16,35 @@ type ChartResult = PlanetTableData & {
   dasha?: DashaTableData;
 };
 
+// --- GPS Math Conversion Helpers ---
+function decimalToDMS(decimal: number, isLat: boolean) {
+  const dir = decimal >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
+  const abs = Math.abs(decimal); // Fixed: changed to const
+  let d = Math.floor(abs);
+  const mDec = (abs - d) * 60; // Fixed: changed to const
+  let m = Math.floor(mDec);
+  let s = Math.round((mDec - m) * 60);
+
+  // Handle rounding overflow (e.g., 60 seconds becomes 1 minute)
+  if (s === 60) {
+    s = 0;
+    m += 1;
+  }
+  if (m === 60) {
+    m = 0;
+    d += 1;
+  }
+
+  return { d, m, s, dir };
+}
+
+function dmsToDecimal(d: number, m: number, s: number, dir: string) {
+  let dec = d + m / 60 + s / 3600;
+  if (dir === 'S' || dir === 'W') dec = -dec; // South and West are negative
+  return dec;
+}
+// ------------------------------------
+
 export default function Home() {
   const [lang, setLang] = useState<Language>('en');
   const t = translations[lang];
@@ -28,8 +57,8 @@ export default function Home() {
     hour: 12,
     minute: 0,
     second: 0,
-    latitude: 13.7525,
-    longitude: 100.4941,
+    latitude: 13.752555, // Default Bangkok precise
+    longitude: 100.494066,
     utcOffset: 7,
   });
 
@@ -39,7 +68,6 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'planets' | 'dasha'>('planets');
 
   // 1. On Mount: Set to exactly "Right Now"
-  // We only run this once, and we know default lang is 'en' on mount!
   useEffect(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -52,16 +80,12 @@ export default function Home() {
       minute: now.getMinutes(),
       second: now.getSeconds(),
     }));
-    // Safely set initial year string directly
     setYearInput(String(currentYear));
-  }, []); // Truly empty dependency array - perfectly ESLint compliant
+  }, []);
 
-  // 2. Event-Driven Sync: Handle the language change directly on button click
-  // This completely eliminates the need for the second useEffect!
   const toggleLanguage = () => {
     const nextLang = lang === 'en' ? 'th' : 'en';
     setLang(nextLang);
-    // Instantly calculate and set the new UI display year
     setYearInput(
       nextLang === 'th' ? String(formData.year + 543) : String(formData.year),
     );
@@ -91,14 +115,11 @@ export default function Home() {
     setFormData({ ...formData, [e.target.name]: Number(e.target.value) });
   };
 
-  // 3. The perfect year typing fix
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setYearInput(val); // UI updates instantly without math interference
-
+    setYearInput(val);
     const num = parseInt(val, 10);
     if (!isNaN(num)) {
-      // We quietly save the true CE year in the background
       setFormData((prev) => ({
         ...prev,
         year: lang === 'th' ? num - 543 : num,
@@ -106,7 +127,39 @@ export default function Home() {
     }
   };
 
-  // Helper arrays for dropdowns
+  // --- New DMS Two-Way Sync Handler ---
+  const handleDMSChange = (
+    field: 'd' | 'm' | 's' | 'dir',
+    val: string,
+    isLat: boolean,
+  ) => {
+    const currentDecimal = isLat ? formData.latitude : formData.longitude;
+    const dms = decimalToDMS(currentDecimal, isLat);
+
+    // Update the specific field the user typed into
+    const updatedDMS = { ...dms, [field]: field === 'dir' ? val : Number(val) };
+
+    // Convert back to pure decimal and save it to the master state!
+    const newDecimal = dmsToDecimal(
+      updatedDMS.d,
+      updatedDMS.m,
+      updatedDMS.s,
+      updatedDMS.dir,
+    );
+
+    // Round to 6 decimal places to prevent infinite float loops
+    const cleanedDecimal = Math.round(newDecimal * 1000000) / 1000000;
+
+    setFormData((prev) => ({
+      ...prev,
+      [isLat ? 'latitude' : 'longitude']: cleanedDecimal,
+    }));
+  };
+
+  // Real-time calculation for UI render
+  const latDMS = decimalToDMS(formData.latitude, true);
+  const lngDMS = decimalToDMS(formData.longitude, false);
+
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const minutesSeconds = Array.from({ length: 60 }, (_, i) => i);
@@ -120,7 +173,7 @@ export default function Home() {
           </h1>
           <button
             type="button"
-            onClick={toggleLanguage} // <--- Call our new dedicated handler here
+            onClick={toggleLanguage}
             className="bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-full transition-colors text-sm"
           >
             {t.form.langToggle}
@@ -271,45 +324,167 @@ export default function Home() {
               </div>
             </div>
 
-            {/* LOCATION CARD */}
-            <div className="space-y-4 md:col-span-2">
+            {/* SYNCHRONIZED LOCATION CARD */}
+            <div className="space-y-6 md:col-span-2">
               <h3 className="text-lg font-bold text-gray-800 border-b pb-2">
                 {t.form.locationDetails}
               </h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="latitude"
-                    className="block text-xs font-semibold text-gray-500 uppercase mb-1"
-                  >
-                    {t.form.lat}
-                  </label>
-                  <input
-                    id="latitude"
-                    type="number"
-                    step="any"
-                    name="latitude"
-                    value={formData.latitude}
-                    onChange={handleSelectChange}
-                    className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
-                  />
+
+              {/* Latitude Row */}
+              <div className="space-y-1">
+                <label className="block text-sm font-semibold text-gray-700">
+                  {t.form.lat}
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  {/* Decimal Lat */}
+                  <div>
+                    <span className="block text-xs font-medium text-gray-500 mb-2">
+                      {t.form.decimal}
+                    </span>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="any"
+                        name="latitude"
+                        aria-label="Latitude Decimal"
+                        value={formData.latitude}
+                        onChange={handleSelectChange}
+                        className="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none pr-8"
+                      />
+                      <span className="absolute right-3 top-2.5 text-gray-400 font-bold">
+                        °
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* DMS Lat */}
+                  <div>
+                    <span className="block text-xs font-medium text-gray-500 mb-2">
+                      {t.form.dms}
+                    </span>
+                    <div className="flex items-center space-x-1 sm:space-x-2">
+                      <input
+                        type="number"
+                        aria-label="Latitude Degrees"
+                        value={latDMS.d}
+                        onChange={(e) =>
+                          handleDMSChange('d', e.target.value, true)
+                        }
+                        className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
+                      />{' '}
+                      <span className="text-gray-500 font-bold">°</span>
+                      <select
+                        aria-label="Latitude Direction"
+                        value={latDMS.dir}
+                        onChange={(e) =>
+                          handleDMSChange('dir', e.target.value, true)
+                        }
+                        className="border border-gray-300 p-2.5 rounded-md outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                      >
+                        <option value="N">{t.form.north}</option>
+                        <option value="S">{t.form.south}</option>
+                      </select>
+                      <input
+                        type="number"
+                        aria-label="Latitude Minutes"
+                        value={latDMS.m}
+                        onChange={(e) =>
+                          handleDMSChange('m', e.target.value, true)
+                        }
+                        className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
+                      />{' '}
+                      <span className="text-gray-500 font-bold">&apos;</span>
+                      <input
+                        type="number"
+                        aria-label="Latitude Seconds"
+                        value={latDMS.s}
+                        onChange={(e) =>
+                          handleDMSChange('s', e.target.value, true)
+                        }
+                        className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
+                      />{' '}
+                      <span className="text-gray-500 font-bold">&quot;</span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="longitude"
-                    className="block text-xs font-semibold text-gray-500 uppercase mb-1"
-                  >
-                    {t.form.lng}
-                  </label>
-                  <input
-                    id="longitude"
-                    type="number"
-                    step="any"
-                    name="longitude"
-                    value={formData.longitude}
-                    onChange={handleSelectChange}
-                    className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
-                  />
+              </div>
+
+              {/* Longitude Row */}
+              <div className="space-y-1">
+                <label className="block text-sm font-semibold text-gray-700">
+                  {t.form.lng}
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  {/* Decimal Lng */}
+                  <div>
+                    <span className="block text-xs font-medium text-gray-500 mb-2">
+                      {t.form.decimal}
+                    </span>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="any"
+                        name="longitude"
+                        aria-label="Longitude Decimal"
+                        value={formData.longitude}
+                        onChange={handleSelectChange}
+                        className="w-full border border-gray-300 p-2.5 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none pr-8"
+                      />
+                      <span className="absolute right-3 top-2.5 text-gray-400 font-bold">
+                        °
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* DMS Lng */}
+                  <div>
+                    <span className="block text-xs font-medium text-gray-500 mb-2">
+                      {t.form.dms}
+                    </span>
+                    <div className="flex items-center space-x-1 sm:space-x-2">
+                      <input
+                        type="number"
+                        aria-label="Longitude Degrees"
+                        value={lngDMS.d}
+                        onChange={(e) =>
+                          handleDMSChange('d', e.target.value, false)
+                        }
+                        className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
+                      />{' '}
+                      <span className="text-gray-500 font-bold">°</span>
+                      <select
+                        aria-label="Longitude Direction"
+                        value={lngDMS.dir}
+                        onChange={(e) =>
+                          handleDMSChange('dir', e.target.value, false)
+                        }
+                        className="border border-gray-300 p-2.5 rounded-md outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                      >
+                        <option value="E">{t.form.east}</option>
+                        <option value="W">{t.form.west}</option>
+                      </select>
+                      <input
+                        type="number"
+                        aria-label="Longitude Minutes"
+                        value={lngDMS.m}
+                        onChange={(e) =>
+                          handleDMSChange('m', e.target.value, false)
+                        }
+                        className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
+                      />{' '}
+                      <span className="text-gray-500 font-bold">&apos;</span>
+                      <input
+                        type="number"
+                        aria-label="Longitude Seconds"
+                        value={lngDMS.s}
+                        onChange={(e) =>
+                          handleDMSChange('s', e.target.value, false)
+                        }
+                        className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
+                      />{' '}
+                      <span className="text-gray-500 font-bold">&quot;</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
