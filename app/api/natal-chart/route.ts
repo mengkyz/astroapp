@@ -5,6 +5,7 @@ import { getLahiriAyanamsa } from '@/lib/ephemeris/ayanamsa';
 import { calcLagna } from '@/lib/charts/lagna';
 import { getRasi, getDegreesInRasi } from '@/lib/charts/rasi';
 import { getNakshatra } from '@/lib/charts/nakshatra';
+import { calculateVimshottariDasha } from '@/lib/charts/dasha';
 import { BirthInput } from '@/app/types/astrology';
 import { RASI_NAMES } from '@/lib/data/signs';
 import { NAKSHATRA_NAMES } from '@/lib/data/nakshatras';
@@ -19,7 +20,6 @@ export async function POST(req: NextRequest) {
     const lagnaLon = calcLagna(jd, input.latitude, input.longitude);
     const lagnaRasi = getRasi(lagnaLon);
 
-    // Calculate Lagna Harmonics & Nakshatra
     const lagnaDrekkanaPart = Math.floor((lagnaLon % 30) / 10);
     const lagnaDrekkana = ((lagnaRasi - 1 + lagnaDrekkanaPart * 4) % 12) + 1;
     const lagnaNavamsa = (Math.floor(lagnaLon / (10 / 3)) % 12) + 1;
@@ -36,11 +36,8 @@ export async function POST(req: NextRequest) {
       const { index: nakshatraIdx, pada } = getNakshatra(longitude);
       const house = ((rasi - lagnaRasi + 12) % 12) + 1;
 
-      // 1/3rd Division (ตรียางค์)
       const drekkanaPart = Math.floor((longitude % 30) / 10);
       const drekkanaRasi = ((rasi - 1 + drekkanaPart * 4) % 12) + 1;
-
-      // 1/9th Division (นวางค์)
       const navamsaRasi = (Math.floor(longitude / (10 / 3)) % 12) + 1;
 
       return {
@@ -63,7 +60,6 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    // Inject Ketu manually
     const rahu = planets.find((p) => p.key === 'RAHU');
     if (rahu) {
       const ketuLon = calcKetu(rahu.longitude);
@@ -96,9 +92,22 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // NEW: Calculate Vimshottari Dasha
+    const moon = planets.find((p) => p.key === 'MOON');
+    let dashaData = null;
+    let birthDateLocalStr = '';
+
+    if (moon) {
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      // Create a "timezone-less" local date string so UI formatting remains perfectly stable
+      birthDateLocalStr = `${input.year}-${pad(input.month)}-${pad(input.day)}T${pad(input.hour)}:${pad(input.minute)}:00`;
+      dashaData = calculateVimshottariDasha(moon.longitude, birthDateLocalStr);
+    }
+
     return NextResponse.json({
       julianDay: jd,
       ayanamsa,
+      birthDateLocalStr, // Needed by frontend for age calculation
       lagna: {
         longitude: lagnaLon,
         rasi: lagnaRasi,
@@ -113,6 +122,7 @@ export async function POST(req: NextRequest) {
         pada: lagnaPada,
       },
       planets,
+      dasha: dashaData, // Expose to frontend
     });
   } catch (error) {
     return NextResponse.json({ error: String(error) }, { status: 500 });
