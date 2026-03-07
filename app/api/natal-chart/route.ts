@@ -18,25 +18,15 @@ export async function POST(req: NextRequest) {
     const ayanamsa = getLahiriAyanamsa(jd);
 
     // 3. Calculate Lagna (Ascendant)
-    const lagnaLon = calcLagna(jd, input.latitude, input.longitude, ayanamsa);
+    // ayanamsa is removed here because swe_houses_ex with SEFLG_SIDEREAL handles it natively
+    const lagnaLon = calcLagna(jd, input.latitude, input.longitude);
     const lagnaRasi = getRasi(lagnaLon);
 
-    // 4. Calculate All Planets
-    // We will map over our defined PLANET_IDS to calculate each one
+    // 4. Calculate All Planets from PLANET_IDS
     const planets = Object.entries(PLANET_IDS).map(([key, id]) => {
-      let longitude = 0;
-      let isRetrograde = false;
-
-      // Handle Ketu separately (always 180 deg from Rahu)
-      if (key === 'KETU') {
-        const rahu = calcPlanet(PLANET_IDS.RAHU, jd);
-        longitude = calcKetu(rahu.longitude);
-        isRetrograde = true; // Nodes are generally retrograde
-      } else {
-        const result = calcPlanet(id, jd);
-        longitude = result.longitude;
-        isRetrograde = result.isRetrograde;
-      }
+      const result = calcPlanet(id, jd);
+      const longitude = result.longitude;
+      const isRetrograde = result.isRetrograde;
 
       const rasi = getRasi(longitude);
       const { deg, min, sec } = getDegreesInRasi(longitude);
@@ -58,6 +48,29 @@ export async function POST(req: NextRequest) {
         isRetrograde,
       };
     });
+
+    // 5. Inject Ketu manually (always 180 degrees from Rahu)
+    const rahu = planets.find((p) => p.key === 'RAHU');
+    if (rahu) {
+      const ketuLon = calcKetu(rahu.longitude);
+      const ketuRasi = getRasi(ketuLon);
+      const { deg, min, sec } = getDegreesInRasi(ketuLon);
+      const { index: nakshatraIdx, pada } = getNakshatra(ketuLon);
+      const house = ((ketuRasi - lagnaRasi + 12) % 12) + 1;
+
+      planets.push({
+        key: 'KETU',
+        longitude: ketuLon,
+        rasi: ketuRasi,
+        degrees: deg,
+        minutes: min,
+        seconds: sec,
+        nakshatraIndex: nakshatraIdx,
+        pada,
+        house,
+        isRetrograde: true, // Nodes are generally retrograde
+      });
+    }
 
     // Return the complete chart payload
     return NextResponse.json({
