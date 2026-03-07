@@ -13,18 +13,19 @@ export async function POST(req: NextRequest) {
   try {
     const input = (await req.json()) as BirthInput;
 
-    // 1. Calculate Julian Day
     const jd = toJulianDay(input);
-
-    // 2. Calculate Ayanamsa
     const ayanamsa = getLahiriAyanamsa(jd);
 
-    // 3. Calculate Lagna (Ascendant)
-    // ayanamsa is removed here because swe_houses_ex with SEFLG_SIDEREAL handles it natively
     const lagnaLon = calcLagna(jd, input.latitude, input.longitude);
     const lagnaRasi = getRasi(lagnaLon);
 
-    // 4. Calculate All Planets from PLANET_IDS
+    // Calculate Lagna Harmonics & Nakshatra
+    const lagnaDrekkanaPart = Math.floor((lagnaLon % 30) / 10);
+    const lagnaDrekkana = ((lagnaRasi - 1 + lagnaDrekkanaPart * 4) % 12) + 1;
+    const lagnaNavamsa = (Math.floor(lagnaLon / (10 / 3)) % 12) + 1;
+    const { index: lagnaNakshatraIdx, pada: lagnaPada } =
+      getNakshatra(lagnaLon);
+
     const planets = Object.entries(PLANET_IDS).map(([key, id]) => {
       const result = calcPlanet(id, jd);
       const longitude = result.longitude;
@@ -33,9 +34,14 @@ export async function POST(req: NextRequest) {
       const rasi = getRasi(longitude);
       const { deg, min, sec } = getDegreesInRasi(longitude);
       const { index: nakshatraIdx, pada } = getNakshatra(longitude);
-
-      // Calculate House (Relative to Lagna)
       const house = ((rasi - lagnaRasi + 12) % 12) + 1;
+
+      // 1/3rd Division (ตรียางค์)
+      const drekkanaPart = Math.floor((longitude % 30) / 10);
+      const drekkanaRasi = ((rasi - 1 + drekkanaPart * 4) % 12) + 1;
+
+      // 1/9th Division (นวางค์)
+      const navamsaRasi = (Math.floor(longitude / (10 / 3)) % 12) + 1;
 
       return {
         key,
@@ -45,6 +51,10 @@ export async function POST(req: NextRequest) {
         degrees: deg,
         minutes: min,
         seconds: sec,
+        drekkana: drekkanaRasi,
+        drekkanaName: RASI_NAMES[drekkanaRasi],
+        navamsa: navamsaRasi,
+        navamsaName: RASI_NAMES[navamsaRasi],
         nakshatraIndex: nakshatraIdx,
         nakshatraName: NAKSHATRA_NAMES[nakshatraIdx],
         pada,
@@ -53,7 +63,7 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    // 5. Inject Ketu manually (always 180 degrees from Rahu)
+    // Inject Ketu manually
     const rahu = planets.find((p) => p.key === 'RAHU');
     if (rahu) {
       const ketuLon = calcKetu(rahu.longitude);
@@ -61,6 +71,10 @@ export async function POST(req: NextRequest) {
       const { deg, min, sec } = getDegreesInRasi(ketuLon);
       const { index: nakshatraIdx, pada } = getNakshatra(ketuLon);
       const house = ((ketuRasi - lagnaRasi + 12) % 12) + 1;
+
+      const drekkanaPart = Math.floor((ketuLon % 30) / 10);
+      const drekkanaRasi = ((ketuRasi - 1 + drekkanaPart * 4) % 12) + 1;
+      const navamsaRasi = (Math.floor(ketuLon / (10 / 3)) % 12) + 1;
 
       planets.push({
         key: 'KETU',
@@ -70,15 +84,18 @@ export async function POST(req: NextRequest) {
         degrees: deg,
         minutes: min,
         seconds: sec,
+        drekkana: drekkanaRasi,
+        drekkanaName: RASI_NAMES[drekkanaRasi],
+        navamsa: navamsaRasi,
+        navamsaName: RASI_NAMES[navamsaRasi],
         nakshatraIndex: nakshatraIdx,
         nakshatraName: NAKSHATRA_NAMES[nakshatraIdx],
         pada,
         house,
-        isRetrograde: true, // Nodes are generally retrograde
+        isRetrograde: true,
       });
     }
 
-    // Return the complete chart payload
     return NextResponse.json({
       julianDay: jd,
       ayanamsa,
@@ -87,6 +104,13 @@ export async function POST(req: NextRequest) {
         rasi: lagnaRasi,
         rasiName: RASI_NAMES[lagnaRasi],
         ...getDegreesInRasi(lagnaLon),
+        drekkana: lagnaDrekkana,
+        drekkanaName: RASI_NAMES[lagnaDrekkana],
+        navamsa: lagnaNavamsa,
+        navamsaName: RASI_NAMES[lagnaNavamsa],
+        nakshatraIndex: lagnaNakshatraIdx,
+        nakshatraName: NAKSHATRA_NAMES[lagnaNakshatraIdx],
+        pada: lagnaPada,
       },
       planets,
     });
