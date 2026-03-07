@@ -1,6 +1,19 @@
 import React from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
+// 1. Define the exact standard Vedic sequence (excluding Uranus, Neptune, Pluto)
+const PLANET_ORDER = [
+  'SUN',
+  'MOON',
+  'MARS',
+  'MERCURY',
+  'JUPITER',
+  'VENUS',
+  'SATURN',
+  'RAHU',
+  'KETU',
+];
+
 interface PlanetData {
   key: keyof typeof translations.en.planets;
   longitude: number;
@@ -40,6 +53,11 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
   const tTable = t.planetTable;
   const pad = (num: number) => num.toString().padStart(2, '0');
 
+  // 2. Filter out the outer planets and sort by our precise Vedic order
+  const visiblePlanets = data.planets
+    .filter((p) => PLANET_ORDER.includes(p.key))
+    .sort((a, b) => PLANET_ORDER.indexOf(a.key) - PLANET_ORDER.indexOf(b.key));
+
   return (
     <div className="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200">
       <table className="w-full text-sm text-left text-gray-700">
@@ -58,9 +76,7 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <th className="px-4 py-3 font-semibold text-center">
               {tTable.sec}
             </th>
-            <th className="px-4 py-3 font-semibold text-center">
-              {tTable.retro}
-            </th>
+            {/* Removed the dedicated Retrograde column header here */}
             <th className="px-4 py-3 font-semibold text-center text-indigo-700">
               {tTable.drekkana}
             </th>
@@ -77,7 +93,7 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
           </tr>
         </thead>
         <tbody>
-          {/* Row 1: Lagna */}
+          {/* Row 1: Lagna (Always First) */}
           <tr className="bg-blue-50 border-b hover:bg-blue-100 font-medium whitespace-nowrap">
             <td className="px-4 py-3 text-blue-900">{tTable.ascendant}</td>
             <td className="px-4 py-3 text-center">
@@ -86,7 +102,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <td className="px-4 py-3 text-center">{pad(data.lagna.deg)}</td>
             <td className="px-4 py-3 text-center">{pad(data.lagna.min)}</td>
             <td className="px-4 py-3 text-center">{pad(data.lagna.sec)}</td>
-            <td className="px-4 py-3 text-center">-</td>
             <td className="px-4 py-3 text-center text-indigo-600">
               {t.signs[data.lagna.drekkana]}
             </td>
@@ -100,37 +115,45 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <td className="px-4 py-3 text-center">1</td>
           </tr>
 
-          {/* Rows 2+: Planets */}
-          {data.planets.map((planet) => (
-            <tr
-              key={planet.key}
-              className="bg-white border-b hover:bg-gray-50 transition-colors whitespace-nowrap"
-            >
-              <td className="px-4 py-3 font-medium">
-                {t.planets[planet.key] || planet.key}
-              </td>
-              <td className="px-4 py-3 text-center">
-                {pad(planet.rasi)}: {t.signs[planet.rasi]}
-              </td>
-              <td className="px-4 py-3 text-center">{pad(planet.degrees)}</td>
-              <td className="px-4 py-3 text-center">{pad(planet.minutes)}</td>
-              <td className="px-4 py-3 text-center">{pad(planet.seconds)}</td>
-              <td className="px-4 py-3 text-center font-bold text-red-600">
-                {planet.isRetrograde ? tTable.retroSymbol : ''}
-              </td>
-              <td className="px-4 py-3 text-center text-indigo-600">
-                {t.signs[planet.drekkana]}
-              </td>
-              <td className="px-4 py-3 text-center text-purple-600">
-                {t.signs[planet.navamsa]}
-              </td>
-              <td className="px-4 py-3">
-                {t.nakshatras[planet.nakshatraIndex]}
-              </td>
-              <td className="px-4 py-3 text-center">{planet.pada}</td>
-              <td className="px-4 py-3 text-center">{planet.house}</td>
-            </tr>
-          ))}
+          {/* Rows 2+: Planets (Filtered & Sorted) */}
+          {visiblePlanets.map((planet) => {
+            // 3. Logic to append (R) or (พ.) only for real retrogrades, ignoring Nodes
+            const isNode = planet.key === 'RAHU' || planet.key === 'KETU';
+            const showRetrograde = planet.isRetrograde && !isNode;
+
+            return (
+              <tr
+                key={planet.key}
+                className="bg-white border-b hover:bg-gray-50 transition-colors whitespace-nowrap"
+              >
+                <td className="px-4 py-3 font-medium">
+                  {t.planets[planet.key] || planet.key}
+                  {showRetrograde && (
+                    <span className="text-red-600 font-bold ml-1">
+                      ({tTable.retroSymbol})
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-3 text-center">
+                  {pad(planet.rasi)}: {t.signs[planet.rasi]}
+                </td>
+                <td className="px-4 py-3 text-center">{pad(planet.degrees)}</td>
+                <td className="px-4 py-3 text-center">{pad(planet.minutes)}</td>
+                <td className="px-4 py-3 text-center">{pad(planet.seconds)}</td>
+                <td className="px-4 py-3 text-center text-indigo-600">
+                  {t.signs[planet.drekkana]}
+                </td>
+                <td className="px-4 py-3 text-center text-purple-600">
+                  {t.signs[planet.navamsa]}
+                </td>
+                <td className="px-4 py-3">
+                  {t.nakshatras[planet.nakshatraIndex]}
+                </td>
+                <td className="px-4 py-3 text-center">{planet.pada}</td>
+                <td className="px-4 py-3 text-center">{planet.house}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
