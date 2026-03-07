@@ -3,6 +3,7 @@
 import { useState, useEffect, ComponentProps } from 'react';
 import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
+import ThaiLocationSelect from './components/ThaiLocationSelect';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // Extract types
@@ -19,13 +20,12 @@ type ChartResult = PlanetTableData & {
 // --- GPS Math Conversion Helpers ---
 function decimalToDMS(decimal: number, isLat: boolean) {
   const dir = decimal >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
-  const abs = Math.abs(decimal); // Fixed: changed to const
+  const abs = Math.abs(decimal);
   let d = Math.floor(abs);
-  const mDec = (abs - d) * 60; // Fixed: changed to const
+  const mDec = (abs - d) * 60;
   let m = Math.floor(mDec);
   let s = Math.round((mDec - m) * 60);
 
-  // Handle rounding overflow (e.g., 60 seconds becomes 1 minute)
   if (s === 60) {
     s = 0;
     m += 1;
@@ -40,10 +40,9 @@ function decimalToDMS(decimal: number, isLat: boolean) {
 
 function dmsToDecimal(d: number, m: number, s: number, dir: string) {
   let dec = d + m / 60 + s / 3600;
-  if (dir === 'S' || dir === 'W') dec = -dec; // South and West are negative
+  if (dir === 'S' || dir === 'W') dec = -dec;
   return dec;
 }
-// ------------------------------------
 
 export default function Home() {
   const [lang, setLang] = useState<Language>('en');
@@ -57,7 +56,7 @@ export default function Home() {
     hour: 12,
     minute: 0,
     second: 0,
-    latitude: 13.752555, // Default Bangkok precise
+    latitude: 13.752555,
     longitude: 100.494066,
     utcOffset: 7,
   });
@@ -67,7 +66,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'planets' | 'dasha'>('planets');
 
-  // 1. On Mount: Set to exactly "Right Now"
   useEffect(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -127,7 +125,6 @@ export default function Home() {
     }
   };
 
-  // --- New DMS Two-Way Sync Handler ---
   const handleDMSChange = (
     field: 'd' | 'm' | 's' | 'dir',
     val: string,
@@ -135,19 +132,13 @@ export default function Home() {
   ) => {
     const currentDecimal = isLat ? formData.latitude : formData.longitude;
     const dms = decimalToDMS(currentDecimal, isLat);
-
-    // Update the specific field the user typed into
     const updatedDMS = { ...dms, [field]: field === 'dir' ? val : Number(val) };
-
-    // Convert back to pure decimal and save it to the master state!
     const newDecimal = dmsToDecimal(
       updatedDMS.d,
       updatedDMS.m,
       updatedDMS.s,
       updatedDMS.dir,
     );
-
-    // Round to 6 decimal places to prevent infinite float loops
     const cleanedDecimal = Math.round(newDecimal * 1000000) / 1000000;
 
     setFormData((prev) => ({
@@ -156,7 +147,6 @@ export default function Home() {
     }));
   };
 
-  // Real-time calculation for UI render
   const latDMS = decimalToDMS(formData.latitude, true);
   const lngDMS = decimalToDMS(formData.longitude, false);
 
@@ -324,19 +314,31 @@ export default function Home() {
               </div>
             </div>
 
-            {/* SYNCHRONIZED LOCATION CARD */}
+            {/* LOCATION CARD */}
             <div className="space-y-6 md:col-span-2">
               <h3 className="text-lg font-bold text-gray-800 border-b pb-2">
                 {t.form.locationDetails}
               </h3>
 
-              {/* Latitude Row */}
+              {/* THAILAND QUICK SELECTOR */}
+              <ThaiLocationSelect
+                lang={lang}
+                currentLat={formData.latitude}
+                currentLng={formData.longitude}
+                onSelect={(lat, lng) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    latitude: lat,
+                    longitude: lng,
+                  }))
+                }
+              />
+
               <div className="space-y-1">
                 <label className="block text-sm font-semibold text-gray-700">
                   {t.form.lat}
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-                  {/* Decimal Lat */}
                   <div>
                     <span className="block text-xs font-medium text-gray-500 mb-2">
                       {t.form.decimal}
@@ -356,8 +358,6 @@ export default function Home() {
                       </span>
                     </div>
                   </div>
-
-                  {/* DMS Lat */}
                   <div>
                     <span className="block text-xs font-medium text-gray-500 mb-2">
                       {t.form.dms}
@@ -371,7 +371,7 @@ export default function Home() {
                           handleDMSChange('d', e.target.value, true)
                         }
                         className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
-                      />{' '}
+                      />
                       <span className="text-gray-500 font-bold">°</span>
                       <select
                         aria-label="Latitude Direction"
@@ -392,7 +392,7 @@ export default function Home() {
                           handleDMSChange('m', e.target.value, true)
                         }
                         className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
-                      />{' '}
+                      />
                       <span className="text-gray-500 font-bold">&apos;</span>
                       <input
                         type="number"
@@ -402,20 +402,18 @@ export default function Home() {
                           handleDMSChange('s', e.target.value, true)
                         }
                         className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
-                      />{' '}
+                      />
                       <span className="text-gray-500 font-bold">&quot;</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Longitude Row */}
               <div className="space-y-1">
                 <label className="block text-sm font-semibold text-gray-700">
                   {t.form.lng}
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-                  {/* Decimal Lng */}
                   <div>
                     <span className="block text-xs font-medium text-gray-500 mb-2">
                       {t.form.decimal}
@@ -435,8 +433,6 @@ export default function Home() {
                       </span>
                     </div>
                   </div>
-
-                  {/* DMS Lng */}
                   <div>
                     <span className="block text-xs font-medium text-gray-500 mb-2">
                       {t.form.dms}
@@ -450,7 +446,7 @@ export default function Home() {
                           handleDMSChange('d', e.target.value, false)
                         }
                         className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
-                      />{' '}
+                      />
                       <span className="text-gray-500 font-bold">°</span>
                       <select
                         aria-label="Longitude Direction"
@@ -471,7 +467,7 @@ export default function Home() {
                           handleDMSChange('m', e.target.value, false)
                         }
                         className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
-                      />{' '}
+                      />
                       <span className="text-gray-500 font-bold">&apos;</span>
                       <input
                         type="number"
@@ -481,7 +477,7 @@ export default function Home() {
                           handleDMSChange('s', e.target.value, false)
                         }
                         className="w-16 border border-gray-300 p-2.5 rounded-md text-center outline-none focus:ring-2 focus:ring-indigo-500"
-                      />{' '}
+                      />
                       <span className="text-gray-500 font-bold">&quot;</span>
                     </div>
                   </div>
@@ -501,7 +497,6 @@ export default function Home() {
           </div>
         </form>
 
-        {/* Output Tables below (unchanged logic) */}
         {result && (
           <div className="mt-8">
             <div className="flex space-x-6 border-b border-gray-300 mb-6 px-2">
@@ -520,13 +515,11 @@ export default function Home() {
                 {t.tabs.dasha}
               </button>
             </div>
-
             {activeTab === 'planets' && (
               <div className="animate-fade-in-up">
                 <PlanetTable data={result} lang={lang} />
               </div>
             )}
-
             {activeTab === 'dasha' && result.dasha && (
               <div className="animate-fade-in-up">
                 <DashaTable

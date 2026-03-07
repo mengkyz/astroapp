@@ -1,0 +1,951 @@
+﻿id,province_th,district_th,sub_district_th,province_en,district_en,sub_district_en,latitude,longitude,lat_direction,lon_direction,lat_raw,lon_raw
+1,กทม,คลองสาน,คลองต้นไทร,Bangkok,Khlong San,Khlong Ton Sai,13.716667,100.5,N,E,13.43N,100.30E
+2,กทม,คลองสาน,คลองสาน,Bangkok,Khlong San,Khlong San,13.733333,100.5,N,E,13.44N,100.30E
+3,กทม,คลองสาน,สมเด็จเจ้าพระยา,Bangkok,Khlong San,Somdet Chao Phraya,13.733333,100.5,N,E,13.44N,100.30E
+4,กทม,คลองเตย,คลองตัน,Bangkok,Khlong Toei,Khlong Tan,13.733333,100.583333,N,E,13.44N,100.35E
+5,กทม,คลองเตย,คลองเตย,Bangkok,Khlong Toei,Khlong Toei,13.716667,100.566667,N,E,13.43N,100.34E
+6,กทม,คลองเตย,พระโขนง,Bangkok,Khlong Toei,Phra Khanong,13.716667,100.6,N,E,13.43N,100.36E
+7,กทม,จตุจักร,ลาดยาว,Bangkok,Chatuchak,Lat Yao,13.816667,100.566667,N,E,13.49N,100.34E
+8,กทม,จอมทอง,จอมทอง,Bangkok,Chom Thong,Chom Thong,13.683333,100.466667,N,E,13.41N,100.28E
+9,กทม,จอมทอง,บางขุนเทียน,Bangkok,Chom Thong,Bang Khun Thian,13.7,100.45,N,E,13.42N,100.27E
+10,กทม,จอมทอง,บางมด,Bangkok,Chom Thong,Bang Mot,13.666667,100.466667,N,E,13.40N,100.28E
+11,กทม,ดอนเมือง,ตลาดบางเขน,Bangkok,Don Mueang,Talat Bang Khen,13.9,100.6,N,E,13.54N,100.36E
+12,กทม,ดอนเมือง,ทุ่งสองห้อง,Bangkok,Don Mueang,Thung Song Hong,13.883333,100.566667,N,E,13.53N,100.34E
+13,กทม,ดอนเมือง,สีกัน,Bangkok,Don Mueang,Si Kan,13.933333,100.583333,N,E,13.56N,100.35E
+14,กทม,ดินแดง,ดินแดง,Bangkok,Din Daeng,Din Daeng,13.766667,100.566667,N,E,13.46N,100.34E
+15,กทม,ดุสิต,ดุสิต,Bangkok,Dusit,Dusit,13.766667,100.516667,N,E,13.46N,100.31E
+16,กทม,ดุสิต,ถนนนครไชยศรี,Bangkok,Dusit,Thanon Nakhon Chai Si,13.783333,100.533333,N,E,13.47N,100.32E
+17,กทม,ดุสิต,วชิรพยาบาล,Bangkok,Dusit,Wachira Phayaban,13.783333,100.5,N,E,13.47N,100.30E
+18,กทม,ดุสิต,สวนจิตรลดา,Bangkok,Dusit,Suan Chitlada,13.766667,100.516667,N,E,13.46N,100.31E
+19,กทม,ดุสิต,สี่แยกมหานาค,Bangkok,Dusit,Si Yaek Maha Nak,13.75,100.516667,N,E,13.45N,100.31E
+20,กทม,ตลิ่งชัน,คลองชักพระ,Bangkok,Taling Chan,Khlong Chak Phra,13.766667,100.45,N,E,13.46N,100.27E
+21,กทม,ตลิ่งชัน,ฉิมพลี,Bangkok,Taling Chan,Chim Phli,13.783333,100.416667,N,E,13.47N,100.25E
+22,กทม,ตลิ่งชัน,ตลิ่งชัน,Bangkok,Taling Chan,Taling Chan,13.783333,100.45,N,E,13.47N,100.27E
+23,กทม,ตลิ่งชัน,ทวีวัฒนา,Bangkok,Taling Chan,Thawi Watthana,13.75,100.35,N,E,13.45N,100.21E
+24,กทม,ตลิ่งชัน,บางเชือกหนัง,Bangkok,Taling Chan,Bang Chueak Nang,13.75,100.416667,N,E,13.45N,100.25E
+25,กทม,ตลิ่งชัน,บางพรหม,Bangkok,Taling Chan,Bang Phrom,13.75,100.433333,N,E,13.45N,100.26E
+26,กทม,ตลิ่งชัน,บางระมาด,Bangkok,Taling Chan,Bang Ramat,13.766667,100.416667,N,E,13.46N,100.25E
+27,กทม,ตลิ่งชัน,ศาลาธรรมสพน์,Bangkok,Taling Chan,Sala Thammasop,13.783333,100.366667,N,E,13.47N,100.22E
+28,กทม,ธนบุรี,ตลาดพลู,Bangkok,Thon Buri,Talat Phlu,13.716667,100.483333,N,E,13.43N,100.29E
+29,กทม,ธนบุรี,บางยี่เรือ,Bangkok,Thon Buri,Bang Yi Ruea,13.716667,100.483333,N,E,13.43N,100.29E
+30,กทม,ธนบุรี,บุคคโล,Bangkok,Thon Buri,Bukkhalo,13.7,100.5,N,E,13.42N,100.30E
+31,กทม,ธนบุรี,วัดกัลยาณ์,Bangkok,Thon Buri,Wat Kanlaya,13.733333,100.5,N,E,13.44N,100.30E
+32,กทม,ธนบุรี,หิรัญรูจี,Bangkok,Thon Buri,Hiran Ruji,13.733333,100.5,N,E,13.44N,100.30E
+33,กทม,บางกอกน้อย,บางขุนนนท์,Bangkok,Bangkok Noi,Bang Khun Non,13.766667,100.466667,N,E,13.46N,100.28E
+34,กทม,บางกอกน้อย,บางขุนศรี,Bangkok,Bangkok Noi,Bang Khun Si,13.75,100.466667,N,E,13.45N,100.28E
+35,กทม,บางกอกน้อย,บ้านช่างหล่อ,Bangkok,Bangkok Noi,Ban Chang Lo,13.75,100.483333,N,E,13.45N,100.29E
+36,กทม,บางกอกน้อย,วัดท่าพระ,Bangkok,Bangkok Noi,Wat Tha Phra,13.733333,100.483333,N,E,13.44N,100.29E
+37,กทม,บางกอกน้อย,ศิริราช,Bangkok,Bangkok Noi,Sirirat,13.75,100.483333,N,E,13.45N,100.29E
+38,กทม,บางกอกใหญ่,วัดอรุณ,Bangkok,Bangkok Yai,Wat Arun,13.733333,100.483333,N,E,13.44N,100.29E
+39,กทม,บางกะปิ,คลองจั่น,Bangkok,Bang Kapi,Khlong Chan,13.783333,100.633333,N,E,13.47N,100.38E
+40,กทม,บางกะปิ,วังทองหลาง,Bangkok,Bang Kapi,Wang Thong Lang,13.783333,100.616667,N,E,13.47N,100.37E
+41,กทม,บางกะปิ,หัวหมาก,Bangkok,Bang Kapi,Hua Mak,13.75,100.65,N,E,13.45N,100.39E
+42,กทม,บางขุนเทียน,ท่าข้าม,Bangkok,Bang Khun Thian,Tha Kham,13.566667,100.45,N,E,13.34N,100.27E
+43,กทม,บางขุนเทียน,บางบอน,Bangkok,Bang Khun Thian,Bang Bon,13.65,100.4,N,E,13.39N,100.24E
+44,กทม,บางขุนเทียน,แสมดำ,Bangkok,Bang Khun Thian,Samae Dam,13.616667,100.416667,N,E,13.37N,100.25E
+45,กทม,บางเขน,คลองถนน,Bangkok,Bang Khen,Khlong Thanon,13.9,100.633333,N,E,13.54N,100.38E
+46,กทม,บางเขน,ท่าแร้ง,Bangkok,Bang Khen,Tha Raeng,13.866667,100.65,N,E,13.52N,100.39E
+47,กทม,บางเขน,สายไหม,Bangkok,Bang Khen,Sai Mai,13.916667,100.65,N,E,13.55N,100.39E
+48,กทม,บางเขน,อนุสาวรีย์,Bangkok,Bang Khen,Anusawari,13.866667,100.616667,N,E,13.52N,100.37E
+49,กทม,บางเขน,ออเงิน,Bangkok,Bang Khen,O Ngoen,13.883333,100.683333,N,E,13.53N,100.41E
+50,กทม,บางคอแหลม,บางคอแหลม,Bangkok,Bang Kho Laem,Bang Kho Laem,13.7,100.5,N,E,13.42N,100.30E
+51,กทม,บางคอแหลม,บางโคล่,Bangkok,Bang Kho Laem,Bang Khlo,13.683333,100.516667,N,E,13.41N,100.31E
+52,กทม,บางคอแหลม,วัดพระยาไกร,Bangkok,Bang Kho Laem,Wat Phraya Krai,13.7,100.516667,N,E,13.42N,100.31E
+53,กทม,บางซื่อ,บางซื่อ,Bangkok,Bang Sue,Bang Sue,13.816667,100.533333,N,E,13.49N,100.32E
+54,กทม,บางพลัด,บางบำหรุ,Bangkok,Bang Phlat,Bang Bamru,13.783333,100.483333,N,E,13.47N,100.29E
+55,กทม,บางพลัด,บางพลัด,Bangkok,Bang Phlat,Bang Phlat,13.783333,100.5,N,E,13.47N,100.30E
+56,กทม,บางพลัด,บางยี่ขัน,Bangkok,Bang Phlat,Bang Yi Khan,13.766667,100.5,N,E,13.46N,100.30E
+57,กทม,บางพลัด,บางอ้อ,Bangkok,Bang Phlat,Bang O,13.8,100.516667,N,E,13.48N,100.31E
+58,กทม,บางรัก,มหาพฤฒาราม,Bangkok,Bang Rak,Maha Phruettharam,13.733333,100.516667,N,E,13.44N,100.31E
+59,กทม,บางรัก,สี่พระยา,Bangkok,Bang Rak,Si Phraya,13.733333,100.533333,N,E,13.44N,100.32E
+60,กทม,บางรัก,สีลม,Bangkok,Bang Rak,Si Lom,13.716667,100.533333,N,E,13.43N,100.32E
+61,กทม,บางรัก,สุรวงศ์,Bangkok,Bang Rak,Suriwong,13.716667,100.533333,N,E,13.43N,100.32E
+62,กทม,บึงกุ่ม,คลองกุ่ม,Bangkok,Bueng Kum,Khlong Kum,13.8,100.65,N,E,13.48N,100.39E
+63,กทม,บึงกุ่ม,คันนายาว,Bangkok,Bueng Kum,Khan Na Yao,13.816667,100.683333,N,E,13.49N,100.41E
+64,กทม,บึงกุ่ม,สะพานสูง,Bangkok,Bueng Kum,Saphan Sung,13.766667,100.7,N,E,13.46N,100.42E
+65,กทม,ปทุมวัน,ปทุมวัน,Bangkok,Pathum Wan,Pathum Wan,13.733333,100.533333,N,E,13.44N,100.32E
+66,กทม,ปทุมวัน,รองเมือง,Bangkok,Pathum Wan,Rong Mueang,13.75,100.516667,N,E,13.45N,100.31E
+67,กทม,ปทุมวัน,ลุมพินี,Bangkok,Pathum Wan,Lumphini,13.733333,100.55,N,E,13.44N,100.33E
+68,กทม,ปทุมวัน,วังใหม่,Bangkok,Pathum Wan,Wang Mai,13.733333,100.533333,N,E,13.44N,100.32E
+69,กทม,ประเวศ,ดอกไม้,Bangkok,Prawet,Dok Mai,13.683333,100.7,N,E,13.41N,100.42E
+70,กทม,ประเวศ,ประเวศ,Bangkok,Prawet,Prawet,13.716667,100.683333,N,E,13.43N,100.41E
+71,กทม,ประเวศ,หนองบอน,Bangkok,Prawet,Nong Bon,13.683333,100.666667,N,E,13.41N,100.40E
+72,กทม,ป้อมปราบฯ,คลองมหานาค,Bangkok,Pom Prap Sattru Phai,Khlong Maha Nak,13.75,100.516667,N,E,13.45N,100.31E
+73,กทม,ป้อมปราบฯ,บ้านบาตร,Bangkok,Pom Prap Sattru Phai,Ban Bat,13.75,100.516667,N,E,13.45N,100.31E
+74,กทม,ป้อมปราบฯ,ป้อมปราบ,Bangkok,Pom Prap Sattru Phai,Pom Prap,13.75,100.516667,N,E,13.45N,100.31E
+75,กทม,ป้อมปราบฯ,วัดเทพศิรินทร์,Bangkok,Pom Prap Sattru Phai,Wat Thep Sirin,13.75,100.516667,N,E,13.45N,100.31E
+76,กทม,ป้อมปราบฯ,วัดโสมนัส,Bangkok,Pom Prap Sattru Phai,Wat Somanas,13.75,100.516667,N,E,13.45N,100.31E
+77,กทม,พญาไท,สามเสนใน,Bangkok,Phaya Thai,Sam Sen Nai,13.783333,100.55,N,E,13.47N,100.33E
+78,กทม,พระโขนง,บางจาก,Bangkok,Phra Khanong,Bang Chak,13.716667,100.583333,N,E,13.43N,100.35E
+79,กทม,พระโขนง,บางนา,Bangkok,Phra Khanong,Bang Na,13.666667,100.616667,N,E,13.40N,100.37E
+80,กทม,พระนคร,ชนะสงคราม,Bangkok,Phra Nakhon,Chana Songkhram,13.766667,100.5,N,E,13.46N,100.30E
+81,กทม,พระนคร,ตลาดยอด,Bangkok,Phra Nakhon,Talat Yot,13.75,100.5,N,E,13.45N,100.30E
+82,กทม,พระนคร,บวรนิเวศ,Bangkok,Phra Nakhon,Bowon Niwet,13.75,100.5,N,E,13.45N,100.30E
+83,กทม,พระนคร,บางขุนพรหม,Bangkok,Phra Nakhon,Bang Khun Phrom,13.766667,100.516667,N,E,13.46N,100.31E
+84,กทม,พระนคร,บ้านพานถม,Bangkok,Phra Nakhon,Ban Phan Thom,13.766667,100.5,N,E,13.46N,100.30E
+85,กทม,พระนคร,พระบรมมหาราชวัง,Bangkok,Phra Nakhon,Phra Borom Maha Ratchawang,13.75,100.5,N,E,13.45N,100.30E
+86,กทม,พระนคร,วังบูรพาภิรมย์,Bangkok,Phra Nakhon,Wang Burapha Phirom,13.733333,100.5,N,E,13.44N,100.30E
+87,กทม,พระนคร,วัดราชบพิธ,Bangkok,Phra Nakhon,Wat Ratchabophit,13.75,100.5,N,E,13.45N,100.30E
+88,กทม,พระนคร,วัดสามพระยา,Bangkok,Phra Nakhon,Wat Sam Phraya,13.766667,100.5,N,E,13.46N,100.30E
+89,กทม,พระนคร,ศาลเจ้าพ่อเสือ,Bangkok,Phra Nakhon,San Chao Pho Suea,13.75,100.5,N,E,13.45N,100.30E
+90,กทม,พระนคร,สำราญราษฎร์,Bangkok,Phra Nakhon,Samran Rat,13.75,100.5,N,E,13.45N,100.30E
+91,กทม,พระนคร,เสาชิงช้า,Bangkok,Phra Nakhon,Sao Ching Cha,13.75,100.5,N,E,13.45N,100.30E
+92,กทม,ภาษีเจริญ,คลองขวาง,Bangkok,Phasi Charoen,Khlong Khwang,13.733333,100.433333,N,E,13.44N,100.26E
+93,กทม,ภาษีเจริญ,บางแค,Bangkok,Phasi Charoen,Bang Khae,13.7,100.416667,N,E,13.42N,100.25E
+94,กทม,ภาษีเจริญ,บางแคเหนือ,Bangkok,Phasi Charoen,Bang Khae Nuea,13.716667,100.4,N,E,13.43N,100.24E
+95,กทม,ภาษีเจริญ,บางด้วน,Bangkok,Phasi Charoen,Bang Duan,13.716667,100.433333,N,E,13.43N,100.26E
+96,กทม,ภาษีเจริญ,บางแวก,Bangkok,Phasi Charoen,Bang Waek,13.733333,100.45,N,E,13.44N,100.27E
+97,กทม,ภาษีเจริญ,บางหว้า,Bangkok,Phasi Charoen,Bang Wa,13.7,100.433333,N,E,13.42N,100.26E
+98,กทม,ภาษีเจริญ,ปากคลองภาษีเจริญ,Bangkok,Phasi Charoen,Pak Khlong Phasi Charoen,13.7,100.5,N,E,13.42N,100.30E
+99,กทม,มีนบุรี,ทรายกองดินใต้,Bangkok,Min Buri,Sai Kong Din Tai,13.85,100.783333,N,E,13.51N,100.47E
+100,กทม,มีนบุรี,ทรายกองดินเหนือ,Bangkok,Min Buri,Sai Kong Din Nuea,13.85,100.75,N,E,13.51N,100.45E
+101,กทม,มีนบุรี,บางชัน,Bangkok,Min Buri,Bang Chan,13.833333,100.716667,N,E,13.50N,100.43E
+102,กทม,มีนบุรี,มีนบุรี,Bangkok,Min Buri,Min Buri,13.8,100.733333,N,E,13.48N,100.44E
+103,กทม,มีนบุรี,สามวาตะวันตก,Bangkok,Min Buri,Sam Wa Tawan Tok,13.883333,100.716667,N,E,13.53N,100.43E
+104,กทม,มีนบุรี,สามวาตะวันออก,Bangkok,Min Buri,Sam Wa Tawan Ok,13.9,100.766667,N,E,13.54N,100.46E
+105,กทม,มีนบุรี,แสนแสบ,Bangkok,Min Buri,Saen Saep,13.816667,100.783333,N,E,13.49N,100.47E
+106,กทม,ยานนาวา,ช่องนนทรี,Bangkok,Yan Nawa,Chong Nonsi,13.7,100.55,N,E,13.42N,100.33E
+107,กทม,ยานนาวา,บางโพงพาง,Bangkok,Yan Nawa,Bang Pho Phang,13.683333,100.533333,N,E,13.41N,100.32E
+108,กทม,ราชเทวี,ถนนพญาไท,Bangkok,Ratchathewi,Thanon Phaya Thai,13.75,100.55,N,E,13.45N,100.33E
+109,กทม,ราชเทวี,ถนนเพชรบุรี,Bangkok,Ratchathewi,Thanon Phetchaburi,13.75,100.533333,N,E,13.45N,100.32E
+110,กทม,ราชเทวี,ทุ่งพญาไท,Bangkok,Ratchathewi,Thung Phaya Thai,13.766667,100.533333,N,E,13.46N,100.32E
+111,กทม,ราชเทวี,มักกะสัน,Bangkok,Ratchathewi,Makkasan,13.75,100.55,N,E,13.45N,100.33E
+112,กทม,ราษฎร์บูรณะ,ทุ่งครุ,Bangkok,Rat Burana,Thung Khru,13.616667,100.5,N,E,13.37N,100.30E
+113,กทม,ราษฎร์บูรณะ,บางปะกอก,Bangkok,Rat Burana,Bang Pakok,13.666667,100.5,N,E,13.40N,100.30E
+114,กทม,ราษฎร์บูรณะ,บางมด,Bangkok,Rat Burana,Bang Mot,13.65,100.5,N,E,13.39N,100.30E
+115,กทม,ราษฎร์บูรณะ,ราษฎร์บูรณะ,Bangkok,Rat Burana,Rat Burana,13.666667,100.516667,N,E,13.40N,100.31E
+116,กทม,ลาดกระบัง,คลองสองต้นนุ่น,Bangkok,Lat Krabang,Khlong Song Ton Nun,13.75,100.733333,N,E,13.45N,100.44E
+117,กทม,ลาดกระบัง,คลองสามประเวศ,Bangkok,Lat Krabang,Khlong Sam Prawet,13.75,100.75,N,E,13.45N,100.45E
+118,กทม,ลาดกระบัง,ชุมทอง,Bangkok,Lat Krabang,Chum Thong,13.733333,100.85,N,E,13.44N,100.51E
+119,กทม,ลาดกระบัง,ทับยาว,Bangkok,Lat Krabang,Thap Yao,13.733333,100.816667,N,E,13.44N,100.49E
+120,กทม,ลาดกระบัง,ลาดกระบัง,Bangkok,Lat Krabang,Lat Krabang,13.716667,100.75,N,E,13.43N,100.45E
+121,กทม,ลาดกระบัง,ลำปลาทิว,Bangkok,Lat Krabang,Lam Pla Thio,13.766667,100.8,N,E,13.46N,100.48E
+122,กทม,ลาดพร้าว,จระเข้บัว,Bangkok,Lat Phrao,Chorakhe Bua,13.833333,100.633333,N,E,13.50N,100.38E
+123,กทม,ลาดพร้าว,ลาดพร้าว,Bangkok,Lat Phrao,Lat Phrao,13.816667,100.616667,N,E,13.49N,100.37E
+124,กทม,สวนหลวง,สวนหลวง,Bangkok,Suan Luang,Suan Luang,13.716667,100.633333,N,E,13.43N,100.38E
+125,กทม,สัมพันธวงศ์,จักรวรรดิ,Bangkok,Samphanthawong,Chakrawat,13.733333,100.5,N,E,13.44N,100.30E
+126,กทม,สัมพันธวงศ์,ตลาดน้อย,Bangkok,Samphanthawong,Talat Noi,13.733333,100.516667,N,E,13.44N,100.31E
+127,กทม,สัมพันธวงศ์,สัมพันธวงศ์,Bangkok,Samphanthawong,Samphanthawong,13.733333,100.516667,N,E,13.44N,100.31E
+128,กทม,สาธร,ทุ่งมหาเมฆ,Bangkok,Sathon,Thung Maha Mek,13.716667,100.55,N,E,13.43N,100.33E
+129,กทม,สาธร,ทุ่งวัดดอน,Bangkok,Sathon,Thung Wat Don,13.7,100.533333,N,E,13.42N,100.32E
+130,กทม,สาธร,ยานนาวา,Bangkok,Sathon,Yan Nawa,13.716667,100.516667,N,E,13.43N,100.31E
+131,กทม,หนองแขม,หนองแขม,Bangkok,Nong Khaem,Nong Khaem,13.683333,100.35,N,E,13.41N,100.21E
+132,กทม,หนองแขม,หนองค้างพลู,Bangkok,Nong Khaem,Nong Khang Phlu,13.716667,100.35,N,E,13.43N,100.21E
+133,กทม,หนองแขม,หลักสอง,Bangkok,Nong Khaem,Lak Song,13.683333,100.383333,N,E,13.41N,100.23E
+134,กทม,หนองจอก,กระทุ่มราย,Bangkok,Nong Chok,Krathum Rai,13.816667,100.9,N,E,13.49N,100.54E
+135,กทม,หนองจอก,คลองสิบ,Bangkok,Nong Chok,Khlong Sip,13.916667,100.833333,N,E,13.55N,100.50E
+136,กทม,หนองจอก,คลองสิบสอง,Bangkok,Nong Chok,Khlong Sip Song,13.9,100.883333,N,E,13.54N,100.53E
+137,กทม,หนองจอก,คู้ฝั่งเหนือ,Bangkok,Nong Chok,Khu Fang Nuea,13.866667,100.816667,N,E,13.52N,100.49E
+138,กทม,หนองจอก,โคกแฝด,Bangkok,Nong Chok,Khok Faet,13.833333,100.833333,N,E,13.50N,100.50E
+139,กทม,หนองจอก,ลำต้อยติ่ง,Bangkok,Nong Chok,Lam Toi Ting,13.766667,100.883333,N,E,13.46N,100.53E
+140,กทม,หนองจอก,ลำผักชี,Bangkok,Nong Chok,Lam Phak Chi,13.8,100.85,N,E,13.48N,100.51E
+141,กทม,หนองจอก,หนองจอก,Bangkok,Nong Chok,Nong Chok,13.866667,100.866667,N,E,13.52N,100.52E
+142,กทม,ห้วยขวาง,บางกะปิ,Bangkok,Huai Khwang,Bang Kapi,13.75,100.583333,N,E,13.45N,100.35E
+143,กทม,ห้วยขวาง,สามเสนนอก,Bangkok,Huai Khwang,Sam Sen Nok,13.783333,100.583333,N,E,13.47N,100.35E
+144,กทม,ห้วยขวาง,ห้วยขวาง,Bangkok,Huai Khwang,Huai Khwang,13.766667,100.583333,N,E,13.46N,100.35E
+145,กระบี่,เกาะลันตา,,Krabi,Ko Lanta,,7.6,99.133333,N,E,7.36N,99.08E
+146,กระบี่,เขาพนม,,Krabi,Khao Phanom,,8.3,99.116667,N,E,8.18N,99.07E
+147,กระบี่,คลองท่อม,,Krabi,Khlong Thom,,7.95,99.216667,N,E,7.57N,99.13E
+148,กระบี่,ปลายพระยา,,Krabi,Plai Phraya,,8.5,98.85,N,E,8.30N,98.51E
+149,กระบี่,เมืองกระบี่,,Krabi,Mueang Krabi,,7.983333,98.8,N,E,7.59N,98.48E
+150,กระบี่,ลำทับ,,Krabi,Lam Thap,,8.066667,99.316667,N,E,8.04N,99.19E
+151,กระบี่,เหนือคลอง,,Krabi,Nuea Khlong,,7.9,99.0,N,E,7.54N,99.00E
+152,กระบี่,อ่าวลึก,,Krabi,Ao Luek,,8.3,98.683333,N,E,8.18N,98.41E
+153,กาญจนบุรี,เมืองกาญจนบุรี,,Kanchanaburi,Mueang Kanchanaburi,,14.216667,99.283333,N,E,14.13N,99.17E
+154,กาญจนบุรี,สังขละบุรี,,Kanchanaburi,Sangkhla Buri,,15.166667,98.483333,N,E,15.10N,98.29E
+155,กาญจนบุรี,ทองผาภูมิ,,Kanchanaburi,Thong Pha Phum,,14.816667,98.616667,N,E,14.49N,98.37E
+156,กาญจนบุรี,ท่าม่วง,,Kanchanaburi,Tha Muang,,13.883333,99.616667,N,E,13.53N,99.37E
+157,กาญจนบุรี,ท่ามะกา,,Kanchanaburi,Tha Maka,,13.95,99.8,N,E,13.57N,99.48E
+158,กาญจนบุรี,ไทรโยค,,Kanchanaburi,Sai Yok,,14.35,98.833333,N,E,14.21N,98.50E
+159,กาญจนบุรี,บ่อพลอย,,Kanchanaburi,Bo Phloi,,14.5,99.45,N,E,14.30N,99.27E
+160,กาญจนบุรี,พนมทวน,,Kanchanaburi,Phanom Thuan,,14.116667,99.666667,N,E,14.07N,99.40E
+161,กาญจนบุรี,เลาขวัญ,,Kanchanaburi,Lao Khwan,,14.666667,99.65,N,E,14.40N,99.39E
+162,กาญจนบุรี,ศรีสวัสดิ์,,Kanchanaburi,Si Sawat,,14.733333,99.1,N,E,14.44N,99.06E
+163,กาญจนบุรี,หนองปรือ,,Kanchanaburi,Nong Prue,,14.733333,99.383333,N,E,14.44N,99.23E
+164,กาญจนบุรี,ห้วยกระเจา,,Kanchanaburi,Huai Krachao,,14.333333,99.683333,N,E,14.20N,99.41E
+165,กาญจนบุรี,อ่านมะขามเตี้ย,,Kanchanaburi,Dan Makkham Tia,,13.866667,99.366667,N,E,13.52N,99.22E
+166,กาฬสินธุ์,กมลาไสย,,Kalasin,Kamalasai,,16.266667,103.55,N,E,16.16N,103.33E
+167,กาฬสินธุ์,กุฉินารายณ์,,Kalasin,Kuchinarai,,16.466667,104.05,N,E,16.28N,104.03E
+168,กาฬสินธุ์,เขาวง,,Kalasin,Khao Wong,,16.7,104.066667,N,E,16.42N,104.04E
+169,กาฬสินธุ์,คำม่วง,,Kalasin,Kham Muang,,16.933333,103.616667,N,E,16.56N,103.37E
+170,กาฬสินธุ์,ท่าคันโท,,Kalasin,Tha Khantho,,16.883333,103.266667,N,E,16.53N,103.16E
+171,กาฬสินธุ์,นามน,,Kalasin,Na Mon,,16.566667,103.8,N,E,16.34N,103.48E
+172,กาฬสินธุ์,เมืองกาฬสินธุ์,,Kalasin,Mueang Kalasin,,16.433333,103.616667,N,E,16.26N,103.37E
+173,กาฬสินธุ์,ยางตลาด,,Kalasin,Yang Talat,,16.45,103.316667,N,E,16.27N,103.19E
+174,กาฬสินธุ์,ร่องคำ,,Kalasin,Rong Kham,,16.3,103.733333,N,E,16.18N,103.44E
+175,กาฬสินธุ์,สมเด็จ,,Kalasin,Somdet,,16.833333,103.783333,N,E,16.50N,103.47E
+176,กาฬสินธุ์,สหัสขันธ์,,Kalasin,Sahatsakhan,,16.716667,103.583333,N,E,16.43N,103.35E
+177,กาฬสินธุ์,หนองกุงศรี,,Kalasin,Nong Kung Si,,16.75,103.333333,N,E,16.45N,103.20E
+178,กาฬสินธุ์,ห้วยผึ้ง,,Kalasin,Huai Phueng,,16.633333,103.9,N,E,16.38N,103.54E
+179,กาฬสินธุ์,ห้วยเม็ก,,Kalasin,Huai Mek,,16.583333,103.266667,N,E,16.35N,103.16E
+180,กำแพงเพชร,ขาณุวรลักษบุรี,,Kamphaeng Phet,Khanu Woralaksaburi,,16.083333,99.75,N,E,16.05N,99.45E
+181,กำแพงเพชร,คลองขลุง,,Kamphaeng Phet,Khlong Khlung,,16.216667,99.666667,N,E,16.13N,99.40E
+182,กำแพงเพชร,คลองลาน,,Kamphaeng Phet,Khlong Lan,,16.166667,99.25,N,E,16.10N,99.15E
+183,กำแพงเพชร,ทุ่งทราย,,Kamphaeng Phet,Thung Sai,,16.333333,99.883333,N,E,16.20N,99.53E
+184,กำแพงเพชร,ไทรงาม,,Kamphaeng Phet,Sai Ngam,,16.416667,99.85,N,E,16.25N,99.51E
+185,กำแพงเพชร,บึงสามัคคี,,Kamphaeng Phet,Bueng Samakkhi,,16.216667,99.966667,N,E,16.13N,99.58E
+186,กำแพงเพชร,พรานกระต่าย,,Kamphaeng Phet,Phran Kratai,,16.733333,99.483333,N,E,16.44N,99.29E
+187,กำแพงเพชร,เมืองกำแพงเพชร,,Kamphaeng Phet,Mueang Kamphaeng Phet,,16.45,99.5,N,E,16.27N,99.30E
+188,กำแพงเพชร,ลานกระบือ,,Kamphaeng Phet,Lan Krabue,,16.566667,99.883333,N,E,16.34N,99.53E
+189,ขอนแก่น,กระนวน,,Khon Kaen,Kranuan,,16.666667,103.083333,N,E,16.40N,103.05E
+190,ขอนแก่น,เขาสวนกวาง,,Khon Kaen,Khao Suan Kwang,,16.833333,102.85,N,E,16.50N,102.51E
+191,ขอนแก่น,ชนบท,,Khon Kaen,Chonnabot,,15.966667,102.533333,N,E,15.58N,102.32E
+192,ขอนแก่น,ชุมแพ,,Khon Kaen,Chum Phae,,16.516667,102.166667,N,E,16.31N,102.10E
+193,ขอนแก่น,ซำสูง,,Khon Kaen,Sam Sung,,16.616667,103.1,N,E,16.37N,103.06E
+194,ขอนแก่น,น้ำพอง,,Khon Kaen,Nam Phong,,16.75,102.866667,N,E,16.45N,102.52E
+195,ขอนแก่น,บ้านไผ่,,Khon Kaen,Ban Phai,,16.0,102.75,N,E,16.00N,102.45E
+196,ขอนแก่น,บ้านฝาง,,Khon Kaen,Ban Fang,,16.4,102.616667,N,E,16.24N,102.37E
+197,ขอนแก่น,เปือยน้อย,,Khon Kaen,Pueai Noi,,15.866667,102.85,N,E,15.52N,102.51E
+198,ขอนแก่น,พระยืน,,Khon Kaen,Phra Yuen,,16.333333,102.633333,N,E,16.20N,102.38E
+199,ขอนแก่น,พล,,Khon Kaen,Phon,,15.766667,102.566667,N,E,15.46N,102.34E
+200,ขอนแก่น,ภูผาม่าน,,Khon Kaen,Phu Pha Man,,16.666667,101.85,N,E,16.40N,101.51E
+201,ขอนแก่น,ภูเวียง,,Khon Kaen,Phu Wiang,,16.616667,102.366667,N,E,16.37N,102.22E
+202,ขอนแก่น,มัญจาคีรี,,Khon Kaen,Mancha Khiri,,16.183333,102.533333,N,E,16.11N,102.32E
+203,ขอนแก่น,เมืองขอนแก่น,,Khon Kaen,Mueang Khon Kaen,,16.516667,102.8,N,E,16.31N,102.48E
+204,ขอนแก่น,แวงน้อย,,Khon Kaen,Waeng Noi,,15.816667,102.416667,N,E,15.49N,102.25E
+205,ขอนแก่น,แวงใหญ่,,Khon Kaen,Waeng Yai,,15.916667,102.466667,N,E,15.55N,102.28E
+206,ขอนแก่น,สีชมพู,,Khon Kaen,Si Chomphu,,16.783333,102.133333,N,E,16.47N,102.08E
+207,ขอนแก่น,หนองเรือ,,Khon Kaen,Nong Ruea,,16.483333,102.433333,N,E,16.29N,102.26E
+208,ขอนแก่น,หนองสองห้อง,,Khon Kaen,Nong Song Hong,,15.783333,102.783333,N,E,15.47N,102.47E
+209,ขอนแก่น,อุบลรัตน์,,Khon Kaen,Ubolratana,,16.683333,102.666667,N,E,16.41N,102.40E
+210,จันทบุรี,แก่งหางแมว,,Chanthaburi,Kaeng Hang Maeo,,13.166667,101.883333,N,E,13.10N,101.53E
+211,จันทบุรี,ขลุง,,Chanthaburi,Khlung,,12.45,102.25,N,E,12.27N,102.15E
+212,จันทบุรี,เขาคิชฌกูฎ,,Chanthaburi,Khao Khitchakut,,12.783333,102.083333,N,E,12.47N,102.05E
+213,จันทบุรี,ท่าใหม่,,Chanthaburi,Tha Mai,,12.733333,102.016667,N,E,12.44N,102.01E
+214,จันทบุรี,นายายอาม,,Chanthaburi,Na Yai Am,,12.7,101.85,N,E,12.42N,101.51E
+215,จันทบุรี,โป่งน้ำร้อน,,Chanthaburi,Pong Nam Ron,,12.966667,102.333333,N,E,12.58N,102.20E
+216,จันทบุรี,มะขาม,,Chanthaburi,Makham,,12.75,102.2,N,E,12.45N,102.12E
+217,จันทบุรี,เมืองจันทบุรี,,Chanthaburi,Mueang Chanthaburi,,12.55,102.116667,N,E,12.33N,102.07E
+218,จันทบุรี,สอยดาว,,Chanthaburi,Soi Dao,,13.216667,102.216667,N,E,13.13N,102.13E
+219,จันทบุรี,แหลมสิงห์,,Chanthaburi,Laem Sing,,12.516667,102.083333,N,E,12.31N,102.05E
+220,ฉะเชิงเทรา,คลองเขื่อน,,Chachoengsao,Khlong Khuean,,13.766667,101.166667,N,E,13.46N,101.10E
+221,ฉะเชิงเทรา,ท่าตะเกียบ,,Chachoengsao,Tha Takiap,,13.4,101.766667,N,E,13.24N,101.46E
+222,ฉะเชิงเทรา,บางคล้า,,Chachoengsao,Bang Khla,,13.7,101.216667,N,E,13.42N,101.13E
+223,ฉะเชิงเทรา,บางน้ำเปรี้ยว,,Chachoengsao,Bang Nam Priao,,13.9,101.033333,N,E,13.54N,101.02E
+224,ฉะเชิงเทรา,บางปะกง,,Chachoengsao,Bang Pakong,,13.533333,100.966667,N,E,13.32N,100.58E
+225,ฉะเชิงเทรา,บ้านโพธิ์,,Chachoengsao,Ban Pho,,13.616667,101.116667,N,E,13.37N,101.07E
+226,ฉะเชิงเทรา,แปลงยาว,,Chachoengsao,Plaeng Yao,,13.616667,101.3,N,E,13.37N,101.18E
+227,ฉะเชิงเทรา,พนมสารคาม,,Chachoengsao,Phanom Sarakham,,13.766667,101.433333,N,E,13.46N,101.26E
+228,ฉะเชิงเทรา,เมืองฉะเชิงเทรา,,Chachoengsao,Mueang Chachoengsao,,13.716667,101.0,N,E,13.43N,101.00E
+229,ฉะเชิงเทรา,ราชสาส์น,,Chachoengsao,Ratchasan,,13.8,101.283333,N,E,13.48N,101.17E
+230,ฉะเชิงเทรา,สนามชัยเขต,,Chachoengsao,Sanam Chai Khet,,13.666667,101.7,N,E,13.40N,101.42E
+231,ชลบุรี,เกาะจันทร์,,Chon Buri,Ko Chan,,13.383333,101.316667,N,E,13.23N,101.19E
+232,ชลบุรี,เกาะสีชัง,,Chon Buri,Ko Si Chang,,13.133333,100.816667,N,E,13.08N,100.49E
+233,ชลบุรี,บ่อทอง,,Chon Buri,Bo Thong,,13.283333,101.466667,N,E,13.17N,101.28E
+234,ชลบุรี,บางละมุง,,Chon Buri,Bang Lamung,,12.933333,100.816667,N,E,12.56N,100.49E
+235,ชลบุรี,บ้านบึง,,Chon Buri,Ban Bueng,,13.25,101.2,N,E,13.15N,101.12E
+236,ชลบุรี,พนัสนิคม,,Chon Buri,Phanat Nikhom,,13.4,101.316667,N,E,13.24N,101.19E
+237,ชลบุรี,พานทอง,,Chon Buri,Phan Thong,,13.483333,101.083333,N,E,13.29N,101.05E
+238,ชลบุรี,เมืองชลบุรี,,Chon Buri,Mueang Chon Buri,,13.3,100.983333,N,E,13.18N,100.59E
+239,ชลบุรี,ศรีราชา,,Chon Buri,Si Racha,,13.083333,101.05,N,E,13.05N,101.03E
+240,ชลบุรี,สัตหีบ,,Chon Buri,Sattahip,,12.616667,100.916667,N,E,12.37N,100.55E
+241,ชลบุรี,หนองใหญ่,,Chon Buri,Nong Yai,,13.116667,101.366667,N,E,13.07N,101.22E
+242,ชัยนาท,เนินขาม,,Chai Nat,Noen Kham,,14.95,99.916667,N,E,14.57N,99.55E
+243,ชัยนาท,มโนรมย์,,Chai Nat,Manorom,,15.266667,100.15,N,E,15.16N,100.09E
+244,ชัยนาท,เมืองชัยนาท,,Chai Nat,Mueang Chai Nat,,15.233333,100.166667,N,E,15.14N,100.10E
+245,ชัยนาท,วัดสิงห์,,Chai Nat,Wat Sing,,15.2,99.9,N,E,15.12N,99.54E
+246,ชัยนาท,สรรคบุรี,,Chai Nat,Sankhaburi,,14.95,100.183333,N,E,14.57N,100.11E
+247,ชัยนาท,สรรพยา,,Chai Nat,Sapphaya,,15.15,100.266667,N,E,15.09N,100.16E
+248,ชัยนาท,หนองมะโมง,,Chai Nat,Nong Mamong,,15.283333,99.95,N,E,15.17N,99.57E
+249,ชัยนาท,หันคา,,Chai Nat,Han Kha,,14.966667,99.9,N,E,14.58N,99.54E
+250,ชัยภูมิ,เกษตรสมบูรณ์,,Chaiyaphum,Kaset Sombun,,16.116667,101.966667,N,E,16.07N,101.58E
+251,ชัยภูมิ,แก้งคร้อ,,Chaiyaphum,Kaeng Kro,,16.133333,102.216667,N,E,16.08N,102.13E
+252,ชัยภูมิ,คอนสวรรค์,,Chaiyaphum,Khon Sawan,,15.983333,102.283333,N,E,15.59N,102.17E
+253,ชัยภูมิ,คอนสาร,,Chaiyaphum,Khon San,,16.633333,101.75,N,E,16.38N,101.45E
+254,ชัยภูมิ,จัตุรัส,,Chaiyaphum,Chatturat,,15.65,101.816667,N,E,15.39N,101.49E
+255,ชัยภูมิ,เทพสถิต,,Chaiyaphum,Thep Sathit,,15.533333,101.4,N,E,15.32N,101.24E
+256,ชัยภูมิ,เนินสง่า,,Chaiyaphum,Noen Sanga,,15.533333,101.983333,N,E,15.32N,101.59E
+257,ชัยภูมิ,บ้านขว้า,,Chaiyaphum,Ban Khwao,,15.816667,101.833333,N,E,15.49N,101.50E
+258,ชัยภูมิ,บ้านแท่น,,Chaiyaphum,Ban Thaen,,16.4,102.333333,N,E,16.24N,102.20E
+259,ชัยภูมิ,บำเหน็จณรงค์,,Chaiyaphum,Bamnet Narong,,15.5,101.616667,N,E,15.30N,101.37E
+260,ชัยภูมิ,ภักดีชุมพล,,Chaiyaphum,Phakdi Chumphon,,16.016667,101.433333,N,E,16.01N,101.26E
+261,ชัยภูมิ,ภูเขียว,,Chaiyaphum,Phu Khiao,,16.366667,102.166667,N,E,16.22N,102.10E
+262,ชัยภูมิ,เมืองชัยภูมิ,,Chaiyaphum,Mueang Chaiyaphum,,15.9,102.016667,N,E,15.54N,102.01E
+263,ชัยภูมิ,หนองบัวแดง,,Chaiyaphum,Nong Bua Daeng,,16.283333,101.6,N,E,16.17N,101.36E
+264,ชัยภูมิ,หนองบัวระเหว,,Chaiyaphum,Nong Bua Rawe,,15.9,101.566667,N,E,15.54N,101.34E
+265,ชุมพร,ท่าแซะ,,Chumphon,Tha Sae,,10.766667,99.066667,N,E,10.46N,99.04E
+266,ชุมพร,ทุ่งตะโก,,Chumphon,Thung Tako,,10.083333,99.033333,N,E,10.05N,99.02E
+267,ชุมพร,ปะทิว,,Chumphon,Pathio,,10.883333,99.433333,N,E,10.53N,99.26E
+268,ชุมพร,พะโต๊ะ,,Chumphon,Phato,,9.883333,98.85,N,E,9.53N,98.51E
+269,ชุมพร,เมืองชุมพร,,Chumphon,Mueang Chumphon,,10.433333,99.233333,N,E,10.26N,99.14E
+270,ชุมพร,ละแม,,Chumphon,Lamae,,9.783333,99.016667,N,E,9.47N,99.01E
+271,ชุมพร,สวี,,Chumphon,Sawi,,10.25,99.166667,N,E,10.15N,99.10E
+272,ชุมพร,หลังสวน,,Chumphon,Lang Suan,,9.966667,99.05,N,E,9.58N,99.03E
+273,เชียงราย,ขุนตาล,,Chiang Rai,Khun Tan,,19.883333,100.3,N,E,19.53N,100.18E
+274,เชียงราย,เชียงของ,,Chiang Rai,Chiang Khong,,20.033333,100.3,N,E,20.02N,100.18E
+275,เชียงราย,เชียงแสน,,Chiang Rai,Chiang Saen,,20.316667,100.033333,N,E,20.19N,100.02E
+276,เชียงราย,เทิง,,Chiang Rai,Thoeng,,19.666667,100.166667,N,E,19.40N,100.10E
+277,เชียงราย,ป่าแดด,,Chiang Rai,Pa Daet,,19.483333,100.0,N,E,19.29N,100.00E
+278,เชียงราย,พญาเม็งราย,,Chiang Rai,Phaya Mengrai,,19.916667,100.2,N,E,19.55N,100.12E
+279,เชียงราย,พาน,,Chiang Rai,Phan,,19.5,99.766667,N,E,19.30N,99.46E
+280,เชียงราย,เมืองเชียงราย,,Chiang Rai,Mueang Chiang Rai,,19.933333,99.716667,N,E,19.56N,99.43E
+281,เชียงราย,แม่จัน,,Chiang Rai,Mae Chan,,20.2,99.8,N,E,20.12N,99.48E
+282,เชียงราย,แม่ลาว,,Chiang Rai,Mae Lao,,19.75,99.75,N,E,19.45N,99.45E
+283,เชียงราย,แม่สรวย,,Chiang Rai,Mae Suai,,19.616667,99.45,N,E,19.37N,99.27E
+284,เชียงราย,แม่สาย,,Chiang Rai,Mae Sai,,20.4,99.933333,N,E,20.24N,99.56E
+285,เชียงราย,เวียงแก่น,,Chiang Rai,Wiang Kaen,,19.916667,100.45,N,E,19.55N,100.27E
+286,เชียงราย,เวียงชัย,,Chiang Rai,Wiang Chai,,19.916667,100.0,N,E,19.55N,100.00E
+287,เชียงราย,เวียงป่าเป้า,,Chiang Rai,Wiang Pa Pao,,19.4,99.45,N,E,19.24N,99.27E
+288,เชียงใหม่,จอมทอง,,Chiang Mai,Chom Thong,,18.5,98.683333,N,E,18.30N,98.41E
+289,เชียงใหม่,เชียงดาว,,Chiang Mai,Chiang Dao,,19.433333,98.883333,N,E,19.26N,98.53E
+290,เชียงใหม่,ไชยปราการ,,Chiang Mai,Chai Prakan,,19.733333,99.183333,N,E,19.44N,99.11E
+291,เชียงใหม่,ดอยเต่า,,Chiang Mai,Doi Tao,,17.883333,98.65,N,E,17.53N,98.39E
+292,เชียงใหม่,ดอยสะเก็ด,,Chiang Mai,Doi Saket,,18.966667,99.233333,N,E,18.58N,99.14E
+293,เชียงใหม่,ฝาง,,Chiang Mai,Fang,,19.783333,99.2,N,E,19.47N,99.12E
+294,เชียงใหม่,พร้าว,,Chiang Mai,Phrao,,19.25,99.233333,N,E,19.15N,99.14E
+295,เชียงใหม่,เมืองเชียงใหม่,,Chiang Mai,Mueang Chiang Mai,,18.8,98.966667,N,E,18.48N,98.58E
+296,เชียงใหม่,แม่แจ่ม,,Chiang Mai,Mae Chaem,,18.866667,98.316667,N,E,18.52N,98.19E
+297,เชียงใหม่,แม่แตง,,Chiang Mai,Mae Taeng,,19.183333,98.883333,N,E,19.11N,98.53E
+298,เชียงใหม่,แม่ริม,,Chiang Mai,Mae Rim,,18.883333,98.9,N,E,18.53N,98.54E
+299,เชียงใหม่,แม่วาง,,Chiang Mai,Mae Wang,,18.666667,98.666667,N,E,18.40N,98.40E
+300,เชียงใหม่,แม่ออน,,Chiang Mai,Mae On,,18.583333,99.283333,N,E,18.35N,99.17E
+301,เชียงใหม่,แม่อาย,,Chiang Mai,Mae Ai,,20.033333,99.333333,N,E,20.02N,99.20E
+302,เชียงใหม่,เวียงแหง,,Chiang Mai,Wiang Haeng,,19.65,98.616667,N,E,19.39N,98.37E
+303,เชียงใหม่,สะเมิง,,Chiang Mai,Samoeng,,18.983333,98.583333,N,E,18.59N,98.35E
+304,เชียงใหม่,สันกำแพง,,Chiang Mai,San Kamphaeng,,18.766667,99.15,N,E,18.46N,99.09E
+305,เชียงใหม่,สันทราย,,Chiang Mai,San Sai,,18.9,99.066667,N,E,18.54N,99.04E
+306,เชียงใหม่,สันป่าตอง,,Chiang Mai,San Pa Tong,,18.6,98.883333,N,E,18.36N,98.53E
+307,เชียงใหม่,สารภี,,Chiang Mai,Saraphi,,18.683333,99.033333,N,E,18.41N,99.02E
+308,เชียงใหม่,หางดง,,Chiang Mai,Hang Dong,,18.733333,98.9,N,E,18.44N,98.54E
+309,เชียงใหม่,อมก๋อย,,Chiang Mai,Omkoi,,17.583333,98.35,N,E,17.35N,98.21E
+310,เชียงใหม่,ฮอด,,Chiang Mai,Hot,,18.133333,98.483333,N,E,18.08N,98.29E
+311,ตรัง,กันตัง,,Trang,Kantang,,7.316667,99.35,N,E,7.19N,99.21E
+312,ตรัง,นาโยง,,Trang,Na Yong,,7.533333,99.766667,N,E,7.32N,99.46E
+313,ตรัง,ปะเหลียน,,Trang,Palian,,7.2,99.65,N,E,7.12N,99.39E
+314,ตรัง,เมืองตรัง,,Trang,Mueang Trang,,7.583333,99.6,N,E,7.35N,99.36E
+315,ตรัง,ย่านตาขาว,,Trang,Yan Ta Khao,,7.4,99.75,N,E,7.24N,99.45E
+316,ตรัง,รัษฎา,,Trang,Ratsada,,7.916667,99.65,N,E,7.55N,99.39E
+317,ตรัง,ลิเกา,,Trang,Likao,,7.516667,99.333333,N,E,7.31N,99.20E
+318,ตรัง,วังวิเศษ,,Trang,Wang Wiset,,7.666667,99.45,N,E,7.40N,99.27E
+319,ตรัง,ห้วยยอด,,Trang,Huai Yot,,7.8,99.6,N,E,7.48N,99.36E
+320,ตราด,เกาะกูด,,Trat,Ko Kut,,11.766667,102.5,N,E,11.46N,102.30E
+321,ตราด,เกาะช้าง,,Trat,Ko Chang,,11.933333,102.416667,N,E,11.56N,102.25E
+322,ตราด,เขาสมิง,,Trat,Khao Saming,,12.5,102.45,N,E,12.30N,102.27E
+323,ตราด,คลองใหญ่,,Trat,Khlong Yai,,11.883333,102.8,N,E,11.53N,102.48E
+324,ตราด,บ่อไร่,,Trat,Bo Rai,,12.583333,102.533333,N,E,12.35N,102.32E
+325,ตราด,เมืองตราด,,Trat,Mueang Trat,,12.216667,102.583333,N,E,12.13N,102.35E
+326,ตราด,แหลมงอบ,,Trat,Laem Ngop,,12.216667,102.35,N,E,12.13N,102.21E
+327,ตาก,ท่าสองยาง,,Tak,Tha Song Yang,,17.466667,98.183333,N,E,17.28N,98.11E
+328,ตาก,บ้านตาก,,Tak,Ban Tak,,17.083333,99.0,N,E,17.05N,99.00E
+329,ตาก,พบพระ,,Tak,Phop Phra,,16.466667,98.833333,N,E,16.28N,98.50E
+330,ตาก,เมืองตาก,,Tak,Mueang Tak,,16.816667,99.1,N,E,16.49N,99.06E
+331,ตาก,แม่ระมาด,,Tak,Mae Ramat,,17.1,98.6,N,E,17.06N,98.36E
+332,ตาก,แม่สอด,,Tak,Mae Sot,,16.716667,98.733333,N,E,16.43N,98.44E
+333,ตาก,สามเงา,,Tak,Sam Ngao,,17.333333,98.916667,N,E,17.20N,98.55E
+334,ตาก,อุ้มผาง,,Tak,Umphang,,15.85,98.85,N,E,15.51N,98.51E
+335,นครนายก,บ้านนา,,Nakhon Nayok,Ban Na,,14.25,101.05,N,E,14.15N,101.03E
+336,นครนายก,ปากพลี,,Nakhon Nayok,Pak Phli,,14.083333,101.25,N,E,14.05N,101.15E
+337,นครนายก,เมืองนครนายก,,Nakhon Nayok,Mueang Nakhon Nayok,,14.366667,101.333333,N,E,14.22N,101.20E
+338,นครนายก,องครักษ์,,Nakhon Nayok,Ongkharak,,14.0,101.033333,N,E,14.00N,101.02E
+339,นครปฐม,กำแพงแสน,,Nakhon Pathom,Kamphaeng Saen,,14.016667,99.95,N,E,14.01N,99.57E
+340,นครปฐม,ดอนตูม,,Nakhon Pathom,Don Tum,,13.933333,100.1,N,E,13.56N,100.06E
+341,นครปฐม,นครชัยศรี,,Nakhon Pathom,Nakhon Chai Si,,13.85,100.2,N,E,13.51N,100.12E
+342,นครปฐม,บางเลน,,Nakhon Pathom,Bang Len,,14.116667,100.166667,N,E,14.07N,100.10E
+343,นครปฐม,พุทธมณฑล,,Nakhon Pathom,Phutthamonthon,,13.816667,100.283333,N,E,13.49N,100.17E
+344,นครปฐม,เมืองนครปฐม,,Nakhon Pathom,Mueang Nakhon Pathom,,13.85,100.016667,N,E,13.51N,100.01E
+345,นครปฐม,สามพราน,,Nakhon Pathom,Sam Phran,,13.733333,100.266667,N,E,13.44N,100.16E
+346,นครพนม,ท่าอุเทน,,Nakhon Phanom,Tha Uthen,,17.6,104.483333,N,E,17.36N,104.29E
+347,นครพนม,ธาตุพนม,,Nakhon Phanom,That Phanom,,16.866667,104.7,N,E,16.52N,104.42E
+348,นครพนม,นาแก,,Nakhon Phanom,Na Kae,,16.9,104.466667,N,E,16.54N,104.28E
+349,นครพนม,นาทม,,Nakhon Phanom,Na Thom,,17.85,104.083333,N,E,17.51N,104.05E
+350,นครพนม,นาหว้า,,Nakhon Phanom,Na Wa,,17.45,104.1,N,E,17.27N,104.06E
+351,นครพนม,บ้านแพง,,Nakhon Phanom,Ban Phaeng,,17.8,104.25,N,E,17.48N,104.15E
+352,นครพนม,ปลาปาก,,Nakhon Phanom,Pla Pak,,17.183333,104.533333,N,E,17.11N,104.32E
+353,นครพนม,โพนสวรรค์,,Nakhon Phanom,Phon Sawan,,17.5,104.4,N,E,17.30N,104.24E
+354,นครพนม,เมืองนครพนม,,Nakhon Phanom,Mueang Nakhon Phanom,,17.35,104.616667,N,E,17.21N,104.37E
+355,นครพนม,เรณูนคร,,Nakhon Phanom,Renu Nakhon,,17.016667,104.65,N,E,17.01N,104.39E
+356,นครพนม,ศรีสงคราม,,Nakhon Phanom,Si Songkhram,,17.666667,104.233333,N,E,17.40N,104.14E
+357,นครราชสีมา,แก้งสนามนาง,,Nakhon Ratchasima,Kaeng Sanam Nang,,15.716667,102.25,N,E,15.43N,102.15E
+358,นครราชสีมา,ขามทะเลสอ,,Nakhon Ratchasima,Kham Thale So,,15.033333,101.933333,N,E,15.02N,101.56E
+359,นครราชสีมา,ขามสะแกสง,,Nakhon Ratchasima,Kham Sakaesaeng,,15.366667,102.183333,N,E,15.22N,102.11E
+360,นครราชสีมา,คง,,Nakhon Ratchasima,Khong,,15.466667,102.233333,N,E,15.28N,102.14E
+361,นครราชสีมา,ครบุรี,,Nakhon Ratchasima,Khon Buri,,14.283333,102.216667,N,E,14.17N,102.13E
+362,นครราชสีมา,จักราช,,Nakhon Ratchasima,Chakkarat,,14.966667,102.383333,N,E,14.58N,102.23E
+363,นครราชสีมา,ชุมพวง,,Nakhon Ratchasima,Chum Phuang,,15.3,102.8,N,E,15.18N,102.48E
+364,นครราชสีมา,โชคชัย,,Nakhon Ratchasima,Chok Chai,,14.733333,102.2,N,E,14.44N,102.12E
+365,นครราชสีมา,ด่านขุนทด,,Nakhon Ratchasima,Dan Khun Thot,,15.3,101.65,N,E,15.18N,101.39E
+366,นครราชสีมา,โนนแดง,,Nakhon Ratchasima,Non Daeng,,15.433333,102.533333,N,E,15.26N,102.32E
+367,นครราชสีมา,โนนไทย,,Nakhon Ratchasima,Non Thai,,15.233333,102.033333,N,E,15.14N,102.02E
+368,นครราชสีมา,โนนสูง,,Nakhon Ratchasima,Non Sung,,15.25,102.3,N,E,15.15N,102.18E
+369,นครราชสีมา,บัวใหญ่,,Nakhon Ratchasima,Bua Yai,,15.566667,102.466667,N,E,15.34N,102.28E
+370,นครราชสีมา,บ้านเหลื่อม,,Nakhon Ratchasima,Ban Lueam,,15.566667,102.15,N,E,15.34N,102.09E
+371,นครราชสีมา,ประทาย,,Nakhon Ratchasima,Prathai,,15.483333,102.733333,N,E,15.29N,102.44E
+372,นครราชสีมา,ปักธงชัย,,Nakhon Ratchasima,Pak Thong Chai,,14.633333,101.933333,N,E,14.38N,101.56E
+373,นครราชสีมา,ปากช่อง,,Nakhon Ratchasima,Pak Chong,,14.6,101.45,N,E,14.36N,101.27E
+374,นครราชสีมา,พิมาย,,Nakhon Ratchasima,Phimai,,15.216667,102.516667,N,E,15.13N,102.31E
+375,นครราชสีมา,เมืองนครราชสีมา,,Nakhon Ratchasima,Mueang Nakhon Ratchasima,,14.916667,102.083333,N,E,14.55N,102.05E
+376,นครราชสีมา,วังน้ำเขียว,,Nakhon Ratchasima,Wang Nam Khiao,,14.416667,101.866667,N,E,14.25N,101.52E
+377,นครราชสีมา,สีคิ้ว,,Nakhon Ratchasima,Sikhio,,15.05,101.6,N,E,15.03N,101.36E
+378,นครราชสีมา,สูงเนิน,,Nakhon Ratchasima,Sung Noen,,14.833333,101.833333,N,E,14.50N,101.50E
+379,นครราชสีมา,เสิงสาง,,Nakhon Ratchasima,Soeng Sang,,14.466667,102.45,N,E,14.28N,102.27E
+380,นครราชสีมา,หนองบุนนาก,,Nakhon Ratchasima,Nong Bunnak,,14.75,102.383333,N,E,14.45N,102.23E
+381,นครราชสีมา,ห้วยแถลง,,Nakhon Ratchasima,Huai Thalaeng,,15.033333,102.65,N,E,15.02N,102.39E
+382,นครศรีธรรมราช,ขนอม,,Nakhon Si Thammarat,Khanom,,9.25,99.9,N,E,9.15N,99.54E
+383,นครศรีธรรมราช,ฉวาง,,Nakhon Si Thammarat,Chawang,,8.45,99.566667,N,E,8.27N,99.34E
+384,นครศรีธรรมราช,ชะอวด,,Nakhon Si Thammarat,Cha-uat,,8.0,99.983333,N,E,8.00N,99.59E
+385,นครศรีธรรมราช,เชียรใหญ่,,Nakhon Si Thammarat,Chian Yai,,8.15,100.133333,N,E,8.09N,100.08E
+386,นครศรีธรรมราช,ถ้ำพรรณราย,,Nakhon Si Thammarat,Tham Phannara,,8.5,99.35,N,E,8.30N,99.21E
+387,นครศรีธรรมราช,ท่าศาลา,,Nakhon Si Thammarat,Tha Sala,,8.783333,99.733333,N,E,8.47N,99.44E
+388,นครศรีธรรมราช,ทุ่งสง,,Nakhon Si Thammarat,Thung Song,,8.133333,99.65,N,E,8.08N,99.39E
+389,นครศรีธรรมราช,ทุ่งใหญ่,,Nakhon Si Thammarat,Thung Yai,,8.35,99.366667,N,E,8.21N,99.22E
+390,นครศรีธรรมราช,นาบอน,,Nakhon Si Thammarat,Na Bon,,8.25,99.566667,N,E,8.15N,99.34E
+391,นครศรีธรรมราช,บางขัน,,Nakhon Si Thammarat,Bang Khan,,7.983333,99.5,N,E,7.59N,99.30E
+392,นครศรีธรรมราช,ปากพนัง,,Nakhon Si Thammarat,Pak Phanang,,8.3,100.133333,N,E,8.18N,100.08E
+393,นครศรีธรรมราช,พรหมคีรี,,Nakhon Si Thammarat,Phrom Khiri,,8.516667,99.816667,N,E,8.31N,99.49E
+394,นครศรีธรรมราช,พระพรหม,,Nakhon Si Thammarat,Phra Phrom,,8.05,99.85,N,E,8.03N,99.51E
+395,นครศรีธรรมราช,พิปูน,,Nakhon Si Thammarat,Phipun,,8.616667,99.583333,N,E,8.37N,99.35E
+396,นครศรีธรรมราช,เมืองนครฯ,,Nakhon Si Thammarat,Mueang Nakhon Si Thammarat,,8.416667,99.966667,N,E,8.25N,99.58E
+397,นครศรีธรรมราช,ร่อนพิบูลย์,,Nakhon Si Thammarat,Ron Phibun,,8.15,99.916667,N,E,8.09N,99.55E
+398,นครศรีธรรมราช,ลานสกา,,Nakhon Si Thammarat,Lan Saka,,8.366667,99.8,N,E,8.22N,99.48E
+399,นครศรีธรรมราช,สิชล,,Nakhon Si Thammarat,Sichon,,8.883333,99.8,N,E,8.53N,99.48E
+400,นครศรีธรรมราช,หัวไทร,,Nakhon Si Thammarat,Hua Sai,,7.933333,100.233333,N,E,7.56N,100.14E
+401,นครสวรรค์,เก้าเลี้ยว,,Nakhon Sawan,Kao Liao,,15.833333,100.1,N,E,15.50N,100.06E
+402,นครสวรรค์,โกรกพระ,,Nakhon Sawan,Krok Phra,,15.566667,100.05,N,E,15.34N,100.03E
+403,นครสวรรค์,ชุมแสง,,Nakhon Sawan,Chum Saeng,,15.9,100.3,N,E,15.54N,100.18E
+404,นครสวรรค์,ตากฟ้า,,Nakhon Sawan,Tak Fa,,15.316667,100.516667,N,E,15.19N,100.31E
+405,นครสวรรค์,ตาคลี,,Nakhon Sawan,Takhli,,15.216667,100.433333,N,E,15.13N,100.26E
+406,นครสวรรค์,ท่าตะโก,,Nakhon Sawan,Tha Tako,,15.666667,100.45,N,E,15.40N,100.27E
+407,นครสวรรค์,บรรพตพิสัย,,Nakhon Sawan,Banphot Phisai,,15.983333,99.966667,N,E,15.59N,99.58E
+408,นครสวรรค์,พยุหะคีรี,,Nakhon Sawan,Phayuha Khiri,,15.45,100.2,N,E,15.27N,100.12E
+409,นครสวรรค์,ไพศาลี,,Nakhon Sawan,Phaisali,,15.616667,100.7,N,E,15.37N,100.42E
+410,นครสวรรค์,เมืองนครสวรรค์,,Nakhon Sawan,Mueang Nakhon Sawan,,15.716667,100.1,N,E,15.43N,100.06E
+411,นครสวรรค์,แม่วงก์,,Nakhon Sawan,Mae Wong,,15.75,99.5,N,E,15.45N,99.30E
+412,นครสวรรค์,ลาดยาว,,Nakhon Sawan,Lat Yao,,15.816667,99.583333,N,E,15.49N,99.35E
+413,นครสวรรค์,หนองบัว,,Nakhon Sawan,Nong Bua,,15.866667,100.616667,N,E,15.52N,100.37E
+414,นนทบุรี,ไทรน้อย,,Nonthaburi,Sai Noi,,14.016667,100.316667,N,E,14.01N,100.19E
+415,นนทบุรี,บางกรวย,,Nonthaburi,Bang Kruai,,13.8,100.416667,N,E,13.48N,100.25E
+416,นนทบุรี,บางบัวทอง,,Nonthaburi,Bang Bua Thong,,13.9,100.4,N,E,13.54N,100.24E
+417,นนทบุรี,บางใหญ่,,Nonthaburi,Bang Yai,,13.85,100.383333,N,E,13.51N,100.23E
+418,นนทบุรี,ปากเกร็ด,,Nonthaburi,Pak Kret,,13.933333,100.516667,N,E,13.56N,100.31E
+419,นนทบุรี,เมืองนนทบุรี,,Nonthaburi,Mueang Nonthaburi,,13.85,100.5,N,E,13.51N,100.30E
+420,นราธิวาส,จะแนะ,,Narathiwat,Chanae,,6.083333,101.666667,N,E,6.05N,101.40E
+421,นราธิวาส,เจาะไอร้อง,,Narathiwat,Cho-airong,,6.25,101.85,N,E,6.15N,101.51E
+422,นราธิวาส,ตากใบ,,Narathiwat,Tak Bai,,6.25,102.0,N,E,6.15N,102.00E
+423,นราธิวาส,บาเจาะ,,Narathiwat,Bacho,,6.533333,101.666667,N,E,6.32N,101.40E
+424,นราธิวาส,เมืองนราธิวาส,,Narathiwat,Mueang Narathiwat,,6.333333,101.833333,N,E,6.20N,101.50E
+425,นราธิวาส,ยี่งอ,,Narathiwat,Yi-ngo,,6.4,101.716667,N,E,6.24N,101.43E
+426,นราธิวาส,ระแงะ,,Narathiwat,Ra-ngae,,6.3,101.716667,N,E,6.18N,101.43E
+427,นราธิวาส,รือเสาะ,,Narathiwat,Rueso,,6.4,101.533333,N,E,6.24N,101.32E
+428,นราธิวาส,แว้ง,,Narathiwat,Waeng,,5.883333,101.866667,N,E,5.53N,101.52E
+429,นราธิวาส,ศรีสาคร,,Narathiwat,Si Sakhon,,6.166667,101.5,N,E,6.10N,101.30E
+430,นราธิวาส,สุคิริน,,Narathiwat,Sukhirin,,5.9,101.716667,N,E,5.54N,101.43E
+431,นราธิวาส,สุไหงโก-ลก,,Narathiwat,Su-ngai Kolok,,6.083333,102.0,N,E,6.05N,102.00E
+432,นราธิวาส,สุไหงปาดี,,Narathiwat,Su-ngai Padi,,6.133333,101.933333,N,E,6.08N,101.56E
+433,น่าน,เชียงกลาง,,Nan,Chiang Klang,,19.3,100.9,N,E,19.18N,100.54E
+434,น่าน,ท่าวังผา,,Nan,Tha Wang Pha,,19.083333,100.75,N,E,19.05N,100.45E
+435,น่าน,ทุ่งช้าง,,Nan,Thung Chang,,19.433333,100.916667,N,E,19.26N,100.55E
+436,น่าน,นาน้อย,,Nan,Na Noi,,18.316667,100.75,N,E,18.19N,100.45E
+437,น่าน,นาหมื่น,,Nan,Na Muen,,18.066667,100.616667,N,E,18.04N,100.37E
+438,น่าน,บ่อเกลือ,,Nan,Bo Kluea,,19.533333,101.183333,N,E,19.32N,101.11E
+439,น่าน,บ้านหลวง,,Nan,Ban Luang,,18.8,100.433333,N,E,18.48N,100.26E
+440,น่าน,ปัว,,Nan,Pua,,19.166667,100.95,N,E,19.10N,100.57E
+441,น่าน,เมืองน่าน,,Nan,Mueang Nan,,18.8,100.783333,N,E,18.48N,100.47E
+442,น่าน,แม่จริม,,Nan,Mae Charim,,18.65,101.083333,N,E,18.39N,101.05E
+443,น่าน,เวียงสา,,Nan,Wiang Sa,,18.533333,100.75,N,E,18.32N,100.45E
+444,น่าน,สองแคว,,Nan,Song Khwae,,19.35,100.65,N,E,19.21N,100.39E
+445,น่าน,สันติสุข,,Nan,Santisuk,,18.933333,100.966667,N,E,18.56N,100.58E
+446,บุรีรัมย์,พุทไธสง,,Buri Ram,Phutthaisong,,15.516667,103.0,N,E,15.31N,103.00E
+447,บุรีรัมย์,กระสัง,,Buri Ram,Krasang,,14.933333,103.333333,N,E,14.56N,103.20E
+448,บุรีรัมย์,คูเมือง,,Buri Ram,Khu Mueang,,15.2,103.05,N,E,15.12N,103.03E
+449,บุรีรัมย์,ชำนิ,,Buri Ram,Chamni,,14.8,102.85,N,E,14.48N,102.51E
+450,บุรีรัมย์,นางรอง,,Buri Ram,Nang Rong,,14.633333,102.783333,N,E,14.38N,102.47E
+451,บุรีรัมย์,นาโพธิ์,,Buri Ram,Na Pho,,15.716667,102.933333,N,E,15.43N,102.56E
+452,บุรีรัมย์,โนนดินแดง,,Buri Ram,Non Din Daeng,,14.216667,102.7,N,E,14.13N,102.42E
+453,บุรีรัมย์,โนนสุวรรณ,,Buri Ram,Non Suwan,,14.55,102.583333,N,E,14.33N,102.35E
+454,บุรีรัมย์,บ้านกรวด,,Buri Ram,Ban Kruat,,14.4,103.1,N,E,14.24N,103.06E
+455,บุรีรัมย์,บ้านใหม่,,Buri Ram,Ban Mai Chaiyaphot,,15.566667,102.866667,N,E,15.34N,102.52E
+456,บุรีรัมย์,ประโคนชัย,,Buri Ram,Prakhon Chai,,14.583333,103.083333,N,E,14.35N,103.05E
+457,บุรีรัมย์,ปะคำ,,Buri Ram,Pakham,,14.416667,102.683333,N,E,14.25N,102.41E
+458,บุรีรัมย์,พลับพลาชัย,,Buri Ram,Phlapphla Chai,,14.766667,103.166667,N,E,14.46N,103.10E
+459,บุรีรัมย์,เมืองบุรีรัมย์,,Buri Ram,Mueang Buri Ram,,14.9,103.05,N,E,14.54N,103.03E
+460,บุรีรัมย์,ละหานทราย,,Buri Ram,Lahan Sai,,14.366667,102.866667,N,E,14.22N,102.52E
+461,บุรีรัมย์,ลำปลายมาศ,,Buri Ram,Lam Plai Mat,,15.0,102.883333,N,E,15.00N,102.53E
+462,บุรีรัมย์,สตึก,,Buri Ram,Satuek,,15.25,103.233333,N,E,15.15N,103.14E
+463,บุรีรัมย์,หนองกี่,,Buri Ram,Nong Ki,,14.616667,102.516667,N,E,14.37N,102.31E
+464,บุรีรัมย์,หนองหงส์,,Buri Ram,Nong Hong,,14.866667,102.666667,N,E,14.52N,102.40E
+465,บุรีรัมย์,ห้วยราช,,Buri Ram,Huai Rat,,15.016667,103.25,N,E,15.01N,103.15E
+466,บึงกาฬ,เซกา,,Bueng Kan,Seka,,18.016667,103.883333,N,E,18.01N,103.53E
+467,บึงกาฬ,โซ่พิสัย,,Bueng Kan,So Phisai,,18.1,103.416667,N,E,18.06N,103.25E
+468,บึงกาฬ,บึงโขงหลง,,Bueng Kan,Bueng Khong Long,,17.983333,104.05,N,E,17.59N,104.03E
+469,บึงกาฬ,บุ่งคล้า,,Bueng Kan,Bung Khla,,18.266667,103.966667,N,E,18.16N,103.58E
+470,บึงกาฬ,ปากคาด,,Bueng Kan,Pak Khat,,18.233333,103.35,N,E,18.14N,103.21E
+471,บึงกาฬ,พรเจริญ,,Bueng Kan,Phon Charoen,,18.066667,103.666667,N,E,18.04N,103.40E
+472,บึงกาฬ,เมืองบึงกาฬ,,Bueng Kan,Mueang Bueng Kan,,18.283333,103.716667,N,E,18.17N,103.43E
+473,บึงกาฬ,ศรีวิไล,,Bueng Kan,Si Wilai,,18.133333,103.783333,N,E,18.08N,103.47E
+474,ปทุมธานี,คลองหลวง,,Pathum Thani,Khlong Luang,,14.116667,100.666667,N,E,14.07N,100.40E
+475,ปทุมธานี,ธัญบุรี,,Pathum Thani,Thanyaburi,,14.0,100.65,N,E,14.00N,100.39E
+476,ปทุมธานี,เมืองปทุมธานี,,Pathum Thani,Mueang Pathum Thani,,13.966667,100.533333,N,E,13.58N,100.32E
+477,ปทุมธานี,ลาดหลุมแก้ว,,Pathum Thani,Lat Lum Kaeo,,14.05,100.416667,N,E,14.03N,100.25E
+478,ปทุมธานี,ลำลูกกา,,Pathum Thani,Lam Luk Ka,,13.95,100.766667,N,E,13.57N,100.46E
+479,ปทุมธานี,สามโคก,,Pathum Thani,Sam Khok,,14.1,100.516667,N,E,14.06N,100.31E
+480,ปทุมธานี,หนองเสือ,,Pathum Thani,Nong Suea,,14.133333,100.833333,N,E,14.08N,100.50E
+481,ประจวบคีรีขันธ์,กุยบุรี,,Prachuap Khiri Khan,Kui Buri,,12.116667,99.766667,N,E,12.07N,99.46E
+482,ประจวบคีรีขันธ์,ทับสะแก,,Prachuap Khiri Khan,Thap Sakae,,11.6,99.583333,N,E,11.36N,99.35E
+483,ประจวบคีรีขันธ์,บางสะพาน,,Prachuap Khiri Khan,Bang Saphan,,11.233333,99.416667,N,E,11.14N,99.25E
+484,ประจวบคีรีขันธ์,บางสะพานน้อย,,Prachuap Khiri Khan,Bang Saphan Noi,,11.016667,99.333333,N,E,11.01N,99.20E
+485,ประจวบคีรีขันธ์,ปราณบุรี,,Prachuap Khiri Khan,Pran Buri,,12.333333,99.733333,N,E,12.20N,99.44E
+486,ประจวบคีรีขันธ์,เมืองประจวบฯ,,Prachuap Khiri Khan,Mueang Prachuap Khiri Khan,,11.95,99.716667,N,E,11.57N,99.43E
+487,ประจวบคีรีขันธ์,สามร้อยยอด,,Prachuap Khiri Khan,Sam Roi Yot,,12.25,99.866667,N,E,12.15N,99.52E
+488,ประจวบคีรีขันธ์,หัวหิน,,Prachuap Khiri Khan,Hua Hin,,12.533333,99.7,N,E,12.32N,99.42E
+489,ปราจีนบุรี,กบินทร์บุรี,,Prachin Buri,Kabin Buri,,13.966667,101.766667,N,E,13.58N,101.46E
+490,ปราจีนบุรี,นาดี,,Prachin Buri,Na Di,,14.133333,101.866667,N,E,14.08N,101.52E
+491,ปราจีนบุรี,บ้านสร้าง,,Prachin Buri,Ban Sang,,13.9,101.266667,N,E,13.54N,101.16E
+492,ปราจีนบุรี,ประจันตคาม,,Prachin Buri,Prachantakham,,14.25,101.55,N,E,14.15N,101.33E
+493,ปราจีนบุรี,เมืองปราจีนบุรี,,Prachin Buri,Mueang Prachin Buri,,14.1,101.4,N,E,14.06N,101.24E
+494,ปราจีนบุรี,ศรีมหาโพธิ,,Prachin Buri,Si Maha Pho,,13.9,101.533333,N,E,13.54N,101.32E
+495,ปราจีนบุรี,ศรีมโหสถ,,Prachin Buri,Si Mahosot,,13.866667,101.416667,N,E,13.52N,101.25E
+496,ปัตตานี,กะพ้อ,,Pattani,Kapho,,6.616667,101.533333,N,E,6.37N,101.32E
+497,ปัตตานี,โคกโพธิ์,,Pattani,Khok Pho,,6.716667,101.116667,N,E,6.43N,101.07E
+498,ปัตตานี,ทุ่งยางแดง,,Pattani,Thung Yang Daeng,,6.6,101.45,N,E,6.36N,101.27E
+499,ปัตตานี,ปะนาเระ,,Pattani,Panare,,6.783333,101.533333,N,E,6.47N,101.32E
+500,ปัตตานี,มายอ,,Pattani,Mayo,,6.733333,101.416667,N,E,6.44N,101.25E
+501,ปัตตานี,เมืองปัตตานี,,Pattani,Mueang Pattani,,6.866667,101.266667,N,E,6.52N,101.16E
+502,ปัตตานี,แม่ลาน,,Pattani,Mae Lan,,6.666667,101.233333,N,E,6.40N,101.14E
+503,ปัตตานี,ไม้แก่น,,Pattani,Mai Kaen,,6.583333,101.7,N,E,6.35N,101.42E
+504,ปัตตานี,ยะรัง,,Pattani,Yarang,,6.75,101.3,N,E,6.45N,101.18E
+505,ปัตตานี,ยะหริ่ง,,Pattani,Yaring,,6.85,101.4,N,E,6.51N,101.24E
+506,ปัตตานี,สายบุรี,,Pattani,Saiburi,,6.716667,101.566667,N,E,6.43N,101.34E
+507,ปัตตานี,หนองจิก,,Pattani,Nong Chik,,6.8,101.166667,N,E,6.48N,101.10E
+508,พะเยา,จุน,,Phayao,Chun,,19.383333,100.133333,N,E,19.23N,100.08E
+509,พะเยา,เชียงคำ,,Phayao,Chiang Kham,,19.483333,100.316667,N,E,19.29N,100.19E
+510,พะเยา,เชียงม่วน,,Phayao,Chiang Muan,,18.983333,100.283333,N,E,18.59N,100.17E
+511,พะเยา,ดอกคำใต้,,Phayao,Dok Khamtai,,19.083333,100.05,N,E,19.05N,100.03E
+512,พะเยา,ปง,,Phayao,Pong,,19.166667,100.383333,N,E,19.10N,100.23E
+513,พะเยา,เมืองพะเยา,,Phayao,Mueang Phayao,,19.266667,99.866667,N,E,19.16N,99.52E
+514,พะเยา,แม่ใจ,,Phayao,Mae Chai,,19.4,99.8,N,E,19.24N,99.48E
+515,พังงา,กะปง,,Phangnga,Kapong,,8.7,98.466667,N,E,8.42N,98.28E
+516,พังงา,เกาะยาว,,Phangnga,Ko Yao,,8.15,98.55,N,E,8.09N,98.33E
+517,พังงา,คุระบุรี,,Phangnga,Khura Buri,,9.233333,98.1,N,E,9.14N,98.06E
+518,พังงา,ตะกั่วทุ่ง,,Phangnga,Takua Thung,,8.3,98.466667,N,E,8.18N,98.28E
+519,พังงา,ตะกั่วป่า,,Phangnga,Takua Pa,,8.933333,98.333333,N,E,8.56N,98.20E
+520,พังงา,ทับปุด,,Phangnga,Thap Put,,8.616667,98.65,N,E,8.37N,98.39E
+521,พังงา,ท้ายเหมือง,,Phangnga,Thai Mueang,,8.583333,97.733333,N,E,8.35N,97.44E
+522,พังงา,เมืองพังงา,,Phangnga,Mueang Phangnga,,8.383333,98.533333,N,E,8.23N,98.32E
+523,พัทลุง,กงหรา,,Phatthalung,Kong Ra,,7.45,99.933333,N,E,7.27N,99.56E
+524,พัทลุง,เขาชัยสน,,Phatthalung,Khao Chaison,,7.5,100.166667,N,E,7.30N,100.10E
+525,พัทลุง,ควนขนุน,,Phatthalung,Khuan Khanun,,7.733333,100.066667,N,E,7.44N,100.04E
+526,พัทลุง,ตะโหมด,,Phatthalung,Takhom Mot,,7.283333,100.033333,N,E,7.17N,100.02E
+527,พัทลุง,บางแก้ว,,Phatthalung,Bang Kaeo,,7.45,100.2,N,E,7.27N,100.12E
+528,พัทลุง,ปากพะยูน,,Phatthalung,Pak Phayun,,7.35,100.333333,N,E,7.21N,100.20E
+529,พัทลุง,ป่าบอน,,Phatthalung,Pa Bon,,7.216667,100.166667,N,E,7.13N,100.10E
+530,พัทลุง,ป่าพะยอม,,Phatthalung,Pa Phayom,,7.85,99.883333,N,E,7.51N,99.53E
+531,พัทลุง,เมืองพัทลุง,,Phatthalung,Mueang Phatthalung,,7.6,100.05,N,E,7.36N,100.03E
+532,พัทลุง,ศรีบรรพต,,Phatthalung,Si Banphot,,7.733333,99.85,N,E,7.44N,99.51E
+533,พิจิตร,ตะพานหิน,,Phichit,Taphan Hin,,16.216667,100.416667,N,E,16.13N,100.25E
+534,พิจิตร,ทับคล้อ,,Phichit,Thap Khlo,,16.283333,100.583333,N,E,16.17N,100.35E
+535,พิจิตร,บางมูลนาก,,Phichit,Bang Mun Nak,,16.033333,100.5,N,E,16.02N,100.30E
+536,พิจิตร,โพทะเล,,Phichit,Pho Thale,,16.1,100.233333,N,E,16.06N,100.14E
+537,พิจิตร,โพธิ์ประทับช้าง,,Phichit,Pho Prathap Chang,,16.283333,100.166667,N,E,16.17N,100.10E
+538,พิจิตร,เมืองพิจิตร,,Phichit,Mueang Phichit,,16.483333,100.416667,N,E,16.29N,100.25E
+539,พิจิตร,วังทรายพูน,,Phichit,Wang Sai Phun,,16.35,100.55,N,E,16.21N,100.33E
+540,พิจิตร,สามง่าม,,Phichit,Sam Ngam,,16.416667,100.116667,N,E,16.25N,100.07E
+541,พิษณุโลก,ชาติตระการ,,Phitsanulok,Chat Trakan,,17.333333,100.6,N,E,17.20N,100.36E
+542,พิษณุโลก,นครไทย,,Phitsanulok,Nakhon Thai,,17.083333,100.833333,N,E,17.05N,100.50E
+543,พิษณุโลก,เนินมะปราง,,Phitsanulok,Noen Maprang,,16.716667,100.716667,N,E,16.43N,100.43E
+544,พิษณุโลก,บางกระทุ่ม,,Phitsanulok,Bang Krathum,,16.55,100.366667,N,E,16.33N,100.22E
+545,พิษณุโลก,บางระกำ,,Phitsanulok,Bang Rakam,,16.75,100.016667,N,E,16.45N,100.01E
+546,พิษณุโลก,พรหมพิราม,,Phitsanulok,Phrom Phiram,,17.083333,100.15,N,E,17.05N,100.09E
+547,พิษณุโลก,เมืองพิษณุโลก,,Phitsanulok,Mueang Phitsanulok,,16.883333,100.316667,N,E,16.53N,100.19E
+548,พิษณุโลก,วังทอง,,Phitsanulok,Wang Thong,,16.85,100.616667,N,E,16.51N,100.37E
+549,พิษณุโลก,วัดโบสถ์,,Phitsanulok,Wat Bot,,17.183333,100.366667,N,E,17.11N,100.22E
+550,เพชรบุรี,แก่งกระจาน,,Phetchaburi,Kaeng Krachan,,12.95,99.483333,N,E,12.57N,99.29E
+551,เพชรบุรี,เขาย้อย,,Phetchaburi,Khao Yoi,,13.3,99.783333,N,E,13.18N,99.47E
+552,เพชรบุรี,ชะอำ,,Phetchaburi,Cha-am,,12.666667,99.866667,N,E,12.40N,99.52E
+553,เพชรบุรี,ท่ายาง,,Phetchaburi,Tha Yang,,12.95,99.916667,N,E,12.57N,99.55E
+554,เพชรบุรี,บ้านลาด,,Phetchaburi,Ban Lat,,13.066667,99.883333,N,E,13.04N,99.53E
+555,เพชรบุรี,บ้านแหลม,,Phetchaburi,Ban Laem,,13.233333,99.933333,N,E,13.14N,99.56E
+556,เพชรบุรี,เมืองเพชรบุรี,,Phetchaburi,Mueang Phetchaburi,,13.1,100.0,N,E,13.06N,100.00E
+557,เพชรบุรี,หนองหญ้าปล้อง,,Phetchaburi,Nong Ya Plong,,13.15,99.533333,N,E,13.09N,99.32E
+558,เพชรบูรณ์,เขาค้อ,,Phetchabun,Khao Kho,,16.55,101.0,N,E,16.33N,101.00E
+559,เพชรบูรณ์,ชนแดน,,Phetchabun,Chon Daen,,16.216667,100.85,N,E,16.13N,100.51E
+560,เพชรบูรณ์,น้ำหนาว,,Phetchabun,Nam Nao,,16.95,101.55,N,E,16.57N,101.33E
+561,เพชรบูรณ์,บึงสามพัน,,Phetchabun,Bueng Sam Phan,,15.833333,101.05,N,E,15.50N,101.03E
+562,เพชรบูรณ์,เมืองเพชรบูรณ์,,Phetchabun,Mueang Phetchabun,,16.433333,101.133333,N,E,16.26N,101.08E
+563,เพชรบูรณ์,วังโป่ง,,Phetchabun,Wang Pong,,16.35,100.833333,N,E,16.21N,100.50E
+564,เพชรบูรณ์,วิเชียรบุรี,,Phetchabun,Wichian Buri,,15.616667,101.1,N,E,15.37N,101.06E
+565,เพชรบูรณ์,ศรีเทพ,,Phetchabun,Si Thep,,15.433333,101.116667,N,E,15.26N,101.07E
+566,เพชรบูรณ์,หนองไผ่,,Phetchabun,Nong Phai,,15.9,101.133333,N,E,15.54N,101.08E
+567,เพชรบูรณ์,หล่มเก่า,,Phetchabun,Lom Kao,,17.066667,101.333333,N,E,17.04N,101.20E
+568,เพชรบูรณ์,หล่มสัก,,Phetchabun,Lom Sak,,16.666667,101.283333,N,E,16.40N,101.17E
+569,แพร่,เด่นชัย,,Phrae,Den Chai,,17.9,100.033333,N,E,17.54N,100.02E
+570,แพร่,เมืองแพร่,,Phrae,Mueang Phrae,,18.133333,100.216667,N,E,18.08N,100.13E
+571,แพร่,ร้องกวาง,,Phrae,Rong Kwang,,18.4,100.383333,N,E,18.24N,100.23E
+572,แพร่,ลอง,,Phrae,Long,,18.05,99.833333,N,E,18.03N,99.50E
+573,แพร่,วังชิ้น,,Phrae,Wang Chin,,17.85,99.683333,N,E,17.51N,99.41E
+574,แพร่,สอง,,Phrae,Song,,18.566667,100.25,N,E,18.34N,100.15E
+575,แพร่,สูงเม่น,,Phrae,Sung Men,,18.066667,100.083333,N,E,18.04N,100.05E
+576,แพร่,หนองม่วงไข่,,Phrae,Nong Muang Khai,,18.266667,100.183333,N,E,18.16N,100.11E
+577,ภูเก็ต,กะทู้,,Phuket,Kathu,,7.933333,98.316667,N,E,7.56N,98.19E
+578,ภูเก็ต,ถลาง,,Phuket,Thalang,,8.033333,98.416667,N,E,8.02N,98.25E
+579,ภูเก็ต,เมืองภูเก็ต,,Phuket,Mueang Phuket,,7.766667,98.4,N,E,7.46N,98.24E
+580,มหาสารคาม,กันทรวิชัย,,Maha Sarakham,Kantharawichai,,16.266667,103.283333,N,E,16.16N,103.17E
+581,มหาสารคาม,แกดำ,,Maha Sarakham,Kae Dam,,16.05,103.4,N,E,16.03N,103.24E
+582,มหาสารคาม,โกสุมพิสัย,,Maha Sarakham,Kosum Phisai,,16.283333,103.016667,N,E,16.17N,103.01E
+583,มหาสารคาม,เชียงยืน,,Maha Sarakham,Chiang Yuen,,16.416667,103.066667,N,E,16.25N,103.04E
+584,มหาสารคาม,นาเชือก,,Maha Sarakham,Na Chueak,,15.766667,103.066667,N,E,15.46N,103.04E
+585,มหาสารคาม,นาดูน,,Maha Sarakham,Na Dun,,15.733333,103.233333,N,E,15.44N,103.14E
+586,มหาสารคาม,บรบือ,,Maha Sarakham,Borabue,,16.083333,103.05,N,E,16.05N,103.03E
+587,มหาสารคาม,พยัคฆภูมิพิสัย,,Maha Sarakham,Phayakkhaphum Phisai,,15.516667,103.25,N,E,15.31N,103.15E
+588,มหาสารคาม,เมืองมหาสารคาม,,Maha Sarakham,Mueang Maha Sarakham,,16.183333,103.316667,N,E,16.11N,103.19E
+589,มหาสารคาม,ยางสีสุรา,,Maha Sarakham,Yang Sisurat,,15.633333,103.1,N,E,15.38N,103.06E
+590,มหาสารคาม,วาปีปทุม,,Maha Sarakham,Wapi Pathum,,15.816667,103.3,N,E,15.49N,103.18E
+591,มุกดาหาร,คำชะอี,,Mukdahan,Khamcha-i,,16.6,104.333333,N,E,16.36N,104.20E
+592,มุกดาหาร,ดงหลวง,,Mukdahan,Dong Luang,,16.766667,104.383333,N,E,16.46N,104.23E
+593,มุกดาหาร,ดอนตาล,,Mukdahan,Don Tan,,16.266667,104.816667,N,E,16.16N,104.49E
+594,มุกดาหาร,นิคมคำสร้อย,,Mukdahan,Nikhom Kham Soi,,16.383333,104.533333,N,E,16.23N,104.32E
+595,มุกดาหาร,เมืองมุกดาหาร,,Mukdahan,Mueang Mukdahan,,16.616667,104.6,N,E,16.37N,104.36E
+596,มุกดาหาร,หนองสูง,,Mukdahan,Nong Sung,,16.466667,104.383333,N,E,16.28N,104.23E
+597,มุกดาหาร,หว้านใหญ่,,Mukdahan,Wan Yai,,16.733333,104.733333,N,E,16.44N,104.44E
+598,แม่ฮ่องสอน,ขุนยวม,,Mae Hong Son,Khun Yuam,,18.75,97.95,N,E,18.45N,97.57E
+599,แม่ฮ่องสอน,ปางมะผ้า,,Mae Hong Son,Pang Mapha,,19.65,98.2,N,E,19.39N,98.12E
+600,แม่ฮ่องสอน,ปาย,,Mae Hong Son,Pai,,19.316667,98.366667,N,E,19.19N,98.22E
+601,แม่ฮ่องสอน,เมืองแม่ฮ่องสอน,,Mae Hong Son,Mueang Mae Hong Son,,19.45,98.033333,N,E,19.27N,98.02E
+602,แม่ฮ่องสอน,แม่ลาน้อย,,Mae Hong Son,Mae Lan Noi,,18.583333,98.0,N,E,18.35N,98.00E
+603,แม่ฮ่องสอน,แม่สะเรียง,,Mae Hong Son,Mae Sariang,,18.25,97.883333,N,E,18.15N,97.53E
+604,แม่ฮ่องสอน,สบเมย,,Mae Hong Son,Sop Moei,,17.95,97.916667,N,E,17.57N,97.55E
+605,ยโสธร,กุดชุม,,Yasothon,Kut Chum,,16.05,104.266667,N,E,16.03N,104.16E
+606,ยโสธร,ค้อวัง,,Yasothon,Kho Wang,,15.366667,104.333333,N,E,15.22N,104.20E
+607,ยโสธร,คำเขื่อนแก้ว,,Yasothon,Kham Khuean Kaeo,,15.65,104.316667,N,E,15.39N,104.19E
+608,ยโสธร,ทรายมูล,,Yasothon,Sai Mun,,15.983333,104.183333,N,E,15.59N,104.11E
+609,ยโสธร,ไทยเจริญ,,Yasothon,Thai Charoen,,16.066667,104.45,N,E,16.04N,104.27E
+610,ยโสธร,ป่าติ้ว,,Yasothon,Pa Tio,,15.766667,104.35,N,E,15.46N,104.21E
+611,ยโสธร,มหาชนะชัย,,Yasothon,Maha Chana Chai,,15.533333,104.266667,N,E,15.32N,104.16E
+612,ยโสธร,เมืองยโสธร,,Yasothon,Mueang Yasothon,,15.85,104.183333,N,E,15.51N,104.11E
+613,ยโสธร,เลิงนกทา,,Yasothon,Loeng Nok Tha,,16.166667,104.616667,N,E,16.10N,104.37E
+614,ยะลา,กรงปินัง,,Yala,Krong Pinang,,6.416667,101.25,N,E,6.25N,101.15E
+615,ยะลา,กาบัง,,Yala,Kabang,,6.416667,101.0,N,E,6.25N,101.00E
+616,ยะลา,ธารโต,,Yala,Than To,,6.1,101.283333,N,E,6.06N,101.17E
+617,ยะลา,บันนังสตา,,Yala,Bannang Sata,,6.25,101.25,N,E,6.15N,101.15E
+618,ยะลา,เบตง,,Yala,Betong,,5.883333,101.25,N,E,5.53N,101.15E
+619,ยะลา,เมืองยะลา,,Yala,Mueang Yala,,6.566667,101.216667,N,E,6.34N,101.13E
+620,ยะลา,ยะหา,,Yala,Yaha,,6.316667,101.116667,N,E,6.19N,101.07E
+621,ยะลา,รามัน,,Yala,Raman,,6.55,101.466667,N,E,6.33N,101.28E
+622,ร้อยเอ็ด,เกษตรวิสัย,,Roi Et,Kaset Wisai,,15.683333,103.55,N,E,15.41N,103.33E
+623,ร้อยเอ็ด,จตุรพักตรพิมาน,,Roi Et,Chaturaphak Phiman,,15.8,103.566667,N,E,15.48N,103.34E
+624,ร้อยเอ็ด,จังหาร,,Roi Et,Changhan,,16.166667,103.6,N,E,16.10N,103.36E
+625,ร้อยเอ็ด,เชียงขวัญ,,Roi Et,Chiang Khwan,,16.166667,103.75,N,E,16.10N,103.45E
+626,ร้อยเอ็ด,ธวัชบุรี,,Roi Et,Thawat Buri,,15.966667,103.816667,N,E,15.58N,103.49E
+627,ร้อยเอ็ด,ปทุมรัตต์,,Roi Et,Pathum Rat,,15.583333,103.383333,N,E,15.35N,103.23E
+628,ร้อยเอ็ด,พนมไพร,,Roi Et,Phanom Phrai,,15.65,104.066667,N,E,15.39N,104.04E
+629,ร้อยเอ็ด,โพธิ์ชัย,,Roi Et,Pho Chai,,16.4,103.816667,N,E,16.24N,103.49E
+630,ร้อยเอ็ด,โพนทราย,,Roi Et,Phon Sai,,15.516667,103.933333,N,E,15.31N,103.56E
+631,ร้อยเอ็ด,โพนทอง,,Roi Et,Phon Thong,,16.2,104.0,N,E,16.12N,104.00E
+632,ร้อยเอ็ด,เมวดี,,Roi Et,Mewadi,,16.4,104.133333,N,E,16.24N,104.08E
+633,ร้อยเอ็ด,เมืองร้อยเอ็ด,,Roi Et,Mueang Roi Et,,15.933333,103.633333,N,E,15.56N,103.38E
+634,ร้อยเอ็ด,เมืองสรวง,,Roi Et,Mueang Suang,,15.766667,103.766667,N,E,15.46N,103.46E
+635,ร้อยเอ็ด,ศรีสมเด็จ,,Roi Et,Si Somdet,,16.0,103.516667,N,E,16.00N,103.31E
+636,ร้อยเอ็ด,สุวรรณภูมิ,,Roi Et,Suwannaphum,,15.633333,103.833333,N,E,15.38N,103.50E
+637,ร้อยเอ็ด,เสลภูมิ,,Roi Et,Selaphum,,16.05,104.0,N,E,16.03N,104.00E
+638,ร้อยเอ็ด,หนองพอก,,Roi Et,Nong Phok,,16.266667,104.2,N,E,16.16N,104.12E
+639,ร้อยเอ็ด,อาจสามารถ,,Roi Et,At Samat,,15.85,103.85,N,E,15.51N,103.51E
+640,ระนอง,กะเปอร์,,Ranong,Kapoe,,9.583333,98.516667,N,E,9.35N,98.31E
+641,ระนอง,เมืองระนอง,,Ranong,Mueang Ranong,,9.85,98.516667,N,E,9.51N,98.31E
+642,ระนอง,ละอุ่น,,Ranong,La-un,,10.1,98.816667,N,E,10.06N,98.49E
+643,ระนอง,สุขสำราญ,,Ranong,Suk Samran,,9.466667,98.4,N,E,9.28N,98.24E
+644,ระยอง,เขาชะเมา,,Rayong,Khao Chamao,,12.916667,101.7,N,E,12.55N,101.42E
+645,ระยอง,นิคมพัฒนา,,Rayong,Nikhom Phatthana,,12.833333,101.2,N,E,12.50N,101.12E
+646,ระยอง,บ้านค่าย,,Rayong,Ban Khai,,12.783333,101.283333,N,E,12.47N,101.17E
+647,ระยอง,บ้านจาง,,Rayong,Ban Chang,,12.716667,101.05,N,E,12.43N,101.03E
+648,ระยอง,ปลวกแดง,,Rayong,Pluak Daeng,,12.966667,101.25,N,E,12.58N,101.15E
+649,ระยอง,เมืองแกลง,,Rayong,Klaeng,,12.783333,101.683333,N,E,12.47N,101.41E
+650,ระยอง,เมืองระยอง,,Rayong,Mueang Rayong,,12.616667,101.4,N,E,12.37N,101.24E
+651,ระยอง,วังจันทร์,,Rayong,Wang Chan,,13.033333,101.516667,N,E,13.02N,101.31E
+652,ราชบุรี,จอมบึง,,Ratchaburi,Chom Bueng,,13.683333,99.5,N,E,13.41N,99.30E
+653,ราชบุรี,ดำเนินสะดวก,,Ratchaburi,Damnoen Saduak,,13.583333,99.966667,N,E,13.35N,99.58E
+654,ราชบุรี,บางแพ,,Ratchaburi,Bang Phae,,13.633333,99.983333,N,E,13.38N,99.59E
+655,ราชบุรี,บ้านคา,,Ratchaburi,Ban Kha,,13.416667,99.383333,N,E,13.25N,99.23E
+656,ราชบุรี,บ้านโป่ง,,Ratchaburi,Ban Pong,,13.766667,99.833333,N,E,13.46N,99.50E
+657,ราชบุรี,ปากท่อ,,Ratchaburi,Pak Tho,,13.4,99.716667,N,E,13.24N,99.43E
+658,ราชบุรี,โพธาราม,,Ratchaburi,Photharam,,13.733333,99.716667,N,E,13.44N,99.43E
+659,ราชบุรี,เมืองราชบุรี,,Ratchaburi,Mueang Ratchaburi,,13.55,99.766667,N,E,13.33N,99.46E
+660,ราชบุรี,วัดเพลง,,Ratchaburi,Wat Phleng,,13.466667,99.866667,N,E,13.28N,99.52E
+661,ราชบุรี,สวนผึ้ง,,Ratchaburi,Suan Phueng,,13.35,99.366667,N,E,13.21N,99.22E
+662,ลพบุรี,โคกเจริญ,,Lop Buri,Khok Charoen,,15.383333,100.85,N,E,15.23N,100.51E
+663,ลพบุรี,โคกสำโรง,,Lop Buri,Khok Samrong,,15.05,100.766667,N,E,15.03N,100.46E
+664,ลพบุรี,ชัยบาดาล,,Lop Buri,Chai Badan,,15.183333,101.15,N,E,15.11N,101.09E
+665,ลพบุรี,ท่าวุ้ง,,Lop Buri,Tha Wung,,14.9,100.5,N,E,14.54N,100.30E
+666,ลพบุรี,ท่าหลวง,,Lop Buri,Tha Luang,,15.033333,101.216667,N,E,15.02N,101.13E
+667,ลพบุรี,บ้านหมี่,,Lop Buri,Ban Mi,,15.083333,100.55,N,E,15.05N,100.33E
+668,ลพบุรี,พัฒนานิคม,,Lop Buri,Phatthana Nikhom,,14.933333,101.066667,N,E,14.56N,101.04E
+669,ลพบุรี,เมืองลพบุรี,,Lop Buri,Mueang Lop Buri,,14.883333,100.716667,N,E,14.53N,100.43E
+670,ลพบุรี,ลำสนธิ,,Lop Buri,Lam Sonthi,,15.316667,101.333333,N,E,15.19N,101.20E
+671,ลพบุรี,สระโบสถ์,,Lop Buri,Sa Bot,,15.216667,100.883333,N,E,15.13N,100.53E
+672,ลพบุรี,หนองม่วง,,Lop Buri,Nong Muang,,15.233333,100.733333,N,E,15.14N,100.44E
+673,ลำปาง,เกาะคา,,Lampang,Ko Kha,,18.2,99.333333,N,E,18.12N,99.20E
+674,ลำปาง,งาว,,Lampang,Ngao,,18.733333,99.95,N,E,18.44N,99.57E
+675,ลำปาง,แจ้ห่ม,,Lampang,Chae Hom,,18.866667,99.666667,N,E,18.52N,99.40E
+676,ลำปาง,เถิน,,Lampang,Thoen,,17.616667,99.25,N,E,17.37N,99.15E
+677,ลำปาง,เมืองปาน,,Lampang,Mueang Pan,,18.666667,99.433333,N,E,18.40N,99.26E
+678,ลำปาง,เมืองลำปาง,,Lampang,Mueang Lampang,,18.466667,99.55,N,E,18.28N,99.33E
+679,ลำปาง,แม่ทะ,,Lampang,Mae Tha,,18.133333,99.6,N,E,18.08N,99.36E
+680,ลำปาง,แม่พริก,,Lampang,Mae Phrik,,17.533333,99.05,N,E,17.32N,99.03E
+681,ลำปาง,แม่เมาะ,,Lampang,Mae Mo,,18.416667,99.85,N,E,18.25N,99.51E
+682,ลำปาง,วังเหนือ,,Lampang,Wang Nuea,,19.033333,99.65,N,E,19.02N,99.39E
+683,ลำปาง,สบปราบ,,Lampang,Sop Prap,,17.9,99.35,N,E,17.54N,99.21E
+684,ลำปาง,เสริมงาม,,Lampang,Soem Ngam,,18.083333,99.183333,N,E,18.05N,99.11E
+685,ลำปาง,ห้างฉัตร,,Lampang,Hang Chat,,18.316667,99.3,N,E,18.19N,99.18E
+686,ลำพูน,ทุ่งหัวช้าง,,Lamphun,Thung Hua Chang,,17.9,99.083333,N,E,17.54N,99.05E
+687,ลำพูน,บ้านธิ,,Lamphun,Ban Thi,,18.65,99.15,N,E,18.39N,99.09E
+688,ลำพูน,บ้านโฮ่ง,,Lamphun,Ban Hong,,18.316667,98.783333,N,E,18.19N,98.47E
+689,ลำพูน,ป่าซาง,,Lamphun,Pa Sang,,18.416667,98.833333,N,E,18.25N,98.50E
+690,ลำพูน,เมืองลำพูน,,Lamphun,Mueang Lamphun,,18.55,99.066667,N,E,18.33N,99.04E
+691,ลำพูน,แม่ทา,,Lamphun,Mae Tha,,18.35,99.05,N,E,18.21N,99.03E
+692,ลำพูน,ลี้,,Lamphun,Li,,17.666667,98.883333,N,E,17.40N,98.53E
+693,เลย,เชียงคาน,,Loei,Chiang Khan,,17.733333,101.75,N,E,17.44N,101.45E
+694,เลย,ด่านซ้าย,,Loei,Dan Sai,,17.183333,101.266667,N,E,17.11N,101.16E
+695,เลย,ท่าลี่,,Loei,Tha Li,,17.566667,101.4,N,E,17.34N,101.24E
+696,เลย,นาด้วง,,Loei,Na Duang,,17.516667,102.016667,N,E,17.31N,102.01E
+697,เลย,นาแห้ว,,Loei,Na Haeo,,17.5,100.983333,N,E,17.30N,100.59E
+698,เลย,ปากชม,,Loei,Pak Chom,,17.916667,101.95,N,E,17.55N,101.57E
+699,เลย,ผาขาว,,Loei,Pha Khao,,17.033333,102.016667,N,E,17.02N,102.01E
+700,เลย,ภูกระดึง,,Loei,Phu Kradueng,,16.9,101.866667,N,E,16.54N,101.52E
+701,เลย,ภูเรือ,,Loei,Phu Ruea,,17.383333,101.4,N,E,17.23N,101.24E
+702,เลย,ภูหลวง,,Loei,Phu Luang,,17.15,101.666667,N,E,17.09N,101.40E
+703,เลย,เมืองเลย,,Loei,Mueang Loei,,17.466667,101.7,N,E,17.28N,101.42E
+704,เลย,วังสะพุง,,Loei,Wang Saphung,,17.216667,101.8,N,E,17.13N,101.48E
+705,ศรีสะเกษ,กันทรลักษ์,,Si Sa Ket,Kantharalak,,14.716667,104.7,N,E,14.43N,104.42E
+706,ศรีสะเกษ,กันทรารมย์,,Si Sa Ket,Kanthararom,,15.166667,104.566667,N,E,15.10N,104.34E
+707,ศรีสะเกษ,ขุขันธ์,,Si Sa Ket,Khukhan,,14.7,104.15,N,E,14.42N,104.09E
+708,ศรีสะเกษ,ขุนหาญ,,Si Sa Ket,Khun Han,,14.583333,104.416667,N,E,14.35N,104.25E
+709,ศรีสะเกษ,น้ำเกลี้ยง,,Si Sa Ket,Nam Kliang,,14.933333,104.516667,N,E,14.56N,104.31E
+710,ศรีสะเกษ,โนนคูณ,,Si Sa Ket,Non Khun,,14.866667,104.716667,N,E,14.52N,104.43E
+711,ศรีสะเกษ,บึงบูรพ์,,Si Sa Ket,Bueng Bun,,15.3,104.066667,N,E,15.18N,104.04E
+712,ศรีสะเกษ,ปรางค์กู่,,Si Sa Ket,Prang Ku,,14.85,104.016667,N,E,14.51N,104.01E
+713,ศรีสะเกษ,พยุห์,,Si Sa Ket,Phayu,,14.9,104.383333,N,E,14.54N,104.23E
+714,ศรีสะเกษ,โพธ์ศรีสุ,,Si Sa Ket,Pho Si Su,,15.266667,104.05,N,E,15.16N,104.03E
+715,ศรีสะเกษ,ไพรบึง,,Si Sa Ket,Phrai Bueng,,14.85,104.35,N,E,14.51N,104.21E
+716,ศรีสะเกษ,ภูสิงห์,,Si Sa Ket,Phu Sing,,14.383333,104.116667,N,E,14.23N,104.07E
+717,ศรีสะเกษ,เมืองจันทร์,,Si Sa Ket,Mueang Chan,,15.15,104.033333,N,E,15.09N,104.02E
+718,ศรีสะเกษ,เมืองศรีสะเกษ,,Si Sa Ket,Mueang Si Sa Ket,,15.05,104.35,N,E,15.03N,104.21E
+719,ศรีสะเกษ,ยางชุมน้อย,,Si Sa Ket,Yang Chum Noi,,15.233333,104.383333,N,E,15.14N,104.23E
+720,ศรีสะเกษ,ราษีไศล,,Si Sa Ket,Rasi Salai,,15.316667,104.216667,N,E,15.19N,104.13E
+721,ศรีสะเกษ,วังหิน,,Si Sa Ket,Wang Hin,,14.966667,104.216667,N,E,14.58N,104.13E
+722,ศรีสะเกษ,ศรีรัตนะ,,Si Sa Ket,Si Rattana,,14.8,104.5,N,E,14.48N,104.30E
+723,ศรีสะเกษ,ห้วยทับทัน,,Si Sa Ket,Huai Thap Than,,14.95,104.033333,N,E,14.57N,104.02E
+724,ศรีสะเกษ,อุทุมพรพิสัย,,Si Sa Ket,Uthumphon Phisai,,15.1,104.166667,N,E,15.06N,104.10E
+725,สกลนคร,กุดบาก,,Sakon Nakhon,Kut Bak,,17.066667,103.816667,N,E,17.04N,103.49E
+726,สกลนคร,กุสุมาลย์,,Sakon Nakhon,Kusuman,,17.366667,104.25,N,E,17.22N,104.15E
+727,สกลนคร,คำตากล้า,,Sakon Nakhon,Kham Tak Kla,,17.8,103.783333,N,E,17.48N,103.47E
+728,สกลนคร,โคกศรีสุพรรณ,,Sakon Nakhon,Khok Si Suphan,,17.033333,104.316667,N,E,17.02N,104.19E
+729,สกลนคร,เจริญศิลป์,,Sakon Nakhon,Charoen Sin,,17.683333,103.5,N,E,17.41N,103.30E
+730,สกลนคร,เต่างอย,,Sakon Nakhon,Tao Ngoi,,16.95,104.166667,N,E,16.57N,104.10E
+731,สกลนคร,นิคมน้ำอุน,,Sakon Nakhon,Nikhom Nam Un,,17.15,103.7,N,E,17.09N,103.42E
+732,สกลนคร,บ้านม่วง,,Sakon Nakhon,Ban Muang,,17.883333,103.55,N,E,17.53N,103.33E
+733,สกลนคร,พรรณานิคม,,Sakon Nakhon,Phanna Nikhom,,17.333333,103.9,N,E,17.20N,103.54E
+734,สกลนคร,พังโคน,,Sakon Nakhon,Phang Khon,,17.383333,103.716667,N,E,17.23N,103.43E
+735,สกลนคร,โพนนาแก้,,Sakon Nakhon,Phon Na Kaeo,,17.216667,104.3,N,E,17.13N,104.18E
+736,สกลนคร,เมืองสกลนคร,,Sakon Nakhon,Mueang Sakon Nakhon,,17.116667,104.133333,N,E,17.07N,104.08E
+737,สกลนคร,วานรนิวาส,,Sakon Nakhon,Wanon Niwat,,17.666667,103.733333,N,E,17.40N,103.44E
+738,สกลนคร,วาริชภูมิ,,Sakon Nakhon,Waritchaphum,,17.233333,103.583333,N,E,17.14N,103.35E
+739,สกลนคร,สว่างแดนดิน,,Sakon Nakhon,Sawang Daen Din,,17.433333,103.466667,N,E,17.26N,103.28E
+740,สกลนคร,ส่องดาว,,Sakon Nakhon,Song Dao,,17.266667,103.4,N,E,17.16N,103.24E
+741,สกลนคร,อากาศอำนวย,,Sakon Nakhon,Akat Amnuai,,17.7,103.966667,N,E,17.42N,103.58E
+742,สงขลา,กระแสสินธุ์,,Songkhla,Krasae Sin,,7.666667,100.3,N,E,7.40N,100.18E
+743,สงขลา,คลองหอยโข่ง,,Songkhla,Khlong Hoi Khong,,6.85,100.333333,N,E,6.51N,100.20E
+744,สงขลา,ควนเนียง,,Songkhla,Khuan Niang,,7.15,100.383333,N,E,7.09N,100.23E
+745,สงขลา,จะนะ,,Songkhla,Chana,,6.833333,100.7,N,E,6.50N,100.42E
+746,สงขลา,เทพา,,Songkhla,Thepha,,6.733333,100.916667,N,E,6.44N,100.55E
+747,สงขลา,นาทวี,,Songkhla,Na Thawi,,6.733333,100.683333,N,E,6.44N,100.41E
+748,สงขลา,นาหม่อม,,Songkhla,Na Mom,,6.95,100.566667,N,E,6.57N,100.34E
+749,สงขลา,บางกล่ำ,,Songkhla,Bang Klam,,7.066667,100.4,N,E,7.04N,100.24E
+750,สงขลา,เมืองสงขลา,,Songkhla,Mueang Songkhla,,7.15,100.583333,N,E,7.09N,100.35E
+751,สงขลา,ระโนด,,Songkhla,Ranot,,7.866667,100.25,N,E,7.52N,100.15E
+752,สงขลา,รัตภูมิ,,Songkhla,Rattaphum,,7.083333,100.2,N,E,7.05N,100.12E
+753,สงขลา,สทิงพระ,,Songkhla,Sathing Phra,,7.416667,100.433333,N,E,7.25N,100.26E
+754,สงขลา,สะเดา,,Songkhla,Sadao,,6.733333,100.383333,N,E,6.44N,100.23E
+755,สงขลา,สะบ้าย้อย,,Songkhla,Saba Yoi,,6.616667,100.95,N,E,6.37N,100.57E
+756,สงขลา,สิงหนคร,,Songkhla,Singhanakhon,,7.2,100.5,N,E,7.12N,100.30E
+757,สงขลา,หาดใหญ่,,Songkhla,Hat Yai,,6.983333,100.35,N,E,6.59N,100.21E
+758,สตูล,ควนกาหลง,,Satun,Khuan Kalong,,6.883333,100.05,N,E,6.53N,100.03E
+759,สตูล,ควนโดน,,Satun,Khuan Don,,6.766667,100.133333,N,E,6.46N,100.08E
+760,สตูล,ท่าแพ,,Satun,Tha Phae,,6.816667,99.933333,N,E,6.49N,99.56E
+761,สตูล,ทุ่งหว้า,,Satun,Thung Wa,,7.033333,99.783333,N,E,7.02N,99.47E
+762,สตูล,เมืองสตูล,,Satun,Mueang Satun,,6.583333,99.583333,N,E,6.35N,99.35E
+763,สตูล,ละงู,,Satun,La-ngu,,6.9,99.7,N,E,6.54N,99.42E
+764,สมุทรปราการ,บางบ่อ,,Samut Prakan,Bang Bo,,13.633333,100.9,N,E,13.38N,100.54E
+765,สมุทรปราการ,บางพลี,,Samut Prakan,Bang Phli,,13.633333,100.75,N,E,13.38N,100.45E
+766,สมุทรปราการ,บางเสาธง,,Samut Prakan,Bang Sao Thong,,13.6,100.8,N,E,13.36N,100.48E
+767,สมุทรปราการ,พระประแดง,,Samut Prakan,Phra Pradaeng,,13.65,100.566667,N,E,13.39N,100.34E
+768,สมุทรปราการ,พระสมุทรเจดีย์,,Samut Prakan,Phra Samut Chedi,,13.55,100.516667,N,E,13.33N,100.31E
+769,สมุทรปราการ,เมืองสมุทรปราการ,,Samut Prakan,Mueang Samut Prakan,,13.5,100.733333,N,E,13.30N,100.44E
+770,สมุทรสงคราม,บางคนที,,Samut Songkhram,Bang Khonthi,,13.483333,99.95,N,E,13.29N,99.57E
+771,สมุทรสงคราม,เมืองสมุทรสงคราม,,Samut Songkhram,Mueang Samut Songkhram,,13.433333,100.033333,N,E,13.26N,100.02E
+772,สมุทรสงคราม,อัมพวา,,Samut Songkhram,Amphawa,,13.3,99.9,N,E,13.18N,99.54E
+773,สมุทรสาคร,กระทุ่มแบน,,Samut Sakhon,Krathum Baen,,13.65,100.283333,N,E,13.39N,100.17E
+774,สมุทรสาคร,บ้านแพ้ว,,Samut Sakhon,Ban Phaeo,,13.6,100.133333,N,E,13.36N,100.08E
+775,สมุทรสาคร,เมืองสมุทรสาคร,,Samut Sakhon,Mueang Samut Sakhon,,13.566667,100.283333,N,E,13.34N,100.17E
+776,สระแก้ว,เขาฉกรรจ์,,Sa Kaeo,Khao Chakan,,13.666667,102.033333,N,E,13.40N,102.02E
+777,สระแก้ว,คลองหาด,,Sa Kaeo,Khlong Hat,,13.583333,102.233333,N,E,13.35N,102.14E
+778,สระแก้ว,โคกสูง,,Sa Kaeo,Khok Sung,,13.8,102.616667,N,E,13.48N,102.37E
+779,สระแก้ว,ตาพระยา,,Sa Kaeo,Ta Phraya,,14.066667,102.733333,N,E,14.04N,102.44E
+780,สระแก้ว,เมืองสระแก้ว,,Sa Kaeo,Mueang Sa Kaeo,,13.95,102.1,N,E,13.57N,102.06E
+781,สระแก้ว,วังน้ำเย็น,,Sa Kaeo,Wang Nam Yen,,13.45,102.083333,N,E,13.27N,102.05E
+782,สระแก้ว,วังสมบูรณ์,,Sa Kaeo,Wang Sombun,,13.333333,102.183333,N,E,13.20N,102.11E
+783,สระแก้ว,วัฒนานคร,,Sa Kaeo,Watthana Nakhon,,13.966667,102.433333,N,E,13.58N,102.26E
+784,สระแก้ว,อรัญประเทศ,,Sa Kaeo,Aranyaprathet,,13.65,102.466667,N,E,13.39N,102.28E
+785,สระบุรี,แก่งคอย,,Saraburi,Kaeng Khoi,,14.566667,101.05,N,E,14.34N,101.03E
+786,สระบุรี,เฉลิมพระเกียรติ,,Saraburi,Chaloem Phra Kiat,,14.616667,100.9,N,E,14.37N,100.54E
+787,สระบุรี,ดอนพุด,,Saraburi,Don Phut,,14.616667,100.616667,N,E,14.37N,100.37E
+788,สระบุรี,บ้านหมอ,,Saraburi,Ban Mo,,14.583333,100.733333,N,E,14.35N,100.44E
+789,สระบุรี,พระพุทธบาท,,Saraburi,Phra Phutthabat,,14.75,100.816667,N,E,14.45N,100.49E
+790,สระบุรี,มวกเหล็ก,,Saraburi,Muak Lek,,14.916667,101.35,N,E,14.55N,101.21E
+791,สระบุรี,เมืองสระบุรี,,Saraburi,Mueang Saraburi,,14.5,100.916667,N,E,14.30N,100.55E
+792,สระบุรี,วังม่วง,,Saraburi,Wang Muang,,14.9,101.166667,N,E,14.54N,101.10E
+793,สระบุรี,วิหารแดง,,Saraburi,Wihan Daeng,,14.35,101.0,N,E,14.21N,101.00E
+794,สระบุรี,เสาไห้,,Saraburi,Sao Hai,,14.55,100.833333,N,E,14.33N,100.50E
+795,สระบุรี,หนองแค,,Saraburi,Nong Khae,,14.416667,100.866667,N,E,14.25N,100.52E
+796,สระบุรี,หนองแซง,,Saraburi,Nong Saeng,,14.5,100.8,N,E,14.30N,100.48E
+797,สระบุรี,หนองโดน,,Saraburi,Nong Don,,14.666667,100.7,N,E,14.40N,100.42E
+798,สิงห์บุรี,ค่ายบางระจัน,,Sing Buri,Khai Bang Rachan,,14.8,100.3,N,E,14.48N,100.18E
+799,สิงห์บุรี,ท่าช้าง,,Sing Buri,Tha Chang,,14.766667,100.383333,N,E,14.46N,100.23E
+800,สิงห์บุรี,บางระจัน,,Sing Buri,Bang Rachan,,14.9,100.266667,N,E,14.54N,100.16E
+801,สิงห์บุรี,พรหมบุรี,,Sing Buri,Phrom Buri,,14.733333,100.45,N,E,14.44N,100.27E
+802,สิงห์บุรี,เมืองสิงห์บุรี,,Sing Buri,Mueang Sing Buri,,14.883333,100.4,N,E,14.53N,100.24E
+803,สิงห์บุรี,อินทร์บุรี,,Sing Buri,In Buri,,15.033333,100.35,N,E,15.02N,100.21E
+804,สุโขทัย,กงไกรลาศ,,Sukhothai,Kong Krailat,,16.916667,99.983333,N,E,16.55N,99.59E
+805,สุโขทัย,คีรีมาศ,,Sukhothai,Khiri Mat,,16.833333,99.75,N,E,16.50N,99.45E
+806,สุโขทัย,ทุ่งเสลี่ยม,,Sukhothai,Thung Saliam,,17.3,99.583333,N,E,17.18N,99.35E
+807,สุโขทัย,บ้านด่านลานหอย,,Sukhothai,Ban Dan Lan Hoi,,17.116667,99.483333,N,E,17.07N,99.29E
+808,สุโขทัย,เมืองสุโขทัย,,Sukhothai,Mueang Sukhothai,,17.0,99.783333,N,E,17.00N,99.47E
+809,สุโขทัย,ศรีนคร,,Sukhothai,Si Nakhon,,17.433333,99.933333,N,E,17.26N,99.56E
+810,สุโขทัย,ศรีสัชนาลัย,,Sukhothai,Si Satchanalai,,17.616667,99.716667,N,E,17.37N,99.43E
+811,สุโขทัย,ศรีสำโรง,,Sukhothai,Si Samrong,,17.183333,99.733333,N,E,17.11N,99.44E
+812,สุโขทัย,สวรรคโลก,,Sukhothai,Sawankhalok,,17.25,99.833333,N,E,17.15N,99.50E
+813,สุพรรณบุรี,ดอนเจดีย์,,Suphan Buri,Don Chedi,,14.666667,99.933333,N,E,14.40N,99.56E
+814,สุพรรณบุรี,ด่านช้าง,,Suphan Buri,Dan Chang,,14.883333,99.566667,N,E,14.53N,99.34E
+815,สุพรรณบุรี,เดิมบางนางบวช,,Suphan Buri,Doem Bang Nang Buat,,14.866667,100.016667,N,E,14.52N,100.01E
+816,สุพรรณบุรี,บางปลาม้า,,Suphan Buri,Bang Pla Ma,,14.333333,100.116667,N,E,14.20N,100.07E
+817,สุพรรณบุรี,เมืองสุพรรณบุรี,,Suphan Buri,Mueang Suphan Buri,,14.433333,100.1,N,E,14.26N,100.06E
+818,สุพรรณบุรี,ศรีประจันต์,,Suphan Buri,Si Prachan,,14.65,100.15,N,E,14.39N,100.09E
+819,สุพรรณบุรี,สองพี่น้อง,,Suphan Buri,Song Phi Nong,,14.183333,99.983333,N,E,14.11N,99.59E
+820,สุพรรณบุรี,สามชุก,,Suphan Buri,Sam Chuk,,14.766667,100.083333,N,E,14.46N,100.05E
+821,สุพรรณบุรี,หนองหญ้าไซ,,Suphan Buri,Nong Ya Sai,,14.783333,99.833333,N,E,14.47N,99.50E
+822,สุพรรณบุรี,อู่ทอง,,Suphan Buri,U Thong,,14.333333,99.9,N,E,14.20N,99.54E
+823,สุราษฎร์ธานี,กาญจนดิษฐ์,,Surat Thani,Kanchanadit,,9.033333,99.566667,N,E,9.02N,99.34E
+824,สุราษฎร์ธานี,เกาะพะงัน,,Surat Thani,Ko Pha-ngan,,9.933333,99.933333,N,E,9.56N,99.56E
+825,สุราษฎร์ธานี,เกาะสมุย,,Surat Thani,Ko Samui,,9.5,99.8,N,E,9.30N,99.48E
+826,สุราษฎร์ธานี,คีรีรัฐนิคม,,Surat Thani,Khiri Rat Nikhom,,9.033333,98.933333,N,E,9.02N,98.56E
+827,สุราษฎร์ธานี,เคียนซา,,Surat Thani,Khian Sa,,8.733333,99.066667,N,E,8.44N,99.04E
+828,สุราษฎร์ธานี,ชัยบุรี,,Surat Thani,Chai Buri,,8.45,99.066667,N,E,8.27N,99.04E
+829,สุราษฎร์ธานี,ไชยา,,Surat Thani,Chaiya,,9.466667,99.033333,N,E,9.28N,99.02E
+830,สุราษฎร์ธานี,ดอนสัก,,Surat Thani,Don Sak,,9.3,99.666667,N,E,9.18N,99.40E
+831,สุราษฎร์ธานี,ท่าฉาง,,Surat Thani,Tha Chang,,9.266667,99.083333,N,E,9.16N,99.05E
+832,สุราษฎร์ธานี,ท่าชนะ,,Surat Thani,Tha Chana,,9.65,99.033333,N,E,9.39N,99.02E
+833,สุราษฎร์ธานี,บ้านตาขุน,,Surat Thani,Ban Ta Khun,,8.966667,98.716667,N,E,8.58N,98.43E
+834,สุราษฎร์ธานี,บ้านนาเดิม,,Surat Thani,Ban Na Doem,,8.9,99.283333,N,E,8.54N,99.17E
+835,สุราษฎร์ธานี,บ้านนาสาร,,Surat Thani,Ban Na San,,8.766667,99.383333,N,E,8.46N,99.23E
+836,สุราษฎร์ธานี,พนม,,Surat Thani,Phanom,,8.866667,98.716667,N,E,8.52N,98.43E
+837,สุราษฎร์ธานี,พระแสง,,Surat Thani,Phrasaeng,,8.583333,99.083333,N,E,8.35N,99.05E
+838,สุราษฎร์ธานี,พุนพิน,,Surat Thani,Phunphin,,9.033333,99.183333,N,E,9.02N,99.11E
+839,สุราษฎร์ธานี,เมืองสุราษฎร์ธานี,,Surat Thani,Mueang Surat Thani,,9.166667,99.316667,N,E,9.10N,99.19E
+840,สุราษฎร์ธานี,วิภาวดี,,Surat Thani,Wiphawadi,,9.233333,98.866667,N,E,9.14N,98.52E
+841,สุราษฎร์ธานี,เวียงสระ,,Surat Thani,Wiang Sa,,8.6,99.35,N,E,8.36N,99.21E
+842,สุรินทร์,กาบเชิง,,Surin,Kap Choeng,,14.433333,103.45,N,E,14.26N,103.27E
+843,สุรินทร์,จอมพระ,,Surin,Chom Phra,,15.15,103.566667,N,E,15.09N,103.34E
+844,สุรินทร์,ชุมพลบุรี,,Surin,Chumphon Buri,,15.366667,103.366667,N,E,15.22N,103.22E
+845,สุรินทร์,ท่าตูม,,Surin,Tha Tum,,15.266667,103.6,N,E,15.16N,103.36E
+846,สุรินทร์,บัวเชด,,Surin,Buachet,,14.45,103.983333,N,E,14.27N,103.59E
+847,สุรินทร์,ปราสาท,,Surin,Prasat,,14.583333,103.433333,N,E,14.35N,103.26E
+848,สุรินทร์,เมืองสุรินทร์,,Surin,Mueang Surin,,14.833333,103.533333,N,E,14.50N,103.32E
+849,สุรินทร์,รัตนบุรี,,Surin,Rattanaburi,,15.333333,103.9,N,E,15.20N,103.54E
+850,สุรินทร์,ลำดวน,,Surin,Lamduan,,14.716667,103.683333,N,E,14.43N,103.41E
+851,สุรินทร์,ศีขรภูมิ,,Surin,Sikhoraphum,,14.916667,103.8,N,E,14.55N,103.48E
+852,สุรินทร์,สนม,,Surin,Sanom,,15.166667,103.783333,N,E,15.10N,103.47E
+853,สุรินทร์,สังขะ,,Surin,Sangkha,,14.583333,103.783333,N,E,14.35N,103.47E
+854,สุรินทร์,สำโรงทาบ,,Surin,Samrong Thap,,15.066667,103.933333,N,E,15.04N,103.56E
+855,หนองคาย,ท่าบ่อ,,Nong Khai,Tha Bo,,17.8,102.55,N,E,17.48N,102.33E
+856,หนองคาย,โพนพิสัย,,Nong Khai,Phon Phisai,,17.95,103.166667,N,E,17.57N,103.10E
+857,หนองคาย,เมืองหนองคาย,,Nong Khai,Mueang Nong Khai,,17.833333,102.766667,N,E,17.50N,102.46E
+858,หนองคาย,สระใคร,,Nong Khai,Sa Khrai,,17.65,102.683333,N,E,17.39N,102.41E
+859,หนองคาย,สังคม,,Nong Khai,Sangkhom,,18.033333,102.233333,N,E,18.02N,102.14E
+860,หนองบัวลำภู,นากลาง,,Nong Bua Lam Phu,Na Klang,,17.366667,102.25,N,E,17.22N,102.15E
+861,หนองบัวลำภู,นาวัง,,Nong Bua Lam Phu,Na Wang,,17.366667,102.083333,N,E,17.22N,102.05E
+862,หนองบัวลำภู,โนนสัง,,Nong Bua Lam Phu,Non Sang,,16.9,102.516667,N,E,16.54N,102.31E
+863,หนองบัวลำภู,เมืองหนองบัวลำภู,,Nong Bua Lam Phu,Mueang Nong Bua Lam Phu,,17.2,102.366667,N,E,17.12N,102.22E
+864,หนองบัวลำภู,ศรีบุญเรือง,,Nong Bua Lam Phu,Si Bun Ruang,,16.916667,102.216667,N,E,16.55N,102.13E
+865,หนองบัวลำภู,สุวรรณคูหา,,Nong Bua Lam Phu,Suwannakhuha,,17.616667,102.216667,N,E,17.37N,102.13E
+866,อยุธยา,ท่าเรือ,,Phra Nakhon Si Ayutthaya,Tha Ruea,,14.45,100.633333,N,E,14.27N,100.38E
+867,อยุธยา,นครหลวง,,Phra Nakhon Si Ayutthaya,Nakhon Luang,,14.466667,100.633333,N,E,14.28N,100.38E
+868,อยุธยา,บางซ้าย,,Phra Nakhon Si Ayutthaya,Bang Sai,,14.316667,100.316667,N,E,14.19N,100.19E
+869,อยุธยา,บางไทร,,Phra Nakhon Si Ayutthaya,Bang Sai Ayutthaya,,14.15,100.5,N,E,14.09N,100.30E
+870,อยุธยา,บางบาล,,Phra Nakhon Si Ayutthaya,Bang Ban,,14.383333,100.466667,N,E,14.23N,100.28E
+871,อยุธยา,บางปะหัน,,Phra Nakhon Si Ayutthaya,Bang Pahan,,14.5,100.55,N,E,14.30N,100.33E
+872,อยุธยา,บางปะอิน,,Phra Nakhon Si Ayutthaya,Bang Pa-in,,14.266667,100.6,N,E,14.16N,100.36E
+873,อยุธยา,บ้านแพรก,,Phra Nakhon Si Ayutthaya,Ban Phraek,,14.65,100.566667,N,E,14.39N,100.34E
+874,อยุธยา,ผักไห่,,Phra Nakhon Si Ayutthaya,Phak Hai,,14.45,100.333333,N,E,14.27N,100.20E
+875,อยุธยา,พระนครศรีอยุธยา,,Phra Nakhon Si Ayutthaya,Phra Nakhon Si Ayutthaya,,14.316667,100.566667,N,E,14.19N,100.34E
+876,อยุธยา,ภาชี,,Phra Nakhon Si Ayutthaya,Phachi,,14.433333,100.716667,N,E,14.26N,100.43E
+877,อยุธยา,มหาราช,,Phra Nakhon Si Ayutthaya,Maha Rat,,14.566667,100.55,N,E,14.34N,100.33E
+878,อยุธยา,ลาดบัวหลวง,,Phra Nakhon Si Ayutthaya,Lat Bua Luang,,14.183333,100.316667,N,E,14.11N,100.19E
+879,อยุธยา,วังน้อย,,Phra Nakhon Si Ayutthaya,Wang Noi,,14.233333,100.733333,N,E,14.14N,100.44E
+880,อยุธยา,เสนา,,Phra Nakhon Si Ayutthaya,Sena,,14.233333,100.366667,N,E,14.14N,100.22E
+881,อยุธยา,อุทัย,,Phra Nakhon Si Ayutthaya,Uthai,,14.333333,100.55,N,E,14.20N,100.33E
+882,อ่างทอง,ไชโย,,Ang Thong,Chaiyo,,14.666667,100.483333,N,E,14.40N,100.29E
+883,อ่างทอง,ป่าโมก,,Ang Thong,Pa Mok,,14.516667,100.45,N,E,14.31N,100.27E
+884,อ่างทอง,โพธิ์ทอง,,Ang Thong,Pho Thong,,14.683333,100.333333,N,E,14.41N,100.20E
+885,อ่างทอง,เมืองอ่างทอง,,Ang Thong,Mueang Ang Thong,,14.55,100.433333,N,E,14.33N,100.26E
+886,อ่างทอง,วิเศษชัยชาญ,,Ang Thong,Wiset Chai Chan,,14.533333,100.316667,N,E,14.32N,100.19E
+887,อ่างทอง,สามโก้,,Ang Thong,Sam Ko,,14.616667,100.25,N,E,14.37N,100.15E
+888,อ่างทอง,แสวงหา,,Ang Thong,Sawaeng Ha,,14.733333,100.3,N,E,14.44N,100.18E
+889,อำนาจเจริญ,พนา,,Amnat Charoen,Phana,,15.883333,104.916667,N,E,15.53N,104.55E
+890,อำนาจเจริญ,เมืองอำนาจเจริญ,,Amnat Charoen,Mueang Amnat Charoen,,15.85,104.65,N,E,15.51N,104.39E
+891,อำนาจเจริญ,เสนางคนิคม,,Amnat Charoen,Senangkhanikhom,,16.033333,104.666667,N,E,16.02N,104.40E
+892,อำนาจเจริญ,หัวตะพาน,,Amnat Charoen,Hua Taphan,,15.883333,104.733333,N,E,15.53N,104.44E
+893,อุดรธานี,กุดจับ,,Udon Thani,Kut Chap,,17.45,102.516667,N,E,17.27N,102.31E
+894,อุดรธานี,กุมภวาปี,,Udon Thani,Kumphawapi,,17.1,103.016667,N,E,17.06N,103.01E
+895,อุดรธานี,กู่แก้ว,,Udon Thani,Ku Kaeo,,17.116667,103.183333,N,E,17.07N,103.11E
+896,อุดรธานี,ไชยวาน,,Udon Thani,Chai Wan,,17.216667,103.316667,N,E,17.13N,103.19E
+897,อุดรธานี,ทุ่งฝน,,Udon Thani,Thung Fon,,17.533333,103.233333,N,E,17.32N,103.14E
+898,อุดรธานี,นายูง,,Udon Thani,Na Yung,,17.95,102.166667,N,E,17.57N,102.10E
+899,อุดรธานี,น้ำโสม,,Udon Thani,Nam Som,,17.75,102.166667,N,E,17.45N,102.10E
+900,อุดรธานี,โนนสะอาด,,Udon Thani,Non Sa-at,,16.966667,102.933333,N,E,16.58N,102.56E
+901,อุดรธานี,บ้านดุง,,Udon Thani,Ban Dung,,17.683333,103.25,N,E,17.41N,103.15E
+902,อุดรธานี,บ้านผือ,,Udon Thani,Ban Phue,,17.566667,102.516667,N,E,17.34N,102.31E
+903,อุดรธานี,พิบูลรักษ์,,Udon Thani,Phibun Rak,,17.533333,103.083333,N,E,17.32N,103.05E
+904,อุดรธานี,เพ็ญ,,Udon Thani,Phen,,17.633333,102.933333,N,E,17.38N,102.56E
+905,อุดรธานี,เมืองอุดรธานี,,Udon Thani,Mueang Udon Thani,,17.366667,102.766667,N,E,17.22N,102.46E
+906,อุดรธานี,วังสามหมอ,,Udon Thani,Wang Sam Mo,,17.1,103.5,N,E,17.06N,103.30E
+907,อุดรธานี,ศรีธาตุ,,Udon Thani,Si That,,17.0,103.216667,N,E,17.00N,103.13E
+908,อุดรธานี,สร้างคอม,,Udon Thani,Sang Khom,,17.766667,103.05,N,E,17.46N,103.03E
+909,อุดรธานี,หนองวัวซอ,,Udon Thani,Nong Wua So,,17.1,102.616667,N,E,17.06N,102.37E
+910,อุดรธานี,หนองแสง,,Udon Thani,Nong Saeng,,17.166667,102.766667,N,E,17.10N,102.46E
+911,อุดรธานี,หนองหาน,,Udon Thani,Nong Han,,17.416667,103.116667,N,E,17.25N,103.07E
+912,อุตรดิตถ์,ตรอน,,Uttaradit,Tron,,17.45,100.133333,N,E,17.27N,100.08E
+913,อุตรดิตถ์,ทองแสนขัน,,Uttaradit,Thong Saen Khan,,17.483333,100.366667,N,E,17.29N,100.22E
+914,อุตรดิตถ์,ท่าปลา,,Uttaradit,Tha Pla,,17.816667,100.433333,N,E,17.49N,100.26E
+915,อุตรดิตถ์,น้ำปาด,,Uttaradit,Nam Pat,,17.733333,100.783333,N,E,17.44N,100.47E
+916,อุตรดิตถ์,บ้านโคก,,Uttaradit,Ban Khok,,18.216667,101.066667,N,E,18.13N,101.04E
+917,อุตรดิตถ์,พิชัย,,Uttaradit,Phichai,,17.333333,100.166667,N,E,17.20N,100.10E
+918,อุตรดิตถ์,ฟากท่า,,Uttaradit,Fak Tha,,17.883333,100.883333,N,E,17.53N,100.53E
+919,อุตรดิตถ์,เมืองอุตรดิตถ์,,Uttaradit,Mueang Uttaradit,,17.666667,100.216667,N,E,17.40N,100.13E
+920,อุตรดิตถ์,ลับแล,,Uttaradit,Laplae,,17.783333,100.0,N,E,17.47N,100.00E
+921,อุทัยธานี,ทับทัน,,Uthai Thani,Thap Than,,15.5,99.816667,N,E,15.30N,99.49E
+922,อุทัยธานี,บ้านไร่,,Uthai Thani,Ban Rai,,15.1,99.416667,N,E,15.06N,99.25E
+923,อุทัยธานี,เมืองอุทัยธานี,,Uthai Thani,Mueang Uthai Thani,,15.4,100.016667,N,E,15.24N,100.01E
+924,อุทัยธานี,ลานสัก,,Uthai Thani,Lan Sak,,15.5,99.466667,N,E,15.30N,99.28E
+925,อุทัยธานี,สว่างอารมณ์,,Uthai Thani,Sawang Arom,,15.616667,99.816667,N,E,15.37N,99.49E
+926,อุทัยธานี,หนองขาหย่าง,,Uthai Thani,Nong Kha Yang,,15.316667,99.966667,N,E,15.19N,99.58E
+927,อุทัยธานี,หนองฉาง,,Uthai Thani,Nong Chang,,15.316667,99.75,N,E,15.19N,99.45E
+928,อุทัยธานี,ห้วยคต,,Uthai Thani,Huai Khot,,15.3,99.566667,N,E,15.18N,99.34E
+929,อุบลราชธานี,กุดข้าวปุ้น,,Ubon Ratchathani,Kut Khaopun,,15.766667,105.05,N,E,15.46N,105.03E
+930,อุบลราชธานี,เขมราฐ,,Ubon Ratchathani,Khemmarat,,16.033333,105.15,N,E,16.02N,105.09E
+931,อุบลราชธานี,เขื่องใน,,Ubon Ratchathani,Khueang Nai,,15.3,104.566667,N,E,15.18N,104.34E
+932,อุบลราชธานี,โขงเจียม,,Ubon Ratchathani,Khong Chiam,,15.45,105.5,N,E,15.27N,105.30E
+933,อุบลราชธานี,ดอนมดแดง,,Ubon Ratchathani,Don Mot Daeng,,15.366667,105.0,N,E,15.22N,105.00E
+934,อุบลราชธานี,เดชอุดม,,Ubon Ratchathani,Det Udom,,14.85,105.05,N,E,14.51N,105.03E
+935,อุบลราชธานี,ตระการพืชผล,,Ubon Ratchathani,Trakan Phuet Phon,,15.7,105.083333,N,E,15.42N,105.05E
+936,อุบลราชธานี,ตาลสุม,,Ubon Ratchathani,Tan Sum,,15.4,105.15,N,E,15.24N,105.09E
+937,อุบลราชธานี,ทุ่งศรีอุดม,,Ubon Ratchathani,Thung Si Udom,,14.766667,104.95,N,E,14.46N,104.57E
+938,อุบลราชธานี,นาจะหลวย,,Ubon Ratchathani,Na Chaluai,,14.633333,105.2,N,E,14.38N,105.12E
+939,อุบลราชธานี,นาตาล,,Ubon Ratchathani,Na Tan,,15.9,105.266667,N,E,15.54N,105.16E
+940,อุบลราชธานี,น้ำยืน,,Ubon Ratchathani,Nam Yuen,,14.533333,104.983333,N,E,14.32N,104.59E
+941,อุบลราชธานี,บุณฑริก,,Ubon Ratchathani,Buntharik,,14.866667,105.416667,N,E,14.52N,105.25E
+942,อุบลราชธานี,พิบูลมังสาหาร,,Ubon Ratchathani,Phibun Mangsahan,,15.083333,105.233333,N,E,15.05N,105.14E
+943,อุบลราชธานี,โพธิ์ไทร,,Ubon Ratchathani,Pho Sai,,15.716667,105.383333,N,E,15.43N,105.23E
+944,อุบลราชธานี,ม่วงสามสิบ,,Ubon Ratchathani,Muang Sam Sip,,15.533333,104.716667,N,E,15.32N,104.43E
+945,อุบลราชธานี,เมืองอุบลราชธานี,,Ubon Ratchathani,Mueang Ubon Ratchathani,,15.333333,104.85,N,E,15.20N,104.51E
+946,อุบลราชธานี,วารินชำราบ,,Ubon Ratchathani,Warin Chamrap,,15.216667,105.0,N,E,15.13N,105.00E
+947,อุบลราชธานี,ศรีเมืองใหม่,,Ubon Ratchathani,Si Mueang Mai,,15.583333,105.35,N,E,15.35N,105.21E
+948,อุบลราชธานี,สำโรง,,Ubon Ratchathani,Samrong,,15.016667,104.783333,N,E,15.01N,104.47E
+949,อุบลราชธานี,สิรินธร,,Ubon Ratchathani,Sirindhorn,,14.983333,105.483333,N,E,14.59N,105.29E
+950,อุบลราชธานี,เหล่าเสือโก้ก,,Ubon Ratchathani,Lao Suea Kok,,15.433333,104.9,N,E,15.26N,104.54E
