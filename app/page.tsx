@@ -545,7 +545,7 @@ export default function Home() {
 
             {activeTab === 'chart' && (
               <div className="animate-fade-in-up">
-                <RasiChart lang={lang} />
+                <RasiChart data={result} lang={lang} />
               </div>
             )}
           </div>
