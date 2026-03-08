@@ -16,8 +16,8 @@ interface Props {
   lang: Language;
   currentLat: number | string;
   currentLng: number | string;
-  onSelect: (lat: number, lng: number) => void;
-  onClear: () => void; // NEW: เพิ่มฟังก์ชันเคลียร์ค่า Input แจ้งกลับไปที่ Parent
+  onSelect: (lat: number, lng: number, placeName: string) => void;
+  onClear: () => void;
 }
 
 export default function ThaiLocationSelect({
@@ -30,21 +30,18 @@ export default function ThaiLocationSelect({
   const t = translations[lang].form;
   const [data, setData] = useState<GeoRecord[]>([]);
 
-  // States for the 3 dropdowns
   const [p, setP] = useState<string>('');
   const [d, setD] = useState<string>('');
   const [s, setS] = useState<string>('');
 
-  // State to track external coordinate changes for Derived State checking
   const [prevLat, setPrevLat] = useState(currentLat);
   const [prevLng, setPrevLng] = useState(currentLng);
 
-  // 1. Fetch & Parse CSV efficiently on mount
   useEffect(() => {
     fetch('/data/ThailandGeography.csv')
       .then((res) => res.text())
       .then((text) => {
-        const lines = text.split('\n').slice(1); // skip header
+        const lines = text.split('\n').slice(1);
         const parsed = lines
           .map((line) => {
             const pts = line.replace('\r', '').split(',');
@@ -64,7 +61,6 @@ export default function ThaiLocationSelect({
 
         setData(parsed);
 
-        // Set the requested default value exactly once!
         const def = parsed.find(
           (x) =>
             x.p_th === 'กทม' &&
@@ -75,32 +71,26 @@ export default function ThaiLocationSelect({
           setP(def.p_th);
           setD(def.d_th);
           setS(def.s_th);
-          onSelect(def.lat, def.lng);
+          const name = [def.s_th, def.d_th, def.p_th].join(', ');
+          onSelect(def.lat, def.lng, name);
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 2. Derived State: เคลียร์ตัวเลือกหากผู้ใช้พิมพ์พิกัดเองในช่อง Input
   if (currentLat !== prevLat || currentLng !== prevLng) {
     setPrevLat(currentLat);
     setPrevLng(currentLng);
-
-    // เช็คว่าถ้ามีฟิลเตอร์ตัวไหนถูกเลือกอยู่ ให้เช็คพิกัด
     if (p || d || s) {
       const rec = data.find(
         (x) => x.p_th === p && x.d_th === d && x.s_th === s,
       );
-
       const latNum = Number(currentLat) || 0;
       const lngNum = Number(currentLng) || 0;
-
       const isMatch =
         rec &&
         Math.abs(rec.lat - latNum) < 0.0001 &&
         Math.abs(rec.lng - lngNum) < 0.0001;
-
-      // ถ้าพิกัดที่พิมพ์ไม่ตรงกับข้อมูลใน Dropdown ให้ล้างตัวเลือกทิ้งทั้งหมด
       if (!isMatch) {
         setP('');
         setD('');
@@ -109,7 +99,6 @@ export default function ThaiLocationSelect({
     }
   }
 
-  // 3. Fast uniquely sorted dropdown options with i18n
   const provOpts = useMemo(() => {
     const map = new Map<string, string>();
     data.forEach((x) => {
@@ -137,13 +126,19 @@ export default function ThaiLocationSelect({
     return Array.from(map.entries()).sort((a, b) => a[0].localeCompare(b[0]));
   }, [data, p, d]);
 
-  // 4. Nested Handlers for Auto-Selection
+  const getLocName = (r: GeoRecord | undefined) => {
+    if (!r) return '';
+    return lang === 'th'
+      ? [r.s_th, r.d_th, r.p_th].join(', ')
+      : [r.s_en, r.d_en, r.p_en].join(', ');
+  };
+
   const handleProv = (newP: string) => {
     if (!newP) {
       setP('');
       setD('');
       setS('');
-      onClear(); // ล้างพิกัด
+      onClear();
       return;
     }
     const newDists = data.filter((x) => x.p_th === newP);
@@ -154,14 +149,14 @@ export default function ThaiLocationSelect({
     setP(newP);
     setD(firstD);
     setS(firstS);
-    if (rec) onSelect(rec.lat, rec.lng);
+    if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
   };
 
   const handleDist = (newD: string) => {
     if (!newD) {
       setD('');
       setS('');
-      onClear(); // ล้างพิกัด
+      onClear();
       return;
     }
     const newSubs = data.filter((x) => x.p_th === p && x.d_th === newD);
@@ -170,23 +165,23 @@ export default function ThaiLocationSelect({
 
     setD(newD);
     setS(firstS);
-    if (rec) onSelect(rec.lat, rec.lng);
+    if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
   };
 
   const handleSub = (newS: string) => {
     if (!newS) {
       setS('');
-      onClear(); // ล้างพิกัด
+      onClear();
       return;
     }
     const rec = data.find(
       (x) => x.p_th === p && x.d_th === d && x.s_th === newS,
     );
     setS(newS);
-    if (rec) onSelect(rec.lat, rec.lng);
+    if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
   };
 
-  if (data.length === 0) return null; // Invisible until loaded
+  if (data.length === 0) return null;
 
   return (
     <div className="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100 mb-6 space-y-3 shadow-sm">
@@ -198,7 +193,7 @@ export default function ThaiLocationSelect({
             setP('');
             setD('');
             setS('');
-            onClear(); // ล้างพิกัดเมื่อกดปุ่ม Clear Selection
+            onClear();
           }}
           className="text-xs font-semibold text-red-500 hover:text-red-700 transition"
         >

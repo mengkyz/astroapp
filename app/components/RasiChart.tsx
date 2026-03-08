@@ -189,6 +189,7 @@ interface RasiChartProps {
   lang: Language;
   birthDateText?: string;
   birthTimeText?: string;
+  printMode?: boolean; // <-- เพิ่มบรรทัดนี้สำหรับโหมด Print PDF
 }
 
 interface Occupant {
@@ -203,6 +204,7 @@ export default function RasiChart({
   lang,
   birthDateText,
   birthTimeText,
+  printMode, // <-- รับค่า PrintMode
 }: RasiChartProps) {
   const t = translations[lang];
   const containerRef = useRef<HTMLDivElement>(null);
@@ -222,12 +224,13 @@ export default function RasiChart({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isModalOpen) document.body.style.overflow = 'hidden';
+    // ปิดการ scroll body เฉพาะตอนไม่ใช้โหมดพิมพ์
+    if (!printMode && isModalOpen) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'unset';
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, printMode]);
 
   useEffect(() => {
     if (tooltipRef.current && tooltip.visible) {
@@ -238,29 +241,39 @@ export default function RasiChart({
 
   useEffect(() => {
     if (contentWrapperRef.current) {
-      contentWrapperRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+      if (printMode) {
+        contentWrapperRef.current.style.transform = `translate(0px, 0px) scale(1)`;
+      } else {
+        contentWrapperRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+      }
     }
-  }, [position.x, position.y, scale]);
+  }, [position.x, position.y, scale, printMode]);
 
-  const showTooltip = useCallback((e: React.MouseEvent, text: string) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setTooltip({
-      visible: true,
-      text,
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }, []);
+  const showTooltip = useCallback(
+    (e: React.MouseEvent, text: string) => {
+      if (printMode || !containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      setTooltip({
+        visible: true,
+        text,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    },
+    [printMode],
+  );
 
-  const updateTooltip = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setTooltip((prev) => {
-      if (!prev.visible) return prev;
-      return { ...prev, x: e.clientX - rect.left, y: e.clientY - rect.top };
-    });
-  }, []);
+  const updateTooltip = useCallback(
+    (e: React.MouseEvent) => {
+      if (printMode || !containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      setTooltip((prev) => {
+        if (!prev.visible) return prev;
+        return { ...prev, x: e.clientX - rect.left, y: e.clientY - rect.top };
+      });
+    },
+    [printMode],
+  );
 
   const hideTooltip = useCallback(() => {
     setTooltip((prev) => ({ ...prev, visible: false }));
@@ -762,18 +775,23 @@ export default function RasiChart({
 
   return (
     <>
-      {isModalOpen && <div className="w-full h-[70vh] min-h-[500px]" />}
+      {/* ซ่อน Background ของ Modal ตอนสั่งปริ้น */}
+      {!printMode && isModalOpen && (
+        <div className="w-full h-[70vh] min-h-[500px]" />
+      )}
 
       <div
         className={
-          isModalOpen
-            ? 'fixed inset-0 z-50 bg-white/95 backdrop-blur-sm p-4 md:p-8 flex flex-col items-center space-y-4 overflow-hidden'
-            : 'w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4 relative'
+          printMode
+            ? 'w-full flex flex-col items-center justify-center' // รูปแบบสำหรับโหมดปริ้น
+            : isModalOpen
+              ? 'fixed inset-0 z-50 bg-white/95 backdrop-blur-sm p-4 md:p-8 flex flex-col items-center space-y-4 overflow-hidden'
+              : 'w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4 relative'
         }
         ref={containerRef}
       >
         {/* TOOLTIP OVERLAY */}
-        {tooltip.visible && (
+        {!printMode && tooltip.visible && (
           <div
             ref={tooltipRef}
             className="absolute z-50 bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full mt-[-10px] whitespace-nowrap"
@@ -783,157 +801,162 @@ export default function RasiChart({
           </div>
         )}
 
-        {/* TOOLBAR CONTROLS */}
-        <div className="w-full flex justify-between items-center max-w-5xl">
-          <div className="flex items-center space-x-1 bg-gray-100 p-1.5 rounded-lg border border-gray-200 shadow-sm">
-            <button
-              onClick={handleZoomOut}
-              className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
-              title="Zoom Out"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        {/* TOOLBAR CONTROLS - ซ่อนเมื่อสั่ง Print */}
+        {!printMode && (
+          <div className="w-full flex justify-between items-center max-w-5xl">
+            <div className="flex items-center space-x-1 bg-gray-100 p-1.5 rounded-lg border border-gray-200 shadow-sm">
+              <button
+                onClick={handleZoomOut}
+                className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+                title="Zoom Out"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20 12H4"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={handleReset}
-              className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
-              title="Reset View"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20 12H4"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={handleReset}
+                className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+                title="Reset View"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={handleZoomIn}
-              className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
-              title="Zoom In"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={handleZoomIn}
+                className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+                title="Zoom In"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-            </button>
-            <div className="px-3 flex items-center text-xs font-semibold text-gray-500 border-l border-gray-300 ml-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mr-1.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
-                />
-              </svg>
-              Drag to Move
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+              </button>
+              <div className="px-3 flex items-center text-xs font-semibold text-gray-500 border-l border-gray-300 ml-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 mr-1.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
+                  />
+                </svg>
+                Drag to Move
+              </div>
             </div>
-          </div>
 
-          <button
-            onClick={() => setIsModalOpen(!isModalOpen)}
-            className="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors border border-indigo-100 shadow-sm"
-          >
-            {isModalOpen ? (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-                <span className="hidden sm:inline">
-                  {lang === 'th' ? 'ปิดหน้าต่าง' : 'Close'}
-                </span>
-              </>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                  />
-                </svg>
-                <span className="hidden sm:inline">
-                  {lang === 'th' ? 'ขยายเต็มจอ' : 'Enlarge'}
-                </span>
-              </>
-            )}
-          </button>
-        </div>
+            <button
+              onClick={() => setIsModalOpen(!isModalOpen)}
+              className="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors border border-indigo-100 shadow-sm"
+            >
+              {isModalOpen ? (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                  <span className="hidden sm:inline">
+                    {lang === 'th' ? 'ปิดหน้าต่าง' : 'Close'}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                    />
+                  </svg>
+                  <span className="hidden sm:inline">
+                    {lang === 'th' ? 'ขยายเต็มจอ' : 'Enlarge'}
+                  </span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
 
         <div
           className={
-            isModalOpen
-              ? `relative w-full flex-1 min-h-0 overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`
-              : `relative w-full h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`
+            printMode
+              ? 'relative w-[800px] h-[800px] mx-auto mt-10' // ขนาด Fix สำหรับหน้ากระดาษ A4 ตอน Print
+              : isModalOpen
+                ? `relative w-full flex-1 min-h-0 overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`
+                : `relative w-full h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`
           }
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleMouseUp}
+          // ปิดการกระทำเมาส์ทุกอย่างเมื่ออยู่ในโหมด Print
+          onMouseDown={!printMode ? handleMouseDown : undefined}
+          onMouseMove={!printMode ? handleMouseMove : undefined}
+          onMouseUp={!printMode ? handleMouseUp : undefined}
+          onMouseLeave={!printMode ? handleMouseUp : undefined}
+          onTouchStart={!printMode ? handleTouchStart : undefined}
+          onTouchMove={!printMode ? handleTouchMove : undefined}
+          onTouchEnd={!printMode ? handleMouseUp : undefined}
         >
           <div
             ref={contentWrapperRef}
-            className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
+            className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${!printMode && isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
           >
             <svg
               viewBox="-500 -500 1000 1000"
-              className="w-full h-full max-w-[900px] max-h-[900px] drop-shadow-sm bg-white pointer-events-auto"
+              className={`w-full h-full max-w-[900px] max-h-[900px] bg-white ${printMode ? '' : 'drop-shadow-sm pointer-events-auto'}`}
             >
               <g id="ring-1-dasha">{ring1}</g>
               <g id="ring-2-navamsa-lord">{ring2}</g>
