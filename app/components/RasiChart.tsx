@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -158,6 +158,7 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // --- Zoom & Pan State ---
   const [scale, setScale] = useState(1);
@@ -201,13 +202,18 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     }
   };
 
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+    }
+  }, [position.x, position.y, scale]);
+
   // --- Refactored Radii Configuration ---
   const CENTER_RADIUS = 35;
   const RASI_INNER = 35;
   const RASI_OUTER = 115;
   const NAV_INNER = 115;
   const NAV_OUTER = 185;
-  // GAP is deliberately left between 185 and 245 for Pada expansion!
   const PL_INNER_BASE = 245;
   const PL_OUTER = 275;
   const DREK_INNER = 275;
@@ -299,7 +305,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang]);
 
-  // --- Dynamic Single-Layer Pada Engine (replaces ring 5 and 6) ---
   const { ring2, ring5 } = useMemo(() => {
     const r2 = [];
     const r5 = [];
@@ -335,6 +340,17 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
+      // --- เงื่อนไขนวางค์ขาด (Gandanta Points) ---
+      // i = 35: อาศเลขา (9) บาทที่ 4
+      // i = 71: เชฏฐา (18) บาทที่ 4
+      // i = 107: เรวตี (27) บาทที่ 4
+      const isGandanta = i === 35 || i === 71 || i === 107;
+      const bgFill = isGandanta
+        ? '#fee2e2'
+        : i % 2 === 0
+          ? '#f1f5f9'
+          : '#ffffff';
+
       // Navamsa Lord
       const navSign = (i % 12) + 1;
       const lordKey = SIGN_LORDS[navSign];
@@ -354,7 +370,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
               startAngle,
               endAngle,
             )}
-            fill={i % 2 === 0 ? '#f1f5f9' : '#ffffff'}
+            fill={bgFill} // ใช้สีพื้นหลังที่เช็คแล้ว
             stroke="#cbd5e1"
             strokeWidth="0.5"
           />
@@ -372,10 +388,8 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
 
       const occs = padaOccupants[i];
 
-      // Dynamic Height Calculation: Widen inward if multiple planets
       let currentInner = PL_INNER_BASE;
       if (occs.length > 1) {
-        // Expand inward by 20px per additional planet, but don't crash into Navamsa
         currentInner = Math.max(
           NAV_OUTER + 5,
           PL_INNER_BASE - (occs.length - 1) * 20,
@@ -387,19 +401,17 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         <path
           key={`r5-bg-${i}`}
           d={getSlicePath(currentInner, PL_OUTER, startAngle, endAngle)}
-          fill={i % 2 === 0 ? '#f1f5f9' : '#ffffff'}
-          stroke="#e2e8f0"
+          fill={bgFill} // ใช้สีพื้นหลังที่เช็คแล้ว
+          stroke={isGandanta ? '#fca5a5' : '#e2e8f0'} // เน้นเส้นขอบถ้าเป็นจุดพิษ
           strokeWidth="0.5"
         />,
       );
 
-      // Auto-Center Planets within the dynamically expanded slice
       if (occs.length > 0) {
         const sliceWidth = PL_OUTER - currentInner;
         const stepR = sliceWidth / occs.length;
 
         occs.forEach((occ, idx) => {
-          // Center each planet perfectly inside its dynamic subdivision
           const rPos = polarToCartesian(
             PL_OUTER - stepR / 2 - idx * stepR,
             midAngle,
@@ -749,10 +761,8 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         onTouchEnd={handleMouseUp}
       >
         <div
+          ref={containerRef}
           className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
-          style={{
-            transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-          }}
         >
           <svg
             ref={svgRef}
@@ -764,7 +774,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             <g id="ring-3-nakshatra">{ring3}</g>
             <g id="ring-4-drekkana">{ring4}</g>
 
-            {/* NEW: Single Dynamic Pada Ring */}
             <g id="ring-5-pada-dynamic">{ring5}</g>
 
             <g id="ring-7-navamsa-chart">
