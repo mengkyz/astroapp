@@ -5,6 +5,7 @@ import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
 import ThaiLocationSelect from './components/ThaiLocationSelect';
 import RasiChart from './components/RasiChart';
+import RerkResult from './components/RerkResult'; // <-- นำเข้า Component ใหม่
 import { translations, Language } from '@/lib/i18n/translations';
 
 // Extract types
@@ -65,9 +66,11 @@ export default function Home() {
   const [yearInput, setYearInput] = useState<string>('');
   const [result, setResult] = useState<ChartResult | null>(null);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'planets' | 'dasha' | 'chart'>(
-    'planets',
-  );
+
+  // เพิ่ม 'rerk' เข้าไปใน Type ของ Tab
+  const [activeTab, setActiveTab] = useState<
+    'planets' | 'dasha' | 'chart' | 'rerk'
+  >('planets');
 
   useEffect(() => {
     const now = new Date();
@@ -323,7 +326,6 @@ export default function Home() {
                 {t.form.locationDetails}
               </h3>
 
-              {/* THAILAND QUICK SELECTOR */}
               <ThaiLocationSelect
                 lang={lang}
                 currentLat={formData.latitude}
@@ -525,6 +527,14 @@ export default function Home() {
               >
                 {t.tabs.chart}
               </button>
+              {/* ปุ่มเพิ่มใหม่ สำหรับแท็บ ฤกษ์ส่วนตัว */}
+              <button
+                type="button"
+                onClick={() => setActiveTab('rerk')}
+                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'rerk' ? 'border-b-4 border-emerald-600 text-emerald-900' : 'text-gray-400 hover:text-emerald-600'}`}
+              >
+                {lang === 'th' ? 'ฤกษ์ส่วนตัว' : 'Personal Rerk'}
+              </button>
             </div>
 
             {activeTab === 'planets' && (
@@ -555,6 +565,13 @@ export default function Home() {
                       : `Time: ${String(formData.hour).padStart(2, '0')}:${String(formData.minute).padStart(2, '0')}:${String(formData.second).padStart(2, '0')}`
                   }
                 />
+              </div>
+            )}
+
+            {/* ส่วนแสดงผล RerkResult เมื่อกดแท็บ */}
+            {activeTab === 'rerk' && (
+              <div className="animate-fade-in-up">
+                <RerkResult data={result} lang={lang} />
               </div>
             )}
           </div>
