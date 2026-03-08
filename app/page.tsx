@@ -4,6 +4,7 @@ import { useState, useEffect, ComponentProps } from 'react';
 import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
 import ThaiLocationSelect from './components/ThaiLocationSelect';
+import RasiChart from './components/RasiChart';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // Extract types
@@ -64,7 +65,9 @@ export default function Home() {
   const [yearInput, setYearInput] = useState<string>('');
   const [result, setResult] = useState<ChartResult | null>(null);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'planets' | 'dasha'>('planets');
+  const [activeTab, setActiveTab] = useState<'planets' | 'dasha' | 'chart'>(
+    'planets',
+  );
 
   useEffect(() => {
     const now = new Date();
@@ -497,29 +500,39 @@ export default function Home() {
           </div>
         </form>
 
+        {/* Output Tables below (unchanged logic) */}
         {result && (
           <div className="mt-8">
-            <div className="flex space-x-6 border-b border-gray-300 mb-6 px-2">
+            <div className="flex space-x-6 border-b border-gray-300 mb-6 px-2 overflow-x-auto">
               <button
                 type="button"
                 onClick={() => setActiveTab('planets')}
-                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 ${activeTab === 'planets' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
+                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'planets' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
               >
                 {t.tabs.planets}
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('dasha')}
-                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 ${activeTab === 'dasha' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
+                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'dasha' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
               >
                 {t.tabs.dasha}
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('chart')}
+                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'chart' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
+              >
+                {t.tabs.chart}
+              </button>
             </div>
+
             {activeTab === 'planets' && (
               <div className="animate-fade-in-up">
                 <PlanetTable data={result} lang={lang} />
               </div>
             )}
+
             {activeTab === 'dasha' && result.dasha && (
               <div className="animate-fade-in-up">
                 <DashaTable
@@ -527,6 +540,12 @@ export default function Home() {
                   birthDateLocalStr={result.birthDateLocalStr}
                   lang={lang}
                 />
+              </div>
+            )}
+
+            {activeTab === 'chart' && (
+              <div className="animate-fade-in-up">
+                <RasiChart lang={lang} />
               </div>
             )}
           </div>

@@ -42,7 +42,11 @@ export const translations = {
       'November',
       'December',
     ],
-    tabs: { planets: 'Planet Positions', dasha: 'Vimshottari Dasha' },
+    tabs: {
+      planets: 'Planet Positions',
+      dasha: 'Vimshottari Dasha',
+      chart: 'Rasi Chart',
+    },
     planetTable: {
       planet: 'Planet',
       rasi: 'Sign',
@@ -185,7 +189,11 @@ export const translations = {
       'พฤศจิกายน',
       'ธันวาคม',
     ],
-    tabs: { planets: 'ตำแหน่งดาว', dasha: 'ทศา (Vimshottari)' },
+    tabs: {
+      planets: 'ตำแหน่งดาว',
+      dasha: 'ทศา (Vimshottari)',
+      chart: 'ดวงราศีจักร',
+    },
     planetTable: {
       planet: 'ดาว/ปัจจัย',
       rasi: 'ราศี',
