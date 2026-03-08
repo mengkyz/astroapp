@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -29,6 +29,13 @@ function getSlicePath(
     `Z`,
   ].join(' ');
 }
+
+// --- Helpers ---
+const formatDegMin = (lon: number) => {
+  const deg = Math.floor(lon % 30);
+  const min = Math.floor((lon % 1) * 60);
+  return `${deg.toString().padStart(2, '0')}° ${min.toString().padStart(2, '0')}'`;
+};
 
 const PLANET_ORDER = [
   'SUN',
@@ -107,6 +114,7 @@ const THAI_PLANET_NAMES: Record<string, string> = {
   SATURN: 'เสาร์',
   RAHU: 'ราหู',
   KETU: 'เกตุ',
+  URANUS: 'มฤตยู',
 };
 
 const toThaiNumerals = (num: number) => {
@@ -118,24 +126,22 @@ const toThaiNumerals = (num: number) => {
     .join('');
 };
 
-// --- DREKKANA HARDCODED REFERENCE ---
-// อ้างอิงดาวเจ้าตรียางค์และช่องที่ต้องเน้นสีแดงตามฉบับของคุณพ่อ 100%
 const DREKKANA_REFERENCE: Record<
   number,
   { lords: string[]; redIndex: number }
 > = {
-  1: { lords: ['MARS', 'SUN', 'JUPITER'], redIndex: 1 }, // เมษ => ๓(red), ๑, ๕
-  2: { lords: ['VENUS', 'MERCURY', 'SATURN'], redIndex: 2 }, // พฤษภ => ๖, ๔(red), ๗
-  3: { lords: ['MERCURY', 'VENUS', 'SATURN'], redIndex: 3 }, // มิถุน => ๔, ๖, ๗(red)
-  4: { lords: ['MOON', 'MARS', 'JUPITER'], redIndex: 3 }, // กรกฎ => ๒, ๓, ๕(red)
-  5: { lords: ['SUN', 'JUPITER', 'MARS'], redIndex: 2 }, // สิงห์ => ๑, ๕(red), ๓
-  6: { lords: ['MERCURY', 'SATURN', 'VENUS'], redIndex: 1 }, // กันย์ => ๔(red), ๗, ๖
-  7: { lords: ['VENUS', 'SATURN', 'MERCURY'], redIndex: 2 }, // ตุลย์ => ๖, ๗(red), ๔
-  8: { lords: ['MARS', 'JUPITER', 'MOON'], redIndex: 3 }, // พิจิก => ๓, ๕, ๒(red)
-  9: { lords: ['JUPITER', 'MARS', 'SUN'], redIndex: 1 }, // ธนู => ๕(red), ๓, ๑
-  10: { lords: ['SATURN', 'VENUS', 'MERCURY'], redIndex: 3 }, // มกร => ๗, ๖, ๔(red)
-  11: { lords: ['SATURN', 'MERCURY', 'VENUS'], redIndex: 2 }, // กุมภ์ => ๗, ๔(red), ๖
-  12: { lords: ['JUPITER', 'MOON', 'MARS'], redIndex: 1 }, // มีน => ๕(red), ๒, ๓
+  1: { lords: ['MARS', 'SUN', 'JUPITER'], redIndex: 1 },
+  2: { lords: ['VENUS', 'MERCURY', 'SATURN'], redIndex: 2 },
+  3: { lords: ['MERCURY', 'VENUS', 'SATURN'], redIndex: 3 },
+  4: { lords: ['MOON', 'MARS', 'JUPITER'], redIndex: 3 },
+  5: { lords: ['SUN', 'JUPITER', 'MARS'], redIndex: 2 },
+  6: { lords: ['MERCURY', 'SATURN', 'VENUS'], redIndex: 1 },
+  7: { lords: ['VENUS', 'SATURN', 'MERCURY'], redIndex: 2 },
+  8: { lords: ['MARS', 'JUPITER', 'MOON'], redIndex: 3 },
+  9: { lords: ['JUPITER', 'MARS', 'SUN'], redIndex: 1 },
+  10: { lords: ['SATURN', 'VENUS', 'MERCURY'], redIndex: 3 },
+  11: { lords: ['SATURN', 'MERCURY', 'VENUS'], redIndex: 2 },
+  12: { lords: ['JUPITER', 'MOON', 'MARS'], redIndex: 1 },
 };
 
 interface PlanetData {
@@ -150,25 +156,75 @@ interface LagnaData {
   navamsa: number;
   longitude: number;
 }
+
 interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
+  birthName?: string;
+  birthDateText?: string;
+  birthTimeText?: string;
 }
+
 interface Occupant {
   symbol: string;
   color: string;
   isRetro?: boolean;
+  tooltipText: string;
 }
 
-export default function RasiChart({ data, lang }: RasiChartProps) {
+export default function RasiChart({
+  data,
+  lang,
+  birthName,
+  birthDateText,
+  birthTimeText,
+}: RasiChartProps) {
   const t = translations[lang];
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // --- State สำหรับ Tooltip ---
+  const [tooltip, setTooltip] = useState({
+    visible: false,
+    text: '',
+    x: 0,
+    y: 0,
+  });
 
   // --- Zoom & Pan State ---
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+
+  // FIXED: ครอบด้วย useCallback เพื่อกำจัด ESLint warning แบบสมบูรณ์
+  const showTooltip = useCallback((e: React.MouseEvent, text: string) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setTooltip({
+      visible: true,
+      text,
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  }, []);
+
+  const updateTooltip = useCallback((e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setTooltip((prev) => {
+      if (!prev.visible) return prev;
+      return {
+        ...prev,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    });
+  }, []);
+
+  const hideTooltip = useCallback(() => {
+    setTooltip((prev) => ({ ...prev, visible: false }));
+  }, []);
 
   const handleZoomIn = () => setScale((s) => Math.min(s + 0.4, 4));
   const handleZoomOut = () => setScale((s) => Math.max(s - 0.4, 0.5));
@@ -225,7 +281,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   const exportToPNG = () => {
     const svg = svgRef.current;
     if (!svg) return;
-
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -249,7 +304,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         downloadLink.click();
       }
     };
-
     img.src =
       'data:image/svg+xml;base64,' +
       btoa(unescape(encodeURIComponent(svgData)));
@@ -292,7 +346,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             y={textPos.y}
             textAnchor="middle"
             dominantBaseline="central"
-            className="text-[10px] font-bold fill-indigo-700"
+            className="text-[10px] font-bold fill-indigo-700 pointer-events-none"
           >
             {dashaLabel}
           </text>
@@ -309,12 +363,14 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
 
     if (data.lagna.longitude !== undefined) {
       const pIdx = Math.floor(data.lagna.longitude / (360 / 108));
-      if (pIdx >= 0 && pIdx < 108)
+      if (pIdx >= 0 && pIdx < 108) {
         padaOccupants[pIdx].push({
           symbol: lang === 'th' ? 'ล' : 'Asc',
           color: '#dc2626',
           isRetro: false,
+          tooltipText: `ลัคนา: ${formatDegMin(data.lagna.longitude)}`,
         });
+      }
     }
 
     data.planets.forEach((p) => {
@@ -322,10 +378,22 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         const pIdx = Math.floor(p.longitude / (360 / 108));
         if (pIdx >= 0 && pIdx < 108) {
           const isNode = p.key === 'RAHU' || p.key === 'KETU';
+          const pName =
+            lang === 'th'
+              ? THAI_PLANET_NAMES[p.key]
+              : t.planets[p.key as keyof typeof t.planets];
+          const retroStr =
+            p.isRetrograde && !isNode
+              ? lang === 'th'
+                ? ' [พักร์]'
+                : ' [R]'
+              : '';
+
           padaOccupants[pIdx].push({
             symbol: lang === 'th' ? THAI_SYMBOLS[p.key] : EN_SYMBOLS[p.key],
             color: '#1e293b',
             isRetro: p.isRetrograde && !isNode,
+            tooltipText: `${pName}: ${formatDegMin(p.longitude)}${retroStr}`,
           });
         }
       }
@@ -337,7 +405,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
-      // จุดนวางค์ขาด (Gandanta)
       const isGandanta = i === 35 || i === 71 || i === 107;
       const bgFill = isGandanta
         ? '#fee2e2'
@@ -372,7 +439,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             y={r2Pos.y}
             textAnchor="middle"
             dominantBaseline="central"
-            className="text-[10px] font-bold fill-slate-500"
+            className="text-[10px] font-bold fill-slate-500 pointer-events-none"
           >
             {lordSymbol}
           </text>
@@ -380,7 +447,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       );
 
       const occs = padaOccupants[i];
-
       let currentInner = PL_INNER_BASE;
       if (occs.length > 1) {
         currentInner = Math.max(
@@ -408,30 +474,38 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             PL_OUTER - stepR / 2 - idx * stepR,
             midAngle,
           );
-
           r5.push(
-            <text
+            <g
               key={`r5-occ-${i}-${idx}`}
-              x={rPos.x}
-              y={rPos.y}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill={occ.color}
-              className="text-[12px] font-bold pointer-events-none"
+              className="cursor-pointer transition-transform hover:scale-125"
+              style={{ transformOrigin: `${rPos.x}px ${rPos.y}px` }}
+              onMouseEnter={(e) => showTooltip(e, occ.tooltipText)}
+              onMouseMove={updateTooltip}
+              onMouseLeave={hideTooltip}
             >
-              {occ.symbol}
-              {occ.isRetro && (
-                <tspan dx="1" dy="-5" fill="#dc2626" fontSize="8">
-                  {lang === 'th' ? 'พ' : 'R'}
-                </tspan>
-              )}
-            </text>,
+              <text
+                x={rPos.x}
+                y={rPos.y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill={occ.color}
+                className="text-[12px] font-bold"
+              >
+                {occ.symbol}
+                {occ.isRetro && (
+                  <tspan dx="1" dy="-5" fill="#dc2626" fontSize="8">
+                    {lang === 'th' ? 'พ' : 'R'}
+                  </tspan>
+                )}
+              </text>
+            </g>,
           );
         });
       }
     }
     return { ring2: r2, ring5: r5 };
-  }, [data, lang]);
+    // FIXED: เพิ่ม Dependencies ให้ครบตามข้อบังคับของ ESLint
+  }, [data, lang, t, showTooltip, updateTooltip, hideTooltip]);
 
   const ring3 = useMemo(() => {
     const slices = [];
@@ -463,7 +537,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             y={textPos.y}
             textAnchor="middle"
             dominantBaseline="central"
-            className={`font-bold fill-indigo-800 ${lang === 'th' ? 'text-[8.5px]' : 'text-[6.5px] tracking-tight'}`}
+            className={`font-bold fill-indigo-800 pointer-events-none ${lang === 'th' ? 'text-[8.5px]' : 'text-[6.5px] tracking-tight'}`}
           >
             {nakName} {lordSymbol}
           </text>
@@ -473,7 +547,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang, t.nakshatras]);
 
-  // --- 3. Drekkana Engine (Ring 4 - 36 Slices) ---
   const ring4 = useMemo(() => {
     const slices = [];
     const width = DREK_OUTER - DREK_INNER;
@@ -483,16 +556,13 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + 10;
       const midAngle = startAngle + 5;
 
-      const signNum = Math.floor((i - 1) / 3) + 1; // ราศีที่ 1-12
-      const drekNum = ((i - 1) % 3) + 1; // ช่วงตรียางค์ที่ 1, 2, 3
+      const signNum = Math.floor((i - 1) / 3) + 1;
+      const drekNum = ((i - 1) % 3) + 1;
 
-      // ดึงดาวเจ้าตรียางค์จาก Hardcoded Reference ของคุณพ่อ
       const ref = DREKKANA_REFERENCE[signNum];
       const lordKey = ref.lords[drekNum - 1];
       const lordSymbol =
         lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
-
-      // เน้นสีแดงตามช่องที่ระบุไว้ใน Reference
       const isHighlighted = drekNum === ref.redIndex;
       const textColorClass = isHighlighted
         ? 'fill-red-600 text-[14px]'
@@ -513,7 +583,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             y={textPos.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            className={`font-bold ${textColorClass}`}
+            className={`font-bold pointer-events-none ${textColorClass}`}
           >
             {lordSymbol}
           </text>
@@ -545,16 +615,29 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           symbol: lang === 'th' ? 'ล' : 'Asc',
           color: '#dc2626',
           isRetro: false,
+          tooltipText: `ลัคนา: ${formatDegMin(data.lagna.longitude)}`,
         });
       }
 
       data.planets.forEach((p) => {
         if (p[property] === i && PLANET_ORDER.includes(p.key)) {
           const isNode = p.key === 'RAHU' || p.key === 'KETU';
+          const pName =
+            lang === 'th'
+              ? THAI_PLANET_NAMES[p.key]
+              : t.planets[p.key as keyof typeof t.planets];
+          const retroStr =
+            p.isRetrograde && !isNode
+              ? lang === 'th'
+                ? ' [พักร์]'
+                : ' [R]'
+              : '';
+
           occupants.push({
             symbol: lang === 'th' ? THAI_SYMBOLS[p.key] : EN_SYMBOLS[p.key],
             color: '#1e293b',
             isRetro: p.isRetrograde && !isNode,
+            tooltipText: `${pName}: ${formatDegMin(p.longitude)}${retroStr}`,
           });
         }
       });
@@ -573,22 +656,30 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           const angle = startAngle + angleStep * (idx + 1);
           const pos = polarToCartesian(radius, angle);
           return (
-            <text
+            <g
               key={`occ-${property}-${i}-${idx}-${radius}`}
-              x={pos.x}
-              y={pos.y}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill={occ.color}
-              className="text-[16px] font-bold pointer-events-none"
+              className="cursor-pointer transition-transform hover:scale-125"
+              style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}
+              onMouseEnter={(e) => showTooltip(e, occ.tooltipText)}
+              onMouseMove={updateTooltip}
+              onMouseLeave={hideTooltip}
             >
-              {occ.symbol}
-              {occ.isRetro && (
-                <tspan dx="2" dy="-6" fill="#dc2626" fontSize="10">
-                  {lang === 'th' ? 'พ' : 'R'}
-                </tspan>
-              )}
-            </text>
+              <text
+                x={pos.x}
+                y={pos.y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill={occ.color}
+                className="text-[16px] font-bold"
+              >
+                {occ.symbol}
+                {occ.isRetro && (
+                  <tspan dx="2" dy="-6" fill="#dc2626" fontSize="10">
+                    {lang === 'th' ? 'พ' : 'R'}
+                  </tspan>
+                )}
+              </text>
+            </g>
           );
         });
       };
@@ -609,7 +700,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             y={signTextPos.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-[10px] font-bold fill-gray-400 select-none"
+            className="text-[10px] font-bold fill-gray-400 select-none pointer-events-none"
           >
             {t.signs[i]}
           </text>
@@ -619,7 +710,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
               y={signTextPos.y + 12}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="text-[8px] font-semibold fill-indigo-400 select-none"
+              className="text-[8px] font-semibold fill-indigo-400 select-none pointer-events-none"
             >
               {ringName}
             </text>
@@ -636,7 +727,21 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4">
+    <div
+      className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4 relative"
+      ref={containerRef}
+    >
+      {/* TOOLTIP OVERLAY */}
+      {tooltip.visible && (
+        <div
+          className="absolute z-50 bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full mt-[-10px] whitespace-nowrap"
+          style={{ left: tooltip.x, top: tooltip.y }}
+        >
+          {tooltip.text}
+          <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+        </div>
+      )}
+
       {/* TOOLBAR CONTROLS */}
       <div className="w-full flex justify-between items-center">
         <div className="flex items-center space-x-1 bg-gray-100 p-1.5 rounded-lg border border-gray-200">
@@ -767,7 +872,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             <g id="ring-2-navamsa-lord">{ring2}</g>
             <g id="ring-3-nakshatra">{ring3}</g>
             <g id="ring-4-drekkana">{ring4}</g>
-
             <g id="ring-5-pada-dynamic">{ring5}</g>
 
             <g id="ring-7-navamsa-chart">
@@ -790,6 +894,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
               )}
             </g>
 
+            {/* --- ข้อมูลตรงกลางดวง --- */}
             <circle
               cx="0"
               cy="0"
@@ -799,6 +904,37 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
               strokeWidth="2"
               strokeDasharray="4,4"
             />
+            <text
+              x="0"
+              y={birthDateText ? '-10' : '0'}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-[12px] font-bold fill-indigo-900 pointer-events-none"
+            >
+              {birthName || (lang === 'th' ? 'ดวงชาตา' : 'Natal Chart')}
+            </text>
+            {birthDateText && (
+              <text
+                x="0"
+                y="4"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="text-[7.5px] font-medium fill-slate-600 pointer-events-none"
+              >
+                {birthDateText}
+              </text>
+            )}
+            {birthTimeText && (
+              <text
+                x="0"
+                y="14"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="text-[7px] font-medium fill-slate-500 pointer-events-none"
+              >
+                {birthTimeText}
+              </text>
+            )}
           </svg>
         </div>
       </div>

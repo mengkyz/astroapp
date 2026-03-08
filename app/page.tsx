@@ -545,7 +545,17 @@ export default function Home() {
 
             {activeTab === 'chart' && (
               <div className="animate-fade-in-up">
-                <RasiChart data={result} lang={lang} />
+                <RasiChart
+                  data={result}
+                  lang={lang}
+                  birthName={lang === 'th' ? 'ดวงชาตาพื้นฐาน' : 'Natal Chart'}
+                  birthDateText={`${formData.day} ${t.months[formData.month - 1]} ${lang === 'th' ? formData.year + 543 : formData.year}`}
+                  birthTimeText={
+                    lang === 'th'
+                      ? `เวลา ${String(formData.hour).padStart(2, '0')}:${String(formData.minute).padStart(2, '0')}:${String(formData.second).padStart(2, '0')} น.`
+                      : `Time: ${String(formData.hour).padStart(2, '0')}:${String(formData.minute).padStart(2, '0')}:${String(formData.second).padStart(2, '0')}`
+                  }
+                />
               </div>
             )}
           </div>
