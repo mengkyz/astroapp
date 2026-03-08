@@ -54,11 +54,12 @@ export const translations = {
       min: "Minute (')",
       sec: 'Second (")',
       drekkana: 'Drekkana',
+      poison: 'Poison', // NEW
       navamsa: 'Navamsa',
       nakshatra: 'Nakshatra',
       pada: 'Pada',
       house: 'House',
-      houseLord: 'House Lord', // NEW
+      houseLord: 'House Lord',
       ascendant: 'Ascendant',
       retroSymbol: 'R',
     },
@@ -84,6 +85,7 @@ export const translations = {
       SATURN: 'Saturn',
       RAHU: 'Rahu',
       KETU: 'Ketu',
+      URANUS: 'Uranus', // NEW
     },
     signs: [
       'Dummy',
@@ -129,7 +131,6 @@ export const translations = {
       'Uttara Bhadrapada',
       'Revati',
     ],
-    // NEW: Classical Vedic House Names
     houses: [
       'Dummy',
       'Tanu',
@@ -201,11 +202,12 @@ export const translations = {
       min: "ลิปดา (')",
       sec: 'ฟิลิปดา (")',
       drekkana: 'ตรียางค์',
+      poison: 'พิษ', // NEW
       navamsa: 'นวางค์',
       nakshatra: 'นักษัตร',
       pada: 'บาท',
       house: 'เรือน',
-      houseLord: 'เจ้าเรือน', // NEW
+      houseLord: 'เจ้าเรือน',
       ascendant: 'ลัคนา',
       retroSymbol: 'พ.',
     },
@@ -231,6 +233,7 @@ export const translations = {
       SATURN: '๗. เสาร์',
       RAHU: '๘. ราหู',
       KETU: '๙. เกตุ',
+      URANUS: '๐. มฤตยู', // NEW
     },
     signs: [
       'Dummy',
@@ -276,7 +279,6 @@ export const translations = {
       'อุตรภัทรบท',
       'เรวตี',
     ],
-    // NEW: Classical Thai House Names
     houses: [
       'Dummy',
       'ตนุ',

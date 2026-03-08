@@ -11,19 +11,18 @@ const PLANET_ORDER = [
   'SATURN',
   'RAHU',
   'KETU',
+  'URANUS',
 ];
 
-// Mapping Planets to the Zodiac Signs (1-12) they intrinsically rule.
-// We use the Thai/Vedic hybrid system (Rahu rules Aquarius = 11).
 const PLANET_DOMICILES: Partial<Record<string, number[]>> = {
-  SUN: [5], // Leo
-  MOON: [4], // Cancer
-  MARS: [1, 8], // Aries, Scorpio
-  MERCURY: [3, 6], // Gemini, Virgo
-  JUPITER: [9, 12], // Sagittarius, Pisces
-  VENUS: [2, 7], // Taurus, Libra
-  SATURN: [10], // Capricorn
-  RAHU: [11], // Aquarius
+  SUN: [5],
+  MOON: [4],
+  MARS: [1, 8],
+  MERCURY: [3, 6],
+  JUPITER: [9, 12],
+  VENUS: [2, 7],
+  SATURN: [10],
+  RAHU: [11],
 };
 
 interface PlanetData {
@@ -69,18 +68,28 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
     .filter((p) => PLANET_ORDER.includes(p.key))
     .sort((a, b) => PLANET_ORDER.indexOf(a.key) - PLANET_ORDER.indexOf(b.key));
 
-  // Calculates which houses a planet rules relative to the Ascendant (Lagna)
   const getRuledHouses = (planetKey: string, lagnaRasi: number) => {
     const domiciles = PLANET_DOMICILES[planetKey];
-    if (!domiciles) return '-'; // Ketu and Ascendant don't rule houses
+    if (!domiciles) return '-';
 
     return domiciles
       .map((sign) => {
         let houseNum = sign - lagnaRasi + 1;
         if (houseNum <= 0) houseNum += 12;
-        return `${t.houses[houseNum]} (${houseNum})`; // Format like "ตนุ (1)"
+        return `${t.houses[houseNum]} (${houseNum})`;
       })
-      .join(', '); // Separate multiple houses with a comma
+      .join(', ');
+  };
+
+  const getPoison = (rasi: number, degrees: number) => {
+    const drekNum = Math.floor(degrees / 10) + 1;
+    if ([1, 4, 7, 10].includes(rasi) && drekNum === 1)
+      return lang === 'th' ? 'สุนัข' : 'Dog';
+    if ([2, 5, 8, 11].includes(rasi) && drekNum === 2)
+      return lang === 'th' ? 'ครุฑ' : 'Garuda';
+    if ([3, 6, 9, 12].includes(rasi) && drekNum === 1)
+      return lang === 'th' ? 'นาค' : 'Naga';
+    return '-';
   };
 
   return (
@@ -104,6 +113,9 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <th className="px-4 py-3 font-semibold text-center text-indigo-700">
               {tTable.drekkana}
             </th>
+            <th className="px-4 py-3 font-semibold text-center text-red-600">
+              {tTable.poison}
+            </th>
             <th className="px-4 py-3 font-semibold text-center text-purple-700">
               {tTable.navamsa}
             </th>
@@ -120,7 +132,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
           </tr>
         </thead>
         <tbody>
-          {/* Row 1: Lagna */}
           <tr className="bg-blue-50 border-b hover:bg-blue-100 font-medium whitespace-nowrap">
             <td className="px-4 py-3 text-blue-900">{tTable.ascendant}</td>
             <td className="px-4 py-3 text-center">
@@ -131,6 +142,9 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <td className="px-4 py-3 text-center">{pad(data.lagna.sec)}</td>
             <td className="px-4 py-3 text-center text-indigo-600">
               {t.signs[data.lagna.drekkana]}
+            </td>
+            <td className="px-4 py-3 text-center text-red-500 font-bold">
+              {getPoison(data.lagna.rasi, data.lagna.deg)}
             </td>
             <td className="px-4 py-3 text-center text-purple-600">
               {t.signs[data.lagna.navamsa]}
@@ -145,7 +159,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <td className="px-4 py-3 text-center font-bold text-gray-800">-</td>
           </tr>
 
-          {/* Rows 2+: Planets */}
           {visiblePlanets.map((planet) => {
             const isNode = planet.key === 'RAHU' || planet.key === 'KETU';
             const showRetrograde = planet.isRetrograde && !isNode;
@@ -171,6 +184,9 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
                 <td className="px-4 py-3 text-center">{pad(planet.seconds)}</td>
                 <td className="px-4 py-3 text-center text-indigo-600">
                   {t.signs[planet.drekkana]}
+                </td>
+                <td className="px-4 py-3 text-center text-red-500 font-bold">
+                  {getPoison(planet.rasi, planet.degrees)}
                 </td>
                 <td className="px-4 py-3 text-center text-purple-600">
                   {t.signs[planet.navamsa]}

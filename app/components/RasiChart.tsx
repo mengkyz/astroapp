@@ -30,7 +30,7 @@ function getSlicePath(
   ].join(' ');
 }
 
-// --- Planet Symbol Dictionaries ---
+// NEW: Added URANUS
 const PLANET_ORDER = [
   'SUN',
   'MOON',
@@ -41,6 +41,7 @@ const PLANET_ORDER = [
   'SATURN',
   'RAHU',
   'KETU',
+  'URANUS',
 ];
 
 const THAI_SYMBOLS: Record<string, string> = {
@@ -53,6 +54,7 @@ const THAI_SYMBOLS: Record<string, string> = {
   SATURN: '๗',
   RAHU: '๘',
   KETU: '๙',
+  URANUS: '๐',
 };
 
 const EN_SYMBOLS: Record<string, string> = {
@@ -65,9 +67,9 @@ const EN_SYMBOLS: Record<string, string> = {
   SATURN: '♄',
   RAHU: '☊',
   KETU: '☋',
+  URANUS: '♅',
 };
 
-// Zodiac Sign to Ruling Planet mapping
 const SIGN_LORDS: Record<number, string> = {
   1: 'MARS',
   2: 'VENUS',
@@ -94,11 +96,8 @@ const VIMSHOTTARI_LORDS = [
   'SATURN',
   'MERCURY',
 ];
-
-// The exact number of years each planet rules in the 120-year Vimshottari cycle
 const VIMSHOTTARI_YEARS = [7, 20, 6, 10, 7, 18, 16, 19, 17];
 
-// --- Component Interfaces ---
 interface PlanetData {
   key: string;
   rasi: number;
@@ -115,7 +114,6 @@ interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
 }
-
 interface Occupant {
   symbol: string;
   color: string;
@@ -125,33 +123,32 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
 
-  // --- Master Radius Configuration (Shrunk slightly to fit all 8 rings cleanly) ---
   const CENTER_RADIUS = 35;
   const RASI_INNER = 35;
-  const RASI_OUTER = 120; // Ring 8
+  const RASI_OUTER = 120;
   const NAV_INNER = 120;
-  const NAV_OUTER = 205; // Ring 7
+  const NAV_OUTER = 205;
   const PL_L2_INNER = 205;
-  const PL_L2_OUTER = 240; // Ring 6
+  const PL_L2_OUTER = 240;
   const PL_L1_INNER = 240;
-  const PL_L1_OUTER = 275; // Ring 5
+  const PL_L1_OUTER = 275;
   const DREK_INNER = 275;
-  const DREK_OUTER = 325; // Ring 4
+  const DREK_OUTER = 325;
   const NAK_INNER = 325;
-  const NAK_OUTER = 385; // Ring 3
+  const NAK_OUTER = 385;
   const NAV_LORD_INNER = 385;
-  const NAV_LORD_OUTER = 435; // Ring 2
+  const NAV_LORD_OUTER = 435;
   const DASHA_INNER = 435;
-  const DASHA_OUTER = 485; // Ring 1 (NEW Outer Ring!)
+  const DASHA_OUTER = 485;
 
-  // 0. Ring 1: Dasha (Vimshottari Years) Engine
+  // 0. Ring 1: Dasha (Vimshottari Years)
   const ring1 = useMemo(() => {
     const slices = [];
-    const step = 360 / 27; // Maps 1-to-1 with Nakshatras
+    const step = 360 / 27;
     const width = DASHA_OUTER - DASHA_INNER;
 
     for (let i = 1; i <= 27; i++) {
-      const startAngle = 180 + (i - 1) * step;
+      const startAngle = 90 + (i - 1) * step; // ROTATED TO 90
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -189,7 +186,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     const r6 = [];
     const padaOccupants: Occupant[][] = Array.from({ length: 108 }, () => []);
 
-    // Slot Lagna by absolute Longitude
     if (data.lagna.longitude !== undefined) {
       const pIdx = Math.floor(data.lagna.longitude / (360 / 108));
       if (pIdx >= 0 && pIdx < 108)
@@ -200,7 +196,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         });
     }
 
-    // Slot Planets by absolute Longitude
     data.planets.forEach((p) => {
       if (PLANET_ORDER.includes(p.key) && p.longitude !== undefined) {
         const pIdx = Math.floor(p.longitude / (360 / 108));
@@ -217,11 +212,10 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
 
     const step = 360 / 108;
     for (let i = 0; i < 108; i++) {
-      const startAngle = 180 + i * step;
+      const startAngle = 90 + i * step; // ROTATED TO 90
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
-      // Ring 2: Navamsa Lord
       const navSign = (i % 12) + 1;
       const lordKey = SIGN_LORDS[navSign];
       const lordSymbol =
@@ -256,7 +250,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         </g>,
       );
 
-      // Ring 5 & 6: Backgrounds
       r5.push(
         <path
           key={`r5-bg-${i}`}
@@ -276,7 +269,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         />,
       );
 
-      // Ring 5 & 6: Planet Overlay
       const occs = padaOccupants[i];
       if (occs.length > 0) {
         const r5Pos = polarToCartesian(
@@ -303,7 +295,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         );
       }
       if (occs.length > 1) {
-        // L2 Overflow Handle
         const r6Pos = polarToCartesian(
           PL_L2_INNER + (PL_L2_OUTER - PL_L2_INNER) / 2,
           midAngle,
@@ -328,7 +319,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         );
       }
       if (occs.length > 2) {
-        // Extremely rare 3+ collision
         const r6PosExtra = polarToCartesian(
           PL_L2_INNER + (PL_L2_OUTER - PL_L2_INNER) * 0.85,
           midAngle,
@@ -354,11 +344,11 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   // 2. Nakshatra Engine (Ring 3 - 27 Slices)
   const ring3 = useMemo(() => {
     const slices = [];
-    const step = 360 / 27; // Exactly 13°20'
+    const step = 360 / 27;
     const width = NAK_OUTER - NAK_INNER;
 
     for (let i = 1; i <= 27; i++) {
-      const startAngle = 180 + (i - 1) * step;
+      const startAngle = 90 + (i - 1) * step; // ROTATED TO 90
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -405,14 +395,13 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     const width = DREK_OUTER - DREK_INNER;
 
     for (let i = 1; i <= 36; i++) {
-      const startAngle = 180 + (i - 1) * 10;
+      const startAngle = 90 + (i - 1) * 10; // ROTATED TO 90
       const endAngle = startAngle + 10;
       const midAngle = startAngle + 5;
 
       const signNum = Math.floor((i - 1) / 3) + 1;
       const drekNum = ((i - 1) % 3) + 1;
 
-      // Traditional Thai Visa (Poison) Logic
       let poisonLabel = '';
       if ([1, 4, 7, 10].includes(signNum) && drekNum === 1)
         poisonLabel = 'สุนัข';
@@ -469,7 +458,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     const width = outerR - innerR;
 
     for (let i = 1; i <= 12; i++) {
-      const startAngle = 180 + (i - 1) * 30;
+      const startAngle = 90 + (i - 1) * 30; // ROTATED TO 90
       const endAngle = startAngle + 30;
       const midAngle = startAngle + 15;
 
@@ -576,9 +565,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         viewBox="-500 -500 1000 1000"
         className="w-full h-auto drop-shadow-sm max-h-[85vh]"
       >
-        {/* NEW: Ring 1 Dasha / Vimshottari Years */}
         <g id="ring-1-dasha">{ring1}</g>
-
         <g id="ring-2-navamsa-lord">{ring2}</g>
         <g id="ring-3-nakshatra">{ring3}</g>
         <g id="ring-4-drekkana">{ring4}</g>
