@@ -5,7 +5,7 @@ import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
 import ThaiLocationSelect from './components/ThaiLocationSelect';
 import RasiChart from './components/RasiChart';
-import RerkResult from './components/RerkResult'; // <-- นำเข้า Component ใหม่
+import RerkResult from './components/RerkResult';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // Extract types
@@ -22,7 +22,7 @@ type ChartResult = PlanetTableData & {
 // --- GPS Math Conversion Helpers ---
 function decimalToDMS(decimal: number, isLat: boolean) {
   const dir = decimal >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
-  const abs = Math.abs(decimal);
+  const abs = Math.abs(decimal || 0);
   let d = Math.floor(abs);
   const mDec = (abs - d) * 60;
   let m = Math.floor(mDec);
@@ -51,23 +51,27 @@ export default function Home() {
   const t = translations[lang];
 
   const [formData, setFormData] = useState({
-    name: 'User Chart',
+    firstName: '',
+    lastName: '',
+    nickname: '',
     day: 1,
     month: 1,
     year: 2000,
     hour: 12,
     minute: 0,
     second: 0,
-    latitude: 13.752555,
-    longitude: 100.494066,
+    latitude: 13.752555 as number | string, // ยอมรับ String เผื่อกรณีกดเคลียร์เป็นค่าว่าง
+    longitude: 100.494066 as number | string, // ยอมรับ String เผื่อกรณีกดเคลียร์เป็นค่าว่าง
     utcOffset: 7,
   });
+
+  const [submittedData, setSubmittedData] = useState<typeof formData | null>(
+    null,
+  );
 
   const [yearInput, setYearInput] = useState<string>('');
   const [result, setResult] = useState<ChartResult | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // เพิ่ม 'rerk' เข้าไปใน Type ของ Tab
   const [activeTab, setActiveTab] = useState<
     'planets' | 'dasha' | 'chart' | 'rerk'
   >('planets');
@@ -99,13 +103,21 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     try {
+      // แปลงข้อมูลพิกัดให้เป็นตัวเลขที่ปลอดภัยก่อนส่งให้ API ป้องกันการส่งช่องว่างไป
+      const payload = {
+        ...formData,
+        latitude: Number(formData.latitude) || 0,
+        longitude: Number(formData.longitude) || 0,
+      };
+
       const res = await fetch('/api/natal-chart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       setResult(data);
+      setSubmittedData(payload); // Snapshot payload เพื่อโชว์ใน Summary
     } catch (error) {
       console.error(error);
     } finally {
@@ -116,7 +128,14 @@ export default function Home() {
   const handleSelectChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   ) => {
-    setFormData({ ...formData, [e.target.name]: Number(e.target.value) });
+    const { name, value } = e.target;
+    // ถ้าผู้ใช้ลบข้อมูลจนว่างเปล่า ให้เก็บค่าว่างเปล่าไว้แทน 0 เพื่อเคลียร์กล่องข้อความ
+    const numValue = value === '' ? '' : Number(value);
+    setFormData({ ...formData, [name]: numValue });
+  };
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,7 +155,8 @@ export default function Home() {
     val: string,
     isLat: boolean,
   ) => {
-    const currentDecimal = isLat ? formData.latitude : formData.longitude;
+    const currentDecimal =
+      Number(isLat ? formData.latitude : formData.longitude) || 0;
     const dms = decimalToDMS(currentDecimal, isLat);
     const updatedDMS = { ...dms, [field]: field === 'dir' ? val : Number(val) };
     const newDecimal = dmsToDecimal(
@@ -153,8 +173,8 @@ export default function Home() {
     }));
   };
 
-  const latDMS = decimalToDMS(formData.latitude, true);
-  const lngDMS = decimalToDMS(formData.longitude, false);
+  const latDMS = decimalToDMS(Number(formData.latitude) || 0, true);
+  const lngDMS = decimalToDMS(Number(formData.longitude) || 0, false);
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const hours = Array.from({ length: 24 }, (_, i) => i);
@@ -181,6 +201,63 @@ export default function Home() {
           className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100 space-y-6"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* PERSONAL DETAILS CARD */}
+            <div className="space-y-4 md:col-span-2">
+              <h3 className="text-lg font-bold text-gray-800 border-b pb-2">
+                {t.form.personalDetails}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label
+                    htmlFor="firstName"
+                    className="block text-xs font-semibold text-gray-500 uppercase mb-1"
+                  >
+                    {t.form.firstName}
+                  </label>
+                  <input
+                    id="firstName"
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleTextChange}
+                    className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="lastName"
+                    className="block text-xs font-semibold text-gray-500 uppercase mb-1"
+                  >
+                    {t.form.lastName}
+                  </label>
+                  <input
+                    id="lastName"
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleTextChange}
+                    className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="nickname"
+                    className="block text-xs font-semibold text-gray-500 uppercase mb-1"
+                  >
+                    {t.form.nickname}
+                  </label>
+                  <input
+                    id="nickname"
+                    type="text"
+                    name="nickname"
+                    value={formData.nickname}
+                    onChange={handleTextChange}
+                    className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* DATE CARD */}
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-gray-800 border-b pb-2">
@@ -335,6 +412,13 @@ export default function Home() {
                     ...prev,
                     latitude: lat,
                     longitude: lng,
+                  }))
+                }
+                onClear={() =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    latitude: '', // เคลียร์เป็นค่าว่าง
+                    longitude: '', // เคลียร์เป็นค่าว่าง
                   }))
                 }
               />
@@ -503,8 +587,64 @@ export default function Home() {
         </form>
 
         {/* Output Tables below */}
-        {result && (
+        {result && submittedData && (
           <div className="mt-8">
+            {/* SUMMARY SECTION - จะใช้ค่าจาก submittedData ที่ถูก Snapshot ไว้เท่านั้น */}
+            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5 mb-8 shadow-sm">
+              <h3 className="text-xs font-extrabold text-indigo-400 uppercase tracking-widest border-b border-indigo-200 pb-2 mb-4">
+                {t.form.summaryTitle}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                {(submittedData.firstName ||
+                  submittedData.lastName ||
+                  submittedData.nickname) && (
+                  <div>
+                    <span className="block text-indigo-400 font-semibold mb-0.5">
+                      {t.form.summaryName}
+                    </span>
+                    <span className="block text-indigo-900 font-medium">
+                      {[submittedData.firstName, submittedData.lastName]
+                        .filter(Boolean)
+                        .join(' ')}{' '}
+                      {submittedData.nickname
+                        ? `(${submittedData.nickname})`
+                        : ''}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <span className="block text-indigo-400 font-semibold mb-0.5">
+                    {t.form.summaryDate}
+                  </span>
+                  <span className="block text-indigo-900 font-medium">
+                    {submittedData.day} {t.months[submittedData.month - 1]}{' '}
+                    {lang === 'th'
+                      ? submittedData.year + 543
+                      : submittedData.year}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-indigo-400 font-semibold mb-0.5">
+                    {t.form.summaryTime}
+                  </span>
+                  <span className="block text-indigo-900 font-medium">
+                    {String(submittedData.hour).padStart(2, '0')}:
+                    {String(submittedData.minute).padStart(2, '0')}:
+                    {String(submittedData.second).padStart(2, '0')}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-indigo-400 font-semibold mb-0.5">
+                    {t.form.summaryLocation}
+                  </span>
+                  <span className="block text-indigo-900 font-medium">
+                    {Number(submittedData.latitude || 0).toFixed(4)}°,{' '}
+                    {Number(submittedData.longitude || 0).toFixed(4)}°
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <div className="flex space-x-6 border-b border-gray-300 mb-6 px-2 overflow-x-auto">
               <button
                 type="button"
@@ -527,7 +667,6 @@ export default function Home() {
               >
                 {t.tabs.chart}
               </button>
-              {/* ปุ่มเพิ่มใหม่ สำหรับแท็บ ฤกษ์ส่วนตัว */}
               <button
                 type="button"
                 onClick={() => setActiveTab('rerk')}
@@ -558,17 +697,16 @@ export default function Home() {
                 <RasiChart
                   data={result}
                   lang={lang}
-                  birthDateText={`${formData.day} ${t.months[formData.month - 1]} ${lang === 'th' ? formData.year + 543 : formData.year}`}
+                  birthDateText={`${submittedData.day} ${t.months[submittedData.month - 1]} ${lang === 'th' ? submittedData.year + 543 : submittedData.year}`}
                   birthTimeText={
                     lang === 'th'
-                      ? `เวลา ${String(formData.hour).padStart(2, '0')}:${String(formData.minute).padStart(2, '0')}:${String(formData.second).padStart(2, '0')} น.`
-                      : `Time: ${String(formData.hour).padStart(2, '0')}:${String(formData.minute).padStart(2, '0')}:${String(formData.second).padStart(2, '0')}`
+                      ? `เวลา ${String(submittedData.hour).padStart(2, '0')}:${String(submittedData.minute).padStart(2, '0')}:${String(submittedData.second).padStart(2, '0')} น.`
+                      : `Time: ${String(submittedData.hour).padStart(2, '0')}:${String(submittedData.minute).padStart(2, '0')}:${String(submittedData.second).padStart(2, '0')}`
                   }
                 />
               </div>
             )}
 
-            {/* ส่วนแสดงผล RerkResult เมื่อกดแท็บ */}
             {activeTab === 'rerk' && (
               <div className="animate-fade-in-up">
                 <RerkResult data={result} lang={lang} />

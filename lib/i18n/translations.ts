@@ -2,6 +2,10 @@ export const translations = {
   en: {
     appTitle: 'Astrology Calculation Engine',
     form: {
+      personalDetails: 'Personal Details (Optional)',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      nickname: 'Nickname',
       dateDetails: 'Date of Birth',
       timeDetails: 'Time of Birth',
       locationDetails: 'Location',
@@ -24,9 +28,14 @@ export const translations = {
       district: 'District',
       subDistrict: 'Sub-district',
       clear: 'Clear Selection',
-      submit: 'Calculate Chart & Dasha',
+      submit: 'Calculate',
       loading: 'Calculating...',
       langToggle: '🇹🇭 เปลี่ยนเป็นภาษาไทย',
+      summaryTitle: 'Input Summary',
+      summaryName: 'Name',
+      summaryDate: 'Date of Birth',
+      summaryTime: 'Time of Birth',
+      summaryLocation: 'Coordinates',
     },
     months: [
       'January',
@@ -46,7 +55,7 @@ export const translations = {
       planets: 'Planet Positions',
       dasha: 'Vimshottari Dasha',
       chart: 'Rasi Chart',
-      exportBtn: 'Download Chart (PNG)', // <--- NEW
+      exportBtn: 'Download Chart (PNG)',
     },
     planetTable: {
       planet: 'Planet',
@@ -55,7 +64,7 @@ export const translations = {
       min: "Minute (')",
       sec: 'Second (")',
       drekkana: 'Drekkana',
-      poison: 'Poison', // NEW
+      poison: 'Poison',
       navamsa: 'Navamsa',
       nakshatra: 'Nakshatra',
       pada: 'Pada',
@@ -86,7 +95,7 @@ export const translations = {
       SATURN: 'Saturn',
       RAHU: 'Rahu',
       KETU: 'Ketu',
-      URANUS: 'Uranus', // NEW
+      URANUS: 'Uranus',
     },
     signs: [
       'Dummy',
@@ -151,6 +160,10 @@ export const translations = {
   th: {
     appTitle: 'โปรแกรมคำนวณโหราศาสตร์',
     form: {
+      personalDetails: 'ข้อมูลส่วนบุคคล (เว้นว่างได้)',
+      firstName: 'ชื่อจริง',
+      lastName: 'นามสกุล',
+      nickname: 'ชื่อเล่น',
       dateDetails: 'วันเดือนปีเกิด',
       timeDetails: 'เวลาเกิด',
       locationDetails: 'สถานที่เกิด',
@@ -173,9 +186,14 @@ export const translations = {
       district: 'อำเภอ/เขต',
       subDistrict: 'ตำบล/แขวง',
       clear: 'ล้างข้อมูล',
-      submit: 'คำนวณดวงชะตาและทศา',
+      submit: 'คำนวณผูกดวง',
       loading: 'กำลังคำนวณ...',
       langToggle: '🇬🇧 Switch to English',
+      summaryTitle: 'สรุปข้อมูลที่ใช้คำนวณ',
+      summaryName: 'ชื่อดวงชะตา',
+      summaryDate: 'วันที่เกิด',
+      summaryTime: 'เวลาเกิด',
+      summaryLocation: 'พิกัดที่เกิด',
     },
     months: [
       'มกราคม',
@@ -195,7 +213,7 @@ export const translations = {
       planets: 'ตำแหน่งดาว',
       dasha: 'ทศา (Vimshottari)',
       chart: 'ดวงราศีจักร',
-      exportBtn: 'ดาวน์โหลดรูปดวง (PNG)', // <--- NEW
+      exportBtn: 'ดาวน์โหลดรูปดวง (PNG)',
     },
     planetTable: {
       planet: 'ดาว/ปัจจัย',
@@ -204,7 +222,7 @@ export const translations = {
       min: "ลิปดา (')",
       sec: 'ฟิลิปดา (")',
       drekkana: 'ตรียางค์',
-      poison: 'พิษ', // NEW
+      poison: 'พิษ',
       navamsa: 'นวางค์',
       nakshatra: 'นักษัตร',
       pada: 'บาท',
@@ -235,7 +253,7 @@ export const translations = {
       SATURN: '๗. เสาร์',
       RAHU: '๘. ราหู',
       KETU: '๙. เกตุ',
-      URANUS: '๐. มฤตยู', // NEW
+      URANUS: '๐. มฤตยู',
     },
     signs: [
       'Dummy',

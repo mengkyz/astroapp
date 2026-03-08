@@ -14,9 +14,10 @@ interface GeoRecord {
 
 interface Props {
   lang: Language;
-  currentLat: number;
-  currentLng: number;
+  currentLat: number | string;
+  currentLng: number | string;
   onSelect: (lat: number, lng: number) => void;
+  onClear: () => void; // NEW: เพิ่มฟังก์ชันเคลียร์ค่า Input แจ้งกลับไปที่ Parent
 }
 
 export default function ThaiLocationSelect({
@@ -24,6 +25,7 @@ export default function ThaiLocationSelect({
   currentLat,
   currentLng,
   onSelect,
+  onClear,
 }: Props) {
   const t = translations[lang].form;
   const [data, setData] = useState<GeoRecord[]>([]);
@@ -79,26 +81,30 @@ export default function ThaiLocationSelect({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 2. Derived State: Clear filters if user manually types into the map coordinates!
-  // This is the official React standard for updating state based on prop changes without useEffect
+  // 2. Derived State: เคลียร์ตัวเลือกหากผู้ใช้พิมพ์พิกัดเองในช่อง Input
   if (currentLat !== prevLat || currentLng !== prevLng) {
     setPrevLat(currentLat);
     setPrevLng(currentLng);
 
-    if (p && d && s) {
+    // เช็คว่าถ้ามีฟิลเตอร์ตัวไหนถูกเลือกอยู่ ให้เช็คพิกัด
+    if (p || d || s) {
       const rec = data.find(
         (x) => x.p_th === p && x.d_th === d && x.s_th === s,
       );
-      if (rec) {
-        // If the map coordinates deviate from the dropdown coordinates, clear dropdowns
-        const isMatch =
-          Math.abs(rec.lat - currentLat) < 0.0001 &&
-          Math.abs(rec.lng - currentLng) < 0.0001;
-        if (!isMatch) {
-          setP('');
-          setD('');
-          setS('');
-        }
+
+      const latNum = Number(currentLat) || 0;
+      const lngNum = Number(currentLng) || 0;
+
+      const isMatch =
+        rec &&
+        Math.abs(rec.lat - latNum) < 0.0001 &&
+        Math.abs(rec.lng - lngNum) < 0.0001;
+
+      // ถ้าพิกัดที่พิมพ์ไม่ตรงกับข้อมูลใน Dropdown ให้ล้างตัวเลือกทิ้งทั้งหมด
+      if (!isMatch) {
+        setP('');
+        setD('');
+        setS('');
       }
     }
   }
@@ -137,6 +143,7 @@ export default function ThaiLocationSelect({
       setP('');
       setD('');
       setS('');
+      onClear(); // ล้างพิกัด
       return;
     }
     const newDists = data.filter((x) => x.p_th === newP);
@@ -154,6 +161,7 @@ export default function ThaiLocationSelect({
     if (!newD) {
       setD('');
       setS('');
+      onClear(); // ล้างพิกัด
       return;
     }
     const newSubs = data.filter((x) => x.p_th === p && x.d_th === newD);
@@ -168,6 +176,7 @@ export default function ThaiLocationSelect({
   const handleSub = (newS: string) => {
     if (!newS) {
       setS('');
+      onClear(); // ล้างพิกัด
       return;
     }
     const rec = data.find(
@@ -189,6 +198,7 @@ export default function ThaiLocationSelect({
             setP('');
             setD('');
             setS('');
+            onClear(); // ล้างพิกัดเมื่อกดปุ่ม Clear Selection
           }}
           className="text-xs font-semibold text-red-500 hover:text-red-700 transition"
         >
