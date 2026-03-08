@@ -95,6 +95,9 @@ const VIMSHOTTARI_LORDS = [
   'MERCURY',
 ];
 
+// The exact number of years each planet rules in the 120-year Vimshottari cycle
+const VIMSHOTTARI_YEARS = [7, 20, 6, 10, 7, 18, 16, 19, 17];
+
 // --- Component Interfaces ---
 interface PlanetData {
   key: string;
@@ -122,22 +125,62 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
 
-  // --- Master Radius Configuration (Max outer is 500) ---
-  const CENTER_RADIUS = 45;
-  const RASI_INNER = 45;
-  const RASI_OUTER = 135; // Ring 8 (Width 90)
-  const NAV_INNER = 135;
-  const NAV_OUTER = 225; // Ring 7 (Width 90)
-  const PL_L2_INNER = 225;
-  const PL_L2_OUTER = 260; // Ring 6 (Width 35)
-  const PL_L1_INNER = 260;
-  const PL_L1_OUTER = 295; // Ring 5 (Width 35)
-  const DREK_INNER = 295;
-  const DREK_OUTER = 350; // Ring 4 (Width 55)
-  const NAK_INNER = 350;
-  const NAK_OUTER = 420; // Ring 3 (Width 70)
-  const NAV_LORD_INNER = 420;
-  const NAV_LORD_OUTER = 465; // Ring 2 (Width 45)
+  // --- Master Radius Configuration (Shrunk slightly to fit all 8 rings cleanly) ---
+  const CENTER_RADIUS = 35;
+  const RASI_INNER = 35;
+  const RASI_OUTER = 120; // Ring 8
+  const NAV_INNER = 120;
+  const NAV_OUTER = 205; // Ring 7
+  const PL_L2_INNER = 205;
+  const PL_L2_OUTER = 240; // Ring 6
+  const PL_L1_INNER = 240;
+  const PL_L1_OUTER = 275; // Ring 5
+  const DREK_INNER = 275;
+  const DREK_OUTER = 325; // Ring 4
+  const NAK_INNER = 325;
+  const NAK_OUTER = 385; // Ring 3
+  const NAV_LORD_INNER = 385;
+  const NAV_LORD_OUTER = 435; // Ring 2
+  const DASHA_INNER = 435;
+  const DASHA_OUTER = 485; // Ring 1 (NEW Outer Ring!)
+
+  // 0. Ring 1: Dasha (Vimshottari Years) Engine
+  const ring1 = useMemo(() => {
+    const slices = [];
+    const step = 360 / 27; // Maps 1-to-1 with Nakshatras
+    const width = DASHA_OUTER - DASHA_INNER;
+
+    for (let i = 1; i <= 27; i++) {
+      const startAngle = 180 + (i - 1) * step;
+      const endAngle = startAngle + step;
+      const midAngle = startAngle + step / 2;
+
+      const years = VIMSHOTTARI_YEARS[(i - 1) % 9];
+      const textPos = polarToCartesian(DASHA_INNER + width * 0.5, midAngle);
+
+      slices.push(
+        <g key={`dasha-${i}`}>
+          <path
+            d={getSlicePath(DASHA_INNER, DASHA_OUTER, startAngle, endAngle)}
+            fill={i % 2 === 0 ? '#fdf8f6' : '#ffffff'}
+            stroke="#cbd5e1"
+            strokeWidth="1"
+          />
+          <text
+            x={textPos.x}
+            y={textPos.y}
+            textAnchor="middle"
+            dominantBaseline="central"
+            className="text-[12px] font-extrabold fill-indigo-600"
+          >
+            {years}
+            {lang === 'th' ? 'ป.' : 'y'}
+          </text>
+        </g>,
+      );
+    }
+    return slices;
+  }, [lang]);
 
   // 1. 108-Pada Rings Engine (Ring 2, 5, 6)
   const { ring2, ring5, ring6 } = useMemo(() => {
@@ -179,7 +222,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const midAngle = startAngle + step / 2;
 
       // Ring 2: Navamsa Lord
-      const navSign = (i % 12) + 1; // Pure Vedic magic: The pada index intrinsically dictates the Navamsa sign!
+      const navSign = (i % 12) + 1;
       const lordKey = SIGN_LORDS[navSign];
       const lordSymbol =
         lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
@@ -197,7 +240,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
               startAngle,
               endAngle,
             )}
-            fill={i % 2 === 0 ? '#fdf8f6' : '#ffffff'}
+            fill={i % 2 === 0 ? '#f1f5f9' : '#ffffff'}
             stroke="#cbd5e1"
             strokeWidth="0.5"
           />
@@ -533,6 +576,9 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         viewBox="-500 -500 1000 1000"
         className="w-full h-auto drop-shadow-sm max-h-[85vh]"
       >
+        {/* NEW: Ring 1 Dasha / Vimshottari Years */}
+        <g id="ring-1-dasha">{ring1}</g>
+
         <g id="ring-2-navamsa-lord">{ring2}</g>
         <g id="ring-3-nakshatra">{ring3}</g>
         <g id="ring-4-drekkana">{ring4}</g>
@@ -570,15 +616,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           strokeWidth="2"
           strokeDasharray="4,4"
         />
-        <text
-          x="0"
-          y="-4"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className="text-indigo-900 text-sm font-bold"
-        >
-          {lang === 'th' ? 'ดวงชาตา' : 'Natal'}
-        </text>
       </svg>
     </div>
   );
