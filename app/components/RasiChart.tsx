@@ -155,7 +155,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     if (transformRef.current) {
       transformRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
     }
-  }, [position.x, position.y, scale]);
+  }, [position, scale]);
 
   const handleZoomIn = () => setScale((s) => Math.min(s + 0.4, 4));
   const handleZoomOut = () => setScale((s) => Math.max(s - 0.4, 0.5));
@@ -495,6 +495,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang, t.nakshatras]);
 
+  // --- 3. Drekkana Engine (Ring 4 - 36 Slices) ---
   const ring4 = useMemo(() => {
     const slices = [];
     const width = DREK_OUTER - DREK_INNER;
@@ -504,17 +505,18 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + 10;
       const midAngle = startAngle + 5;
 
-      const signNum = Math.floor((i - 1) / 3) + 1;
-      const drekNum = ((i - 1) % 3) + 1;
+      const signNum = Math.floor((i - 1) / 3) + 1; // ราศีที่ 1-12
+      const drekNum = ((i - 1) % 3) + 1; // ช่วงตรียางค์ที่ 1, 2, 3
 
-      let poisonLabel = '';
-      if ([1, 4, 7, 10].includes(signNum) && drekNum === 1)
-        poisonLabel = 'สุนัข';
-      if ([2, 5, 8, 11].includes(signNum) && drekNum === 2)
-        poisonLabel = 'ครุฑ';
-      if ([3, 6, 9, 12].includes(signNum) && drekNum === 1) poisonLabel = 'นาค';
+      // คำนวณหาดาวเจ้าตรียางค์ (Drekkana Lord) ตามหลักมาตรฐาน
+      let targetSign = signNum;
+      if (drekNum === 2) targetSign = ((signNum + 4 - 1) % 12) + 1;
+      if (drekNum === 3) targetSign = ((signNum + 8 - 1) % 12) + 1;
 
-      const isPoison = poisonLabel !== '';
+      const lordKey = SIGN_LORDS[targetSign];
+      const lordSymbol =
+        lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
+
       const textPos = polarToCartesian(DREK_INNER + width * 0.5, midAngle);
 
       slices.push(
@@ -527,24 +529,13 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           />
           <text
             x={textPos.x}
-            y={textPos.y - (isPoison ? 5 : 0)}
+            y={textPos.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-[12px] font-bold fill-slate-400"
+            className="text-[12px] font-bold fill-slate-500"
           >
-            {drekNum}
+            {lordSymbol}
           </text>
-          {isPoison && (
-            <text
-              x={textPos.x}
-              y={textPos.y + 7}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-[9px] font-bold fill-red-500"
-            >
-              {lang === 'th' ? poisonLabel : 'Poison'}
-            </text>
-          )}
         </g>,
       );
     }
@@ -770,7 +761,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         </button>
       </div>
 
-      {/* FIXED: Removed inline heights, mapped to Tailwind classes */}
       <div
         className={`relative w-full h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         onMouseDown={handleMouseDown}
@@ -781,7 +771,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleMouseUp}
       >
-        {/* FIXED: Dynamic transform MUST remain inline, but transition/origin moved to Tailwind */}
         <div
           ref={transformRef}
           className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
