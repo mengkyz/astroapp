@@ -36,6 +36,27 @@ function getSlicePath(
   ].join(' ');
 }
 
+// NEW: Polygon path for inner straight-edged rings
+function getPolygonSlicePath(
+  innerRadius: number,
+  outerRadius: number,
+  startAngle: number,
+  endAngle: number,
+) {
+  const startOuter = polarToCartesian(outerRadius, startAngle);
+  const endOuter = polarToCartesian(outerRadius, endAngle);
+  const startInner = polarToCartesian(innerRadius, endAngle);
+  const endInner = polarToCartesian(innerRadius, startAngle);
+
+  return [
+    `M ${startOuter.x} ${startOuter.y}`,
+    `L ${endOuter.x} ${endOuter.y}`,
+    `L ${startInner.x} ${startInner.y}`,
+    `L ${endInner.x} ${endInner.y}`,
+    `Z`,
+  ].join(' ');
+}
+
 // --- Helpers ---
 const formatDegMin = (lon: number) => {
   const deg = Math.floor(lon % 30);
@@ -300,7 +321,7 @@ export default function RasiChart({
   const rasiGapConnectors = useMemo(() => {
     const lines = [];
     for (let i = 0; i < 12; i++) {
-      const angle = 90 + i * 30;
+      const angle = 75 + i * 30; // ตรงกับเส้นเริ่มราศี
       const p1 = polarToCartesian(NAV_OUTER, angle);
       const p2 = polarToCartesian(PL_INNER_BASE, angle);
       lines.push(
@@ -324,7 +345,7 @@ export default function RasiChart({
     const width = DASHA_OUTER - DASHA_INNER;
 
     for (let i = 1; i <= 27; i++) {
-      const startAngle = 90 + (i - 1) * step;
+      const startAngle = 75 + (i - 1) * step; // SHIFTED TO 75
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -411,7 +432,7 @@ export default function RasiChart({
 
     const step = 360 / 108;
     for (let i = 0; i < 108; i++) {
-      const startAngle = 90 + i * step;
+      const startAngle = 75 + i * step; // SHIFTED TO 75
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -522,7 +543,7 @@ export default function RasiChart({
     const width = NAK_OUTER - NAK_INNER;
 
     for (let i = 1; i <= 27; i++) {
-      const startAngle = 90 + (i - 1) * step;
+      const startAngle = 75 + (i - 1) * step; // SHIFTED TO 75
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -561,7 +582,7 @@ export default function RasiChart({
     const width = DREK_OUTER - DREK_INNER;
 
     for (let i = 1; i <= 36; i++) {
-      const startAngle = 90 + (i - 1) * 10;
+      const startAngle = 75 + (i - 1) * 10; // SHIFTED TO 75
       const endAngle = startAngle + 10;
       const midAngle = startAngle + 5;
 
@@ -612,7 +633,7 @@ export default function RasiChart({
     const styles: string[] = [];
 
     for (let i = 1; i <= 12; i++) {
-      const startAngle = 90 + (i - 1) * 30;
+      const startAngle = 75 + (i - 1) * 30; // ALREADY AT 75
       const endAngle = startAngle + 30;
       const midAngle = startAngle + 15;
 
@@ -709,7 +730,7 @@ export default function RasiChart({
       slices.push(
         <g key={`${property}-${i}`}>
           <path
-            d={getSlicePath(innerR, outerR, startAngle, endAngle)}
+            d={getPolygonSlicePath(innerR, outerR, startAngle, endAngle)} // USING getPolygonSlicePath
             fill="#ffffff"
             stroke="#94a3b8"
             strokeWidth="2"
@@ -921,7 +942,7 @@ export default function RasiChart({
               <style dangerouslySetInnerHTML={{ __html: ring5Styles }} />
               <g id="ring-5-pada-dynamic">{ring5}</g>
 
-              {/* เส้นเชื่อมราศีข้ามช่องว่าง */}
+              {/* เส้นเชื่อมราศีข้ามช่องว่าง (เริ่มที่ 75 เพื่อให้ทะลุตรงเผง) */}
               <g id="rasi-gap-connectors">{rasiGapConnectors}</g>
 
               <g id="ring-7-navamsa-chart">
