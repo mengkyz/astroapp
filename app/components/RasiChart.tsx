@@ -1,4 +1,10 @@
-import React, { useMemo, useRef, useState, useCallback } from 'react';
+import React, {
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -175,29 +181,48 @@ interface Occupant {
 export default function RasiChart({
   data,
   lang,
-  birthName,
   birthDateText,
   birthTimeText,
 }: RasiChartProps) {
   const t = translations[lang];
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const contentWrapperRef = useRef<HTMLDivElement>(null);
 
-  // --- State สำหรับ Tooltip ---
   const [tooltip, setTooltip] = useState({
     visible: false,
     text: '',
     x: 0,
     y: 0,
   });
-
-  // --- Zoom & Pan State ---
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // FIXED: ครอบด้วย useCallback เพื่อกำจัด ESLint warning แบบสมบูรณ์
+  useEffect(() => {
+    if (isModalOpen) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = 'unset';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    if (tooltipRef.current && tooltip.visible) {
+      tooltipRef.current.style.left = `${tooltip.x}px`;
+      tooltipRef.current.style.top = `${tooltip.y}px`;
+    }
+  }, [tooltip.x, tooltip.y, tooltip.visible]);
+
+  useEffect(() => {
+    if (contentWrapperRef.current) {
+      contentWrapperRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+    }
+  }, [position.x, position.y, scale]);
+
   const showTooltip = useCallback((e: React.MouseEvent, text: string) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -214,11 +239,7 @@ export default function RasiChart({
     const rect = containerRef.current.getBoundingClientRect();
     setTooltip((prev) => {
       if (!prev.visible) return prev;
-      return {
-        ...prev,
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
+      return { ...prev, x: e.clientX - rect.left, y: e.clientY - rect.top };
     });
   }, []);
 
@@ -278,36 +299,27 @@ export default function RasiChart({
   const DASHA_INNER = 435;
   const DASHA_OUTER = 485;
 
-  const exportToPNG = () => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-
-    const exportScale = 3;
-    canvas.width = 1000 * exportScale;
-    canvas.height = 1000 * exportScale;
-
-    img.onload = () => {
-      if (ctx) {
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.scale(exportScale, exportScale);
-        ctx.drawImage(img, 0, 0, 1000, 1000);
-
-        const pngFile = canvas.toDataURL('image/png');
-        const downloadLink = document.createElement('a');
-        downloadLink.download = `rasi-chart-${new Date().getTime()}.png`;
-        downloadLink.href = pngFile;
-        downloadLink.click();
-      }
-    };
-    img.src =
-      'data:image/svg+xml;base64,' +
-      btoa(unescape(encodeURIComponent(svgData)));
-  };
+  // --- 1. Rasi Gap Connectors (เชื่อมเส้นราศีข้ามช่องว่าง) ---
+  const rasiGapConnectors = useMemo(() => {
+    const lines = [];
+    for (let i = 0; i < 12; i++) {
+      const angle = 90 + i * 30;
+      const p1 = polarToCartesian(NAV_OUTER, angle);
+      const p2 = polarToCartesian(PL_INNER_BASE, angle);
+      lines.push(
+        <line
+          key={`gap-conn-${i}`}
+          x1={p1.x}
+          y1={p1.y}
+          x2={p2.x}
+          y2={p2.y}
+          stroke="#94a3b8" // สีเดียวกับขอบหลัก
+          strokeWidth="2" // หนาเท่าเส้นแบ่งราศี
+        />,
+      );
+    }
+    return lines;
+  }, []);
 
   const ring1 = useMemo(() => {
     const slices = [];
@@ -335,11 +347,12 @@ export default function RasiChart({
 
       slices.push(
         <g key={`dasha-${i}`}>
+          {/* อัปเดตขอบให้ชัดและหนาขึ้น */}
           <path
             d={getSlicePath(DASHA_INNER, DASHA_OUTER, startAngle, endAngle)}
-            fill={i % 2 === 0 ? '#fdf8f6' : '#ffffff'}
-            stroke="#cbd5e1"
-            strokeWidth="1"
+            fill="#ffffff"
+            stroke="#94a3b8"
+            strokeWidth="1.5"
           />
           <text
             x={textPos.x}
@@ -356,9 +369,10 @@ export default function RasiChart({
     return slices;
   }, [lang]);
 
-  const { ring2, ring5 } = useMemo(() => {
+  const { ring2, ring5, ring5Styles } = useMemo(() => {
     const r2 = [];
     const r5 = [];
+    const dynamicStyles: string[] = [];
     const padaOccupants: Occupant[][] = Array.from({ length: 108 }, () => []);
 
     if (data.lagna.longitude !== undefined) {
@@ -406,11 +420,7 @@ export default function RasiChart({
       const midAngle = startAngle + step / 2;
 
       const isGandanta = i === 35 || i === 71 || i === 107;
-      const bgFill = isGandanta
-        ? '#fee2e2'
-        : i % 2 === 0
-          ? '#f1f5f9'
-          : '#ffffff';
+      const bgFill = isGandanta ? '#fee2e2' : '#ffffff';
 
       const navSign = (i % 12) + 1;
       const lordKey = SIGN_LORDS[navSign];
@@ -423,6 +433,7 @@ export default function RasiChart({
 
       r2.push(
         <g key={`r2-${i}`}>
+          {/* อัปเดตขอบให้ชัดขึ้น */}
           <path
             d={getSlicePath(
               NAV_LORD_INNER,
@@ -431,8 +442,8 @@ export default function RasiChart({
               endAngle,
             )}
             fill={bgFill}
-            stroke="#cbd5e1"
-            strokeWidth="0.5"
+            stroke="#94a3b8"
+            strokeWidth="1"
           />
           <text
             x={r2Pos.x}
@@ -456,12 +467,13 @@ export default function RasiChart({
       }
 
       r5.push(
+        // อัปเดตขอบให้ชัดขึ้น
         <path
           key={`r5-bg-${i}`}
           d={getSlicePath(currentInner, PL_OUTER, startAngle, endAngle)}
           fill={bgFill}
-          stroke={isGandanta ? '#fca5a5' : '#e2e8f0'}
-          strokeWidth="0.5"
+          stroke={isGandanta ? '#fca5a5' : '#94a3b8'}
+          strokeWidth="1"
         />,
       );
 
@@ -474,11 +486,13 @@ export default function RasiChart({
             PL_OUTER - stepR / 2 - idx * stepR,
             midAngle,
           );
+          const cssClass = `occ-r5-${i}-${idx}`;
+          dynamicStyles.push(`.${cssClass} { transform-origin: ${rPos.x}px ${rPos.y}px; }`);
+
           r5.push(
             <g
               key={`r5-occ-${i}-${idx}`}
-              className="cursor-pointer transition-transform hover:scale-125"
-              style={{ transformOrigin: `${rPos.x}px ${rPos.y}px` }}
+              className={`cursor-pointer transition-transform hover:scale-125 ${cssClass}`}
               onMouseEnter={(e) => showTooltip(e, occ.tooltipText)}
               onMouseMove={updateTooltip}
               onMouseLeave={hideTooltip}
@@ -503,8 +517,7 @@ export default function RasiChart({
         });
       }
     }
-    return { ring2: r2, ring5: r5 };
-    // FIXED: เพิ่ม Dependencies ให้ครบตามข้อบังคับของ ESLint
+    return { ring2: r2, ring5: r5, ring5Styles: dynamicStyles.join(' ') };
   }, [data, lang, t, showTooltip, updateTooltip, hideTooltip]);
 
   const ring3 = useMemo(() => {
@@ -528,9 +541,9 @@ export default function RasiChart({
         <g key={`nak-${i}`}>
           <path
             d={getSlicePath(NAK_INNER, NAK_OUTER, startAngle, endAngle)}
-            fill={i % 2 === 0 ? '#fff7ed' : '#ffffff'}
-            stroke="#cbd5e1"
-            strokeWidth="1"
+            fill="#ffffff"
+            stroke="#94a3b8"
+            strokeWidth="1.5"
           />
           <text
             x={textPos.x}
@@ -574,9 +587,9 @@ export default function RasiChart({
         <g key={`drek-${i}`}>
           <path
             d={getSlicePath(DREK_INNER, DREK_OUTER, startAngle, endAngle)}
-            fill={drekNum % 2 === 0 ? '#f8fafc' : '#ffffff'}
-            stroke="#cbd5e1"
-            strokeWidth="1"
+            fill="#ffffff"
+            stroke="#94a3b8"
+            strokeWidth="1.5"
           />
           <text
             x={textPos.x}
@@ -597,11 +610,10 @@ export default function RasiChart({
     innerR: number,
     outerR: number,
     property: 'rasi' | 'navamsa',
-    bgColors: [string, string],
-    ringName: string,
   ) => {
     const slices = [];
-    const width = outerR - innerR;
+    const labelOffset = 14;
+    const styles: string[] = [];
 
     for (let i = 1; i <= 12; i++) {
       const startAngle = 90 + (i - 1) * 30;
@@ -655,11 +667,13 @@ export default function RasiChart({
           const angleStep = 30 / (row.length + 1);
           const angle = startAngle + angleStep * (idx + 1);
           const pos = polarToCartesian(radius, angle);
+          const cssClass = `occ-${property}-${i}-${idx}-${Math.round(radius)}`;
+          styles.push(`.${cssClass} { transform-origin: ${pos.x}px ${pos.y}px; }`);
+
           return (
             <g
               key={`occ-${property}-${i}-${idx}-${radius}`}
-              className="cursor-pointer transition-transform hover:scale-125"
-              style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}
+              className={`cursor-pointer transition-transform hover:scale-125 ${cssClass}`}
               onMouseEnter={(e) => showTooltip(e, occ.tooltipText)}
               onMouseMove={updateTooltip}
               onMouseLeave={hideTooltip}
@@ -684,15 +698,22 @@ export default function RasiChart({
         });
       };
 
-      const signTextPos = polarToCartesian(innerR + width * 0.15, midAngle);
+      const signTextPos = polarToCartesian(innerR + labelOffset, midAngle);
+      const width = outerR - innerR;
+
+      const row1Elements = renderRow(
+        row1,
+        row2.length > 0 ? innerR + width * 0.5 : innerR + width * 0.6,
+      );
+      const row2Elements = row2.length > 0 ? renderRow(row2, innerR + width * 0.8) : null;
 
       slices.push(
         <g key={`${property}-${i}`}>
           <path
             d={getSlicePath(innerR, outerR, startAngle, endAngle)}
-            fill={i % 2 === 0 ? bgColors[0] : bgColors[1]}
-            stroke="#cbd5e1"
-            strokeWidth="1.5"
+            fill="#ffffff"
+            stroke="#94a3b8"
+            strokeWidth="2"
             className="transition-colors hover:fill-indigo-50"
           />
           <text
@@ -700,244 +721,253 @@ export default function RasiChart({
             y={signTextPos.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-[10px] font-bold fill-gray-400 select-none pointer-events-none"
+            className="text-[9px] font-bold fill-gray-400 select-none pointer-events-none"
           >
             {t.signs[i]}
           </text>
-          {i === 1 && (
-            <text
-              x={signTextPos.x}
-              y={signTextPos.y + 12}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-[8px] font-semibold fill-indigo-400 select-none pointer-events-none"
-            >
-              {ringName}
-            </text>
-          )}
-          {renderRow(
-            row1,
-            row2.length > 0 ? innerR + width * 0.5 : innerR + width * 0.6,
-          )}
-          {row2.length > 0 && renderRow(row2, innerR + width * 0.8)}
+          {row1Elements}
+          {row2Elements}
         </g>,
       );
     }
+    
+    slices.push(
+      <style key={`style-${property}`} dangerouslySetInnerHTML={{ __html: styles.join(' ') }} />
+    );
     return slices;
   };
 
   return (
-    <div
-      className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4 relative"
-      ref={containerRef}
-    >
-      {/* TOOLTIP OVERLAY */}
-      {tooltip.visible && (
-        <div
-          className="absolute z-50 bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full mt-[-10px] whitespace-nowrap"
-          style={{ left: tooltip.x, top: tooltip.y }}
-        >
-          {tooltip.text}
-          <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
-        </div>
-      )}
-
-      {/* TOOLBAR CONTROLS */}
-      <div className="w-full flex justify-between items-center">
-        <div className="flex items-center space-x-1 bg-gray-100 p-1.5 rounded-lg border border-gray-200">
-          <button
-            onClick={handleZoomOut}
-            className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
-            title="Zoom Out"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M20 12H4"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={handleReset}
-            className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
-            title="Reset View"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={handleZoomIn}
-            className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
-            title="Zoom In"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-          </button>
-          <div className="px-3 flex items-center text-xs font-semibold text-gray-500 border-l border-gray-300 ml-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-1.5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
-              />
-            </svg>
-            Drag to Move
-          </div>
-        </div>
-
-        <button
-          onClick={exportToPNG}
-          className="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors border border-indigo-100 shadow-sm"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </svg>
-          <span className="hidden sm:inline">{t.tabs.exportBtn}</span>
-          <span className="sm:hidden">PNG</span>
-        </button>
-      </div>
+    <>
+      {isModalOpen && <div className="w-full h-[70vh] min-h-[500px]" />}
 
       <div
-        className={`relative w-full h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleMouseUp}
+        className={
+          isModalOpen
+            ? 'fixed inset-0 z-100 bg-white/95 backdrop-blur-sm p-4 md:p-8 flex flex-col items-center space-y-4 overflow-hidden'
+            : 'w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4 relative'
+        }
+        ref={containerRef}
       >
-        <div
-          className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
-          style={{
-            transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-          }}
-        >
-          <svg
-            ref={svgRef}
-            viewBox="-500 -500 1000 1000"
-            className="w-full h-full max-w-[900px] max-h-[900px] drop-shadow-sm bg-white pointer-events-auto"
+        {/* TOOLTIP OVERLAY */}
+        {tooltip.visible && (
+          <div
+            ref={tooltipRef}
+            className="absolute z-50 bg-gray-900 text-white text-xs font-medium px-3 py-1.5 rounded-md shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full mt-[-10px] whitespace-nowrap"
           >
-            <g id="ring-1-dasha">{ring1}</g>
-            <g id="ring-2-navamsa-lord">{ring2}</g>
-            <g id="ring-3-nakshatra">{ring3}</g>
-            <g id="ring-4-drekkana">{ring4}</g>
-            <g id="ring-5-pada-dynamic">{ring5}</g>
+            {tooltip.text}
+            <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+          </div>
+        )}
 
-            <g id="ring-7-navamsa-chart">
-              {generatePlanetRing(
-                NAV_INNER,
-                NAV_OUTER,
-                'navamsa',
-                ['#fdf8f6', '#ffffff'],
-                lang === 'th' ? 'นวางค์' : 'Navamsa',
-              )}
-            </g>
-
-            <g id="ring-8-rasi-chart">
-              {generatePlanetRing(
-                RASI_INNER,
-                RASI_OUTER,
-                'rasi',
-                ['#f8fafc', '#ffffff'],
-                lang === 'th' ? 'ราศี' : 'Rasi',
-              )}
-            </g>
-
-            {/* --- ข้อมูลตรงกลางดวง --- */}
-            <circle
-              cx="0"
-              cy="0"
-              r={CENTER_RADIUS}
-              fill="#ffffff"
-              stroke="#94a3b8"
-              strokeWidth="2"
-              strokeDasharray="4,4"
-            />
-            <text
-              x="0"
-              y={birthDateText ? '-10' : '0'}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              className="text-[12px] font-bold fill-indigo-900 pointer-events-none"
+        {/* TOOLBAR CONTROLS */}
+        <div className="w-full flex justify-between items-center max-w-5xl">
+          <div className="flex items-center space-x-1 bg-gray-100 p-1.5 rounded-lg border border-gray-200 shadow-sm">
+            <button
+              onClick={handleZoomOut}
+              className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+              title="Zoom Out"
             >
-              {birthName || (lang === 'th' ? 'ดวงชาตา' : 'Natal Chart')}
-            </text>
-            {birthDateText && (
-              <text
-                x="0"
-                y="4"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-[7.5px] font-medium fill-slate-600 pointer-events-none"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                {birthDateText}
-              </text>
-            )}
-            {birthTimeText && (
-              <text
-                x="0"
-                y="14"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-[7px] font-medium fill-slate-500 pointer-events-none"
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M20 12H4"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={handleReset}
+              className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+              title="Reset View"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                {birthTimeText}
-              </text>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={handleZoomIn}
+              className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+              title="Zoom In"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </button>
+            <div className="px-3 flex items-center text-xs font-semibold text-gray-500 border-l border-gray-300 ml-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 mr-1.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
+                />
+              </svg>
+              Drag to Move
+            </div>
+          </div>
+
+          <button
+            onClick={() => setIsModalOpen(!isModalOpen)}
+            className="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors border border-indigo-100 shadow-sm"
+          >
+            {isModalOpen ? (
+              <>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                <span className="hidden sm:inline">
+                  {lang === 'th' ? 'ปิดหน้าต่าง' : 'Close'}
+                </span>
+              </>
+            ) : (
+              <>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                  />
+                </svg>
+                <span className="hidden sm:inline">
+                  {lang === 'th' ? 'ขยายเต็มจอ' : 'Enlarge'}
+                </span>
+              </>
             )}
-          </svg>
+          </button>
+        </div>
+
+        <div
+          className={
+            isModalOpen
+              ? `relative w-full flex-1 min-h-0 overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`
+              : `relative w-full h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`
+          }
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleMouseUp}
+        >
+          <div
+            ref={contentWrapperRef}
+            className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
+          >
+            <svg
+              ref={svgRef}
+              viewBox="-500 -500 1000 1000"
+              className="w-full h-full max-w-[900px] max-h-[900px] drop-shadow-sm bg-white pointer-events-auto"
+            >
+              <g id="ring-1-dasha">{ring1}</g>
+              <g id="ring-2-navamsa-lord">{ring2}</g>
+              <g id="ring-3-nakshatra">{ring3}</g>
+              <g id="ring-4-drekkana">{ring4}</g>
+              <style dangerouslySetInnerHTML={{ __html: ring5Styles }} />
+              <g id="ring-5-pada-dynamic">{ring5}</g>
+
+              {/* เส้นเชื่อมราศีข้ามช่องว่าง */}
+              <g id="rasi-gap-connectors">{rasiGapConnectors}</g>
+
+              <g id="ring-7-navamsa-chart">
+                {generatePlanetRing(NAV_INNER, NAV_OUTER, 'navamsa')}
+              </g>
+
+              <g id="ring-8-rasi-chart">
+                {generatePlanetRing(RASI_INNER, RASI_OUTER, 'rasi')}
+              </g>
+
+              {/* ข้อมูลกลางดวง */}
+              <circle
+                cx="0"
+                cy="0"
+                r={CENTER_RADIUS}
+                fill="#ffffff"
+                stroke="#94a3b8"
+                strokeWidth="2"
+                strokeDasharray="4,4"
+              />
+
+              {birthDateText && (
+                <text
+                  x="0"
+                  y="-4"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-[8px] font-semibold fill-slate-700 pointer-events-none"
+                >
+                  {birthDateText}
+                </text>
+              )}
+              {birthTimeText && (
+                <text
+                  x="0"
+                  y="6"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-[7.5px] font-medium fill-slate-500 pointer-events-none"
+                >
+                  {birthTimeText}
+                </text>
+              )}
+            </svg>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
