@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -118,19 +118,24 @@ const toThaiNumerals = (num: number) => {
     .join('');
 };
 
-const DREKKANA_HIGHLIGHTS: Record<number, string> = {
-  1: 'MARS',
-  2: 'MERCURY',
-  3: 'SATURN',
-  4: 'JUPITER',
-  5: 'JUPITER',
-  6: 'MERCURY',
-  7: 'SATURN',
-  8: 'MOON',
-  9: 'JUPITER',
-  10: 'MERCURY',
-  11: 'MERCURY',
-  12: 'JUPITER',
+// --- DREKKANA HARDCODED REFERENCE ---
+// อ้างอิงดาวเจ้าตรียางค์และช่องที่ต้องเน้นสีแดงตามฉบับของคุณพ่อ 100%
+const DREKKANA_REFERENCE: Record<
+  number,
+  { lords: string[]; redIndex: number }
+> = {
+  1: { lords: ['MARS', 'SUN', 'JUPITER'], redIndex: 1 }, // เมษ => ๓(red), ๑, ๕
+  2: { lords: ['VENUS', 'MERCURY', 'SATURN'], redIndex: 2 }, // พฤษภ => ๖, ๔(red), ๗
+  3: { lords: ['MERCURY', 'VENUS', 'SATURN'], redIndex: 3 }, // มิถุน => ๔, ๖, ๗(red)
+  4: { lords: ['MOON', 'MARS', 'JUPITER'], redIndex: 3 }, // กรกฎ => ๒, ๓, ๕(red)
+  5: { lords: ['SUN', 'JUPITER', 'MARS'], redIndex: 2 }, // สิงห์ => ๑, ๕(red), ๓
+  6: { lords: ['MERCURY', 'SATURN', 'VENUS'], redIndex: 1 }, // กันย์ => ๔(red), ๗, ๖
+  7: { lords: ['VENUS', 'SATURN', 'MERCURY'], redIndex: 2 }, // ตุลย์ => ๖, ๗(red), ๔
+  8: { lords: ['MARS', 'JUPITER', 'MOON'], redIndex: 3 }, // พิจิก => ๓, ๕, ๒(red)
+  9: { lords: ['JUPITER', 'MARS', 'SUN'], redIndex: 1 }, // ธนู => ๕(red), ๓, ๑
+  10: { lords: ['SATURN', 'VENUS', 'MERCURY'], redIndex: 3 }, // มกร => ๗, ๖, ๔(red)
+  11: { lords: ['SATURN', 'MERCURY', 'VENUS'], redIndex: 2 }, // กุมภ์ => ๗, ๔(red), ๖
+  12: { lords: ['JUPITER', 'MOON', 'MARS'], redIndex: 1 }, // มีน => ๕(red), ๒, ๓
 };
 
 interface PlanetData {
@@ -158,7 +163,6 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
   const svgRef = useRef<SVGSVGElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   // --- Zoom & Pan State ---
   const [scale, setScale] = useState(1);
@@ -202,13 +206,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     }
   };
 
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
-    }
-  }, [position.x, position.y, scale]);
-
-  // --- Refactored Radii Configuration ---
   const CENTER_RADIUS = 35;
   const RASI_INNER = 35;
   const RASI_OUTER = 115;
@@ -340,10 +337,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
-      // --- เงื่อนไขนวางค์ขาด (Gandanta Points) ---
-      // i = 35: อาศเลขา (9) บาทที่ 4
-      // i = 71: เชฏฐา (18) บาทที่ 4
-      // i = 107: เรวตี (27) บาทที่ 4
+      // จุดนวางค์ขาด (Gandanta)
       const isGandanta = i === 35 || i === 71 || i === 107;
       const bgFill = isGandanta
         ? '#fee2e2'
@@ -351,7 +345,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           ? '#f1f5f9'
           : '#ffffff';
 
-      // Navamsa Lord
       const navSign = (i % 12) + 1;
       const lordKey = SIGN_LORDS[navSign];
       const lordSymbol =
@@ -370,7 +363,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
               startAngle,
               endAngle,
             )}
-            fill={bgFill} // ใช้สีพื้นหลังที่เช็คแล้ว
+            fill={bgFill}
             stroke="#cbd5e1"
             strokeWidth="0.5"
           />
@@ -396,13 +389,12 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         );
       }
 
-      // Draw Dynamic Background Slice
       r5.push(
         <path
           key={`r5-bg-${i}`}
           d={getSlicePath(currentInner, PL_OUTER, startAngle, endAngle)}
-          fill={bgFill} // ใช้สีพื้นหลังที่เช็คแล้ว
-          stroke={isGandanta ? '#fca5a5' : '#e2e8f0'} // เน้นเส้นขอบถ้าเป็นจุดพิษ
+          fill={bgFill}
+          stroke={isGandanta ? '#fca5a5' : '#e2e8f0'}
           strokeWidth="0.5"
         />,
       );
@@ -481,6 +473,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang, t.nakshatras]);
 
+  // --- 3. Drekkana Engine (Ring 4 - 36 Slices) ---
   const ring4 = useMemo(() => {
     const slices = [];
     const width = DREK_OUTER - DREK_INNER;
@@ -490,18 +483,17 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + 10;
       const midAngle = startAngle + 5;
 
-      const signNum = Math.floor((i - 1) / 3) + 1;
-      const drekNum = ((i - 1) % 3) + 1;
+      const signNum = Math.floor((i - 1) / 3) + 1; // ราศีที่ 1-12
+      const drekNum = ((i - 1) % 3) + 1; // ช่วงตรียางค์ที่ 1, 2, 3
 
-      let targetSign = signNum;
-      if (drekNum === 2) targetSign = ((signNum + 4 - 1) % 12) + 1;
-      if (drekNum === 3) targetSign = ((signNum + 8 - 1) % 12) + 1;
-
-      const lordKey = SIGN_LORDS[targetSign];
+      // ดึงดาวเจ้าตรียางค์จาก Hardcoded Reference ของคุณพ่อ
+      const ref = DREKKANA_REFERENCE[signNum];
+      const lordKey = ref.lords[drekNum - 1];
       const lordSymbol =
         lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
 
-      const isHighlighted = lordKey === DREKKANA_HIGHLIGHTS[signNum];
+      // เน้นสีแดงตามช่องที่ระบุไว้ใน Reference
+      const isHighlighted = drekNum === ref.redIndex;
       const textColorClass = isHighlighted
         ? 'fill-red-600 text-[14px]'
         : 'fill-slate-500 text-[12px]';
@@ -761,8 +753,10 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         onTouchEnd={handleMouseUp}
       >
         <div
-          ref={containerRef}
           className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
+          style={{
+            transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+          }}
         >
           <svg
             ref={svgRef}
