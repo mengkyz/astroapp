@@ -128,18 +128,14 @@ export default function DashaTable({
                       dayjs(bhukti.startDate).isBefore(birthDate) &&
                       dayjs(bhukti.endDate).isAfter(birthDate);
 
-                    let displayAge = `0${t.dashaTable.y} 0${t.dashaTable.m}`;
+                    // Perfectly consistent Year/Month/Day logic for Age
+                    let displayAge = `0${t.dashaTable.y}0${t.dashaTable.m}0${t.dashaTable.d}`;
                     if (!isPartiallyElapsed) {
-                      const ageYears = dayjs(bhukti.startDate).diff(
-                        birthDate,
-                        'year',
+                      displayAge = formatDuration(
+                        birthDate.format('YYYY-MM-DDTHH:mm:ss'),
+                        bhukti.startDate,
+                        t.dashaTable,
                       );
-                      const ageMonths = dayjs(bhukti.startDate).diff(
-                        birthDate.add(ageYears, 'year'),
-                        'month',
-                      );
-                      displayAge =
-                        `${Math.max(0, ageYears)}${t.dashaTable.y}${Math.max(0, ageMonths)}${t.dashaTable.m}`.trim();
                     }
 
                     const displayStartDate = isPartiallyElapsed
