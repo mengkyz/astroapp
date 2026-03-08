@@ -46,6 +46,7 @@ export const translations = {
       planets: 'Planet Positions',
       dasha: 'Vimshottari Dasha',
       chart: 'Rasi Chart',
+      exportBtn: 'Download Chart (PNG)', // <--- NEW
     },
     planetTable: {
       planet: 'Planet',
@@ -194,6 +195,7 @@ export const translations = {
       planets: 'ตำแหน่งดาว',
       dasha: 'ทศา (Vimshottari)',
       chart: 'ดวงราศีจักร',
+      exportBtn: 'ดาวน์โหลดรูปดวง (PNG)', // <--- NEW
     },
     planetTable: {
       planet: 'ดาว/ปัจจัย',

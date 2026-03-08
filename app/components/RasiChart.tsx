@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -30,7 +30,6 @@ function getSlicePath(
   ].join(' ');
 }
 
-// NEW: Added URANUS
 const PLANET_ORDER = [
   'SUN',
   'MOON',
@@ -122,6 +121,7 @@ interface Occupant {
 
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
+  const svgRef = useRef<SVGSVGElement>(null); // NEW: Ref for exporting
 
   const CENTER_RADIUS = 35;
   const RASI_INNER = 35;
@@ -141,14 +141,53 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   const DASHA_INNER = 435;
   const DASHA_OUTER = 485;
 
-  // 0. Ring 1: Dasha (Vimshottari Years)
+  // --- High Resolution PNG Export Engine ---
+  const exportToPNG = () => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    // Serialize SVG to string
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    // Scale 3x for crisp High-Def resolution
+    const scale = 3;
+    canvas.width = 1000 * scale;
+    canvas.height = 1000 * scale;
+
+    img.onload = () => {
+      if (ctx) {
+        // Give it a solid white background (SVGs are transparent by default)
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.scale(scale, scale);
+        ctx.drawImage(img, 0, 0, 1000, 1000);
+
+        // Trigger download
+        const pngFile = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.download = `rasi-chart-${new Date().getTime()}.png`;
+        downloadLink.href = pngFile;
+        downloadLink.click();
+      }
+    };
+
+    // Safely encode SVG for the Image source
+    img.src =
+      'data:image/svg+xml;base64,' +
+      btoa(unescape(encodeURIComponent(svgData)));
+  };
+
   const ring1 = useMemo(() => {
     const slices = [];
     const step = 360 / 27;
     const width = DASHA_OUTER - DASHA_INNER;
 
     for (let i = 1; i <= 27; i++) {
-      const startAngle = 90 + (i - 1) * step; // ROTATED TO 90
+      const startAngle = 90 + (i - 1) * step;
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -179,7 +218,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang]);
 
-  // 1. 108-Pada Rings Engine (Ring 2, 5, 6)
   const { ring2, ring5, ring6 } = useMemo(() => {
     const r2 = [];
     const r5 = [];
@@ -212,7 +250,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
 
     const step = 360 / 108;
     for (let i = 0; i < 108; i++) {
-      const startAngle = 90 + i * step; // ROTATED TO 90
+      const startAngle = 90 + i * step;
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -341,14 +379,13 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return { ring2: r2, ring5: r5, ring6: r6 };
   }, [data, lang]);
 
-  // 2. Nakshatra Engine (Ring 3 - 27 Slices)
   const ring3 = useMemo(() => {
     const slices = [];
     const step = 360 / 27;
     const width = NAK_OUTER - NAK_INNER;
 
     for (let i = 1; i <= 27; i++) {
-      const startAngle = 90 + (i - 1) * step; // ROTATED TO 90
+      const startAngle = 90 + (i - 1) * step;
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
@@ -389,13 +426,12 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang]);
 
-  // 3. Drekkana Engine (Ring 4 - 36 Slices)
   const ring4 = useMemo(() => {
     const slices = [];
     const width = DREK_OUTER - DREK_INNER;
 
     for (let i = 1; i <= 36; i++) {
-      const startAngle = 90 + (i - 1) * 10; // ROTATED TO 90
+      const startAngle = 90 + (i - 1) * 10;
       const endAngle = startAngle + 10;
       const midAngle = startAngle + 5;
 
@@ -446,7 +482,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang]);
 
-  // 4. Rasi & Navamsa Engine (Ring 7 & 8 - 12 Slices)
   const generatePlanetRing = (
     innerR: number,
     outerR: number,
@@ -458,7 +493,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     const width = outerR - innerR;
 
     for (let i = 1; i <= 12; i++) {
-      const startAngle = 90 + (i - 1) * 30; // ROTATED TO 90
+      const startAngle = 90 + (i - 1) * 30;
       const endAngle = startAngle + 30;
       const midAngle = startAngle + 15;
 
@@ -560,10 +595,36 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-2 md:p-8 flex flex-col items-center">
+    <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-6">
+      {/* EXPORT BUTTON */}
+      <div className="w-full flex justify-end">
+        <button
+          onClick={exportToPNG}
+          className="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors border border-indigo-100 shadow-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+            />
+          </svg>
+          <span>{t.tabs.exportBtn}</span>
+        </button>
+      </div>
+
+      {/* SVG CANVAS WITH REF */}
       <svg
+        ref={svgRef}
         viewBox="-500 -500 1000 1000"
-        className="w-full h-auto drop-shadow-sm max-h-[85vh]"
+        className="w-full h-auto drop-shadow-sm max-h-[85vh] bg-white"
       >
         <g id="ring-1-dasha">{ring1}</g>
         <g id="ring-2-navamsa-lord">{ring2}</g>
@@ -593,7 +654,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           )}
         </g>
 
-        {/* Center Canvas */}
         <circle
           cx="0"
           cy="0"
