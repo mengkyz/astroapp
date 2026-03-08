@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -118,20 +118,19 @@ const toThaiNumerals = (num: number) => {
     .join('');
 };
 
-// NEW: กฎตรียางค์ที่ต้องการเน้นสีแดงสำหรับแต่ละราศี
 const DREKKANA_HIGHLIGHTS: Record<number, string> = {
-  1: 'MARS', // เมษ => ๓
-  2: 'MERCURY', // พฤษภ => ๔
-  3: 'SATURN', // มิถุน => ๗
-  4: 'JUPITER', // กรกฎ => ๕
-  5: 'JUPITER', // สิงห์ => ๕
-  6: 'MERCURY', // กันย์ => ๔
-  7: 'SATURN', // ตุลย์ => ๗
-  8: 'MOON', // พิจิก => ๒
-  9: 'JUPITER', // ธนู => ๕
-  10: 'MERCURY', // มกร => ๔
-  11: 'MERCURY', // กุมภ์ => ๔
-  12: 'JUPITER', // มีน => ๕
+  1: 'MARS',
+  2: 'MERCURY',
+  3: 'SATURN',
+  4: 'JUPITER',
+  5: 'JUPITER',
+  6: 'MERCURY',
+  7: 'SATURN',
+  8: 'MOON',
+  9: 'JUPITER',
+  10: 'MERCURY',
+  11: 'MERCURY',
+  12: 'JUPITER',
 };
 
 interface PlanetData {
@@ -159,19 +158,12 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
   const svgRef = useRef<SVGSVGElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   // --- Zoom & Pan State ---
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
-    }
-  }, [position.x, position.y, scale]);
 
   const handleZoomIn = () => setScale((s) => Math.min(s + 0.4, 4));
   const handleZoomOut = () => setScale((s) => Math.max(s - 0.4, 0.5));
@@ -180,7 +172,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     setPosition({ x: 0, y: 0 });
   };
 
-  // Mouse Drag Events
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setStartPos({ x: e.clientX - position.x, y: e.clientY - position.y });
@@ -191,7 +182,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   };
   const handleMouseUp = () => setIsDragging(false);
 
-  // Touch (Mobile) Drag Events
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 1) {
       setIsDragging(true);
@@ -211,15 +201,15 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     }
   };
 
+  // --- Refactored Radii Configuration ---
   const CENTER_RADIUS = 35;
   const RASI_INNER = 35;
-  const RASI_OUTER = 120;
-  const NAV_INNER = 120;
-  const NAV_OUTER = 205;
-  const PL_L2_INNER = 205;
-  const PL_L2_OUTER = 240;
-  const PL_L1_INNER = 240;
-  const PL_L1_OUTER = 275;
+  const RASI_OUTER = 115;
+  const NAV_INNER = 115;
+  const NAV_OUTER = 185;
+  // GAP is deliberately left between 185 and 245 for Pada expansion!
+  const PL_INNER_BASE = 245;
+  const PL_OUTER = 275;
   const DREK_INNER = 275;
   const DREK_OUTER = 325;
   const NAK_INNER = 325;
@@ -246,7 +236,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       if (ctx) {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         ctx.scale(exportScale, exportScale);
         ctx.drawImage(img, 0, 0, 1000, 1000);
 
@@ -310,10 +299,10 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang]);
 
-  const { ring2, ring5, ring6 } = useMemo(() => {
+  // --- Dynamic Single-Layer Pada Engine (replaces ring 5 and 6) ---
+  const { ring2, ring5 } = useMemo(() => {
     const r2 = [];
     const r5 = [];
-    const r6 = [];
     const padaOccupants: Occupant[][] = Array.from({ length: 108 }, () => []);
 
     if (data.lagna.longitude !== undefined) {
@@ -346,6 +335,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
+      // Navamsa Lord
       const navSign = (i % 12) + 1;
       const lordKey = SIGN_LORDS[navSign];
       const lordSymbol =
@@ -380,95 +370,63 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         </g>,
       );
 
+      const occs = padaOccupants[i];
+
+      // Dynamic Height Calculation: Widen inward if multiple planets
+      let currentInner = PL_INNER_BASE;
+      if (occs.length > 1) {
+        // Expand inward by 20px per additional planet, but don't crash into Navamsa
+        currentInner = Math.max(
+          NAV_OUTER + 5,
+          PL_INNER_BASE - (occs.length - 1) * 20,
+        );
+      }
+
+      // Draw Dynamic Background Slice
       r5.push(
         <path
           key={`r5-bg-${i}`}
-          d={getSlicePath(PL_L1_INNER, PL_L1_OUTER, startAngle, endAngle)}
+          d={getSlicePath(currentInner, PL_OUTER, startAngle, endAngle)}
           fill={i % 2 === 0 ? '#f1f5f9' : '#ffffff'}
           stroke="#e2e8f0"
           strokeWidth="0.5"
         />,
       );
-      r6.push(
-        <path
-          key={`r6-bg-${i}`}
-          d={getSlicePath(PL_L2_INNER, PL_L2_OUTER, startAngle, endAngle)}
-          fill={i % 2 === 0 ? '#f8fafc' : '#ffffff'}
-          stroke="#e2e8f0"
-          strokeWidth="0.5"
-        />,
-      );
 
-      const occs = padaOccupants[i];
+      // Auto-Center Planets within the dynamically expanded slice
       if (occs.length > 0) {
-        const r5Pos = polarToCartesian(
-          PL_L1_INNER + (PL_L1_OUTER - PL_L1_INNER) / 2,
-          midAngle,
-        );
-        r5.push(
-          <text
-            key={`r5-occ-${i}`}
-            x={r5Pos.x}
-            y={r5Pos.y}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fill={occs[0].color}
-            className="text-[12px] font-bold pointer-events-none"
-          >
-            {occs[0].symbol}
-            {occs[0].isRetro && (
-              <tspan dx="1" dy="-5" fill="#dc2626" fontSize="8">
-                {lang === 'th' ? 'พ' : 'R'}
-              </tspan>
-            )}
-          </text>,
-        );
-      }
-      if (occs.length > 1) {
-        const r6Pos = polarToCartesian(
-          PL_L2_INNER + (PL_L2_OUTER - PL_L2_INNER) / 2,
-          midAngle,
-        );
-        r6.push(
-          <text
-            key={`r6-occ-${i}`}
-            x={r6Pos.x}
-            y={r6Pos.y}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fill={occs[1].color}
-            className="text-[12px] font-bold pointer-events-none"
-          >
-            {occs[1].symbol}
-            {occs[1].isRetro && (
-              <tspan dx="1" dy="-5" fill="#dc2626" fontSize="8">
-                {lang === 'th' ? 'พ' : 'R'}
-              </tspan>
-            )}
-          </text>,
-        );
-      }
-      if (occs.length > 2) {
-        const r6PosExtra = polarToCartesian(
-          PL_L2_INNER + (PL_L2_OUTER - PL_L2_INNER) * 0.85,
-          midAngle,
-        );
-        r6.push(
-          <text
-            key={`r6-occ-extra-${i}`}
-            x={r6PosExtra.x}
-            y={r6PosExtra.y}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fill={occs[2].color}
-            className="text-[9px] font-bold pointer-events-none"
-          >
-            {occs[2].symbol}
-          </text>,
-        );
+        const sliceWidth = PL_OUTER - currentInner;
+        const stepR = sliceWidth / occs.length;
+
+        occs.forEach((occ, idx) => {
+          // Center each planet perfectly inside its dynamic subdivision
+          const rPos = polarToCartesian(
+            PL_OUTER - stepR / 2 - idx * stepR,
+            midAngle,
+          );
+
+          r5.push(
+            <text
+              key={`r5-occ-${i}-${idx}`}
+              x={rPos.x}
+              y={rPos.y}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fill={occ.color}
+              className="text-[12px] font-bold pointer-events-none"
+            >
+              {occ.symbol}
+              {occ.isRetro && (
+                <tspan dx="1" dy="-5" fill="#dc2626" fontSize="8">
+                  {lang === 'th' ? 'พ' : 'R'}
+                </tspan>
+              )}
+            </text>,
+          );
+        });
       }
     }
-    return { ring2: r2, ring5: r5, ring6: r6 };
+    return { ring2: r2, ring5: r5 };
   }, [data, lang]);
 
   const ring3 = useMemo(() => {
@@ -511,7 +469,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     return slices;
   }, [lang, t.nakshatras]);
 
-  // --- 3. Drekkana Engine (Ring 4 - 36 Slices) ---
   const ring4 = useMemo(() => {
     const slices = [];
     const width = DREK_OUTER - DREK_INNER;
@@ -521,10 +478,9 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + 10;
       const midAngle = startAngle + 5;
 
-      const signNum = Math.floor((i - 1) / 3) + 1; // ราศีที่ 1-12
-      const drekNum = ((i - 1) % 3) + 1; // ช่วงตรียางค์ที่ 1, 2, 3
+      const signNum = Math.floor((i - 1) / 3) + 1;
+      const drekNum = ((i - 1) % 3) + 1;
 
-      // คำนวณหาดาวเจ้าตรียางค์ (Drekkana Lord) ตามหลักมาตรฐาน
       let targetSign = signNum;
       if (drekNum === 2) targetSign = ((signNum + 4 - 1) % 12) + 1;
       if (drekNum === 3) targetSign = ((signNum + 8 - 1) % 12) + 1;
@@ -533,7 +489,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const lordSymbol =
         lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
 
-      // เน้นสีแดงเมื่อดาวเข้าเกณฑ์ที่กำหนด
       const isHighlighted = lordKey === DREKKANA_HIGHLIGHTS[signNum];
       const textColorClass = isHighlighted
         ? 'fill-red-600 text-[14px]'
@@ -794,8 +749,10 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         onTouchEnd={handleMouseUp}
       >
         <div
-          ref={containerRef}
           className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
+          style={{
+            transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+          }}
         >
           <svg
             ref={svgRef}
@@ -807,8 +764,8 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             <g id="ring-3-nakshatra">{ring3}</g>
             <g id="ring-4-drekkana">{ring4}</g>
 
-            <g id="ring-5-pada-l1">{ring5}</g>
-            <g id="ring-6-pada-l2">{ring6}</g>
+            {/* NEW: Single Dynamic Pada Ring */}
+            <g id="ring-5-pada-dynamic">{ring5}</g>
 
             <g id="ring-7-navamsa-chart">
               {generatePlanetRing(
