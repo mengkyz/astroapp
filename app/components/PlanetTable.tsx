@@ -81,17 +81,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
       .join(', ');
   };
 
-  const getPoison = (rasi: number, degrees: number) => {
-    const drekNum = Math.floor(degrees / 10) + 1;
-    if ([1, 4, 7, 10].includes(rasi) && drekNum === 1)
-      return lang === 'th' ? 'สุนัข' : 'Dog';
-    if ([2, 5, 8, 11].includes(rasi) && drekNum === 2)
-      return lang === 'th' ? 'ครุฑ' : 'Garuda';
-    if ([3, 6, 9, 12].includes(rasi) && drekNum === 1)
-      return lang === 'th' ? 'นาค' : 'Naga';
-    return '-';
-  };
-
   return (
     <div className="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200">
       <table className="w-full text-sm text-left text-gray-700">
@@ -112,9 +101,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             </th>
             <th className="px-4 py-3 font-semibold text-center text-indigo-700">
               {tTable.drekkana}
-            </th>
-            <th className="px-4 py-3 font-semibold text-center text-red-600">
-              {tTable.poison}
             </th>
             <th className="px-4 py-3 font-semibold text-center text-purple-700">
               {tTable.navamsa}
@@ -142,9 +128,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <td className="px-4 py-3 text-center">{pad(data.lagna.sec)}</td>
             <td className="px-4 py-3 text-center text-indigo-600">
               {t.signs[data.lagna.drekkana]}
-            </td>
-            <td className="px-4 py-3 text-center text-red-500 font-bold">
-              {getPoison(data.lagna.rasi, data.lagna.deg)}
             </td>
             <td className="px-4 py-3 text-center text-purple-600">
               {t.signs[data.lagna.navamsa]}
@@ -184,9 +167,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
                 <td className="px-4 py-3 text-center">{pad(planet.seconds)}</td>
                 <td className="px-4 py-3 text-center text-indigo-600">
                   {t.signs[planet.drekkana]}
-                </td>
-                <td className="px-4 py-3 text-center text-red-500 font-bold">
-                  {getPoison(planet.rasi, planet.degrees)}
                 </td>
                 <td className="px-4 py-3 text-center text-purple-600">
                   {t.signs[planet.navamsa]}
