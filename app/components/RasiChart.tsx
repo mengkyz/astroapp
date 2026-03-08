@@ -166,7 +166,6 @@ interface LagnaData {
 interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
-  birthName?: string;
   birthDateText?: string;
   birthTimeText?: string;
 }
@@ -185,7 +184,6 @@ export default function RasiChart({
   birthTimeText,
 }: RasiChartProps) {
   const t = translations[lang];
-  const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const contentWrapperRef = useRef<HTMLDivElement>(null);
@@ -299,7 +297,6 @@ export default function RasiChart({
   const DASHA_INNER = 435;
   const DASHA_OUTER = 485;
 
-  // --- 1. Rasi Gap Connectors (เชื่อมเส้นราศีข้ามช่องว่าง) ---
   const rasiGapConnectors = useMemo(() => {
     const lines = [];
     for (let i = 0; i < 12; i++) {
@@ -313,8 +310,8 @@ export default function RasiChart({
           y1={p1.y}
           x2={p2.x}
           y2={p2.y}
-          stroke="#94a3b8" // สีเดียวกับขอบหลัก
-          strokeWidth="2" // หนาเท่าเส้นแบ่งราศี
+          stroke="#94a3b8"
+          strokeWidth="2"
         />,
       );
     }
@@ -347,7 +344,6 @@ export default function RasiChart({
 
       slices.push(
         <g key={`dasha-${i}`}>
-          {/* อัปเดตขอบให้ชัดและหนาขึ้น */}
           <path
             d={getSlicePath(DASHA_INNER, DASHA_OUTER, startAngle, endAngle)}
             fill="#ffffff"
@@ -433,7 +429,6 @@ export default function RasiChart({
 
       r2.push(
         <g key={`r2-${i}`}>
-          {/* อัปเดตขอบให้ชัดขึ้น */}
           <path
             d={getSlicePath(
               NAV_LORD_INNER,
@@ -467,7 +462,6 @@ export default function RasiChart({
       }
 
       r5.push(
-        // อัปเดตขอบให้ชัดขึ้น
         <path
           key={`r5-bg-${i}`}
           d={getSlicePath(currentInner, PL_OUTER, startAngle, endAngle)}
@@ -487,7 +481,9 @@ export default function RasiChart({
             midAngle,
           );
           const cssClass = `occ-r5-${i}-${idx}`;
-          dynamicStyles.push(`.${cssClass} { transform-origin: ${rPos.x}px ${rPos.y}px; }`);
+          dynamicStyles.push(
+            `.${cssClass} { transform-origin: ${rPos.x}px ${rPos.y}px; }`,
+          );
 
           r5.push(
             <g
@@ -668,7 +664,9 @@ export default function RasiChart({
           const angle = startAngle + angleStep * (idx + 1);
           const pos = polarToCartesian(radius, angle);
           const cssClass = `occ-${property}-${i}-${idx}-${Math.round(radius)}`;
-          styles.push(`.${cssClass} { transform-origin: ${pos.x}px ${pos.y}px; }`);
+          styles.push(
+            `.${cssClass} { transform-origin: ${pos.x}px ${pos.y}px; }`,
+          );
 
           return (
             <g
@@ -705,7 +703,8 @@ export default function RasiChart({
         row1,
         row2.length > 0 ? innerR + width * 0.5 : innerR + width * 0.6,
       );
-      const row2Elements = row2.length > 0 ? renderRow(row2, innerR + width * 0.8) : null;
+      const row2Elements =
+        row2.length > 0 ? renderRow(row2, innerR + width * 0.8) : null;
 
       slices.push(
         <g key={`${property}-${i}`}>
@@ -730,9 +729,12 @@ export default function RasiChart({
         </g>,
       );
     }
-    
+
     slices.push(
-      <style key={`style-${property}`} dangerouslySetInnerHTML={{ __html: styles.join(' ') }} />
+      <style
+        key={`style-${property}`}
+        dangerouslySetInnerHTML={{ __html: styles.join(' ') }}
+      />,
     );
     return slices;
   };
@@ -744,7 +746,7 @@ export default function RasiChart({
       <div
         className={
           isModalOpen
-            ? 'fixed inset-0 z-100 bg-white/95 backdrop-blur-sm p-4 md:p-8 flex flex-col items-center space-y-4 overflow-hidden'
+            ? 'fixed inset-0 z-50 bg-white/95 backdrop-blur-sm p-4 md:p-8 flex flex-col items-center space-y-4 overflow-hidden'
             : 'w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4 relative'
         }
         ref={containerRef}
@@ -909,7 +911,6 @@ export default function RasiChart({
             className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
           >
             <svg
-              ref={svgRef}
               viewBox="-500 -500 1000 1000"
               className="w-full h-full max-w-[900px] max-h-[900px] drop-shadow-sm bg-white pointer-events-auto"
             >

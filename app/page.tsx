@@ -500,7 +500,7 @@ export default function Home() {
           </div>
         </form>
 
-        {/* Output Tables below (unchanged logic) */}
+        {/* Output Tables below */}
         {result && (
           <div className="mt-8">
             <div className="flex space-x-6 border-b border-gray-300 mb-6 px-2 overflow-x-auto">
@@ -548,7 +548,6 @@ export default function Home() {
                 <RasiChart
                   data={result}
                   lang={lang}
-                  birthName={lang === 'th' ? 'ดวงชาตาพื้นฐาน' : 'Natal Chart'}
                   birthDateText={`${formData.day} ${t.months[formData.month - 1]} ${lang === 'th' ? formData.year + 543 : formData.year}`}
                   birthTimeText={
                     lang === 'th'
