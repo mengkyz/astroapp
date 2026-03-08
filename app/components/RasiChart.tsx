@@ -67,16 +67,29 @@ const EN_SYMBOLS: Record<string, string> = {
   KETU: '☋',
 };
 
+// Vimshottari Lords order for Nakshatras
+const VIMSHOTTARI_LORDS = [
+  'KETU',
+  'VENUS',
+  'SUN',
+  'MOON',
+  'MARS',
+  'RAHU',
+  'JUPITER',
+  'SATURN',
+  'MERCURY',
+];
+
 // --- Component Interfaces ---
 interface PlanetData {
   key: string;
   rasi: number;
-  navamsa: number; // Added Navamsa integer (1-12)
+  navamsa: number;
   isRetrograde?: boolean;
 }
 interface LagnaData {
   rasi: number;
-  navamsa: number; // Added Navamsa integer (1-12)
+  navamsa: number;
 }
 interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
@@ -92,15 +105,128 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
 
-  // --- Ring Radii Configuration (Preparing for all 8 rings) ---
-  const CENTER_RADIUS = 110;
-  const RASI_INNER = 110;
-  const RASI_OUTER = 240; // Ring 8 width = 130
-  const NAV_INNER = 240;
-  const NAV_OUTER = 370; // Ring 7 width = 130
+  // --- Dynamic Ring Radii Configuration (Fitting all 8 Rings within 500 max radius) ---
+  const CENTER_RADIUS = 60;
 
-  // --- Universal 12-Slice Ring Generator ---
-  // This engine can generate any 12-slice planet ring (Rasi, Navamsa, Drekkana, etc.)
+  const RASI_INNER = 60;
+  const RASI_OUTER = 170; // Ring 8 (Width: 110)
+
+  const NAV_INNER = 170;
+  const NAV_OUTER = 280; // Ring 7 (Width: 110)
+
+  const DREK_INNER = 280;
+  const DREK_OUTER = 360; // Ring 4 (Width: 80)
+
+  const NAK_INNER = 360;
+  const NAK_OUTER = 440; // Ring 3 (Width: 80)
+
+  // --- Ring 3: Nakshatra Generator (27 Slices) ---
+  const generateNakshatraRing = (innerR: number, outerR: number) => {
+    const slices = [];
+    const step = 360 / 27; // Exactly 13°20'
+    const width = outerR - innerR;
+
+    for (let i = 1; i <= 27; i++) {
+      const startAngle = 180 + (i - 1) * step;
+      const endAngle = startAngle + step;
+      const midAngle = startAngle + step / 2;
+
+      const lordKey = VIMSHOTTARI_LORDS[(i - 1) % 9];
+      const lordSymbol =
+        lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
+      const textPos = polarToCartesian(innerR + width * 0.5, midAngle);
+
+      slices.push(
+        <g key={`nak-${i}`}>
+          <path
+            d={getSlicePath(innerR, outerR, startAngle, endAngle)}
+            fill={i % 2 === 0 ? '#fff7ed' : '#ffffff'} // Very soft orange alternating
+            stroke="#cbd5e1"
+            strokeWidth="1"
+          />
+          <text
+            x={textPos.x}
+            y={textPos.y - 8}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="text-[10px] font-bold fill-slate-400"
+          >
+            {i}
+          </text>
+          <text
+            x={textPos.x}
+            y={textPos.y + 8}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="text-[14px] font-bold fill-indigo-800"
+          >
+            {lordSymbol}
+          </text>
+        </g>,
+      );
+    }
+    return slices;
+  };
+
+  // --- Ring 4: Drekkana Generator (36 Slices) ---
+  const generateDrekkanaRing = (innerR: number, outerR: number) => {
+    const slices = [];
+    const width = outerR - innerR;
+
+    for (let i = 1; i <= 36; i++) {
+      const startAngle = 180 + (i - 1) * 10;
+      const endAngle = startAngle + 10;
+      const midAngle = startAngle + 5;
+
+      const signNum = Math.floor((i - 1) / 3) + 1; // Maps 1-36 into signs 1-12
+      const drekNum = ((i - 1) % 3) + 1; // Maps 1-36 into Drekkana 1, 2, or 3
+
+      // Traditional Thai Visa (Poison) Drekkana Logic mapped perfectly to your Reference Chart
+      let poisonLabel = '';
+      if ([1, 4, 7, 10].includes(signNum) && drekNum === 1)
+        poisonLabel = 'สุนัข';
+      if ([2, 5, 8, 11].includes(signNum) && drekNum === 2)
+        poisonLabel = 'ครุฑ';
+      if ([3, 6, 9, 12].includes(signNum) && drekNum === 1) poisonLabel = 'นาค';
+
+      const isPoison = poisonLabel !== '';
+      const textPos = polarToCartesian(innerR + width * 0.5, midAngle);
+
+      slices.push(
+        <g key={`drek-${i}`}>
+          <path
+            d={getSlicePath(innerR, outerR, startAngle, endAngle)}
+            fill={drekNum % 2 === 0 ? '#f8fafc' : '#ffffff'}
+            stroke="#cbd5e1"
+            strokeWidth="1"
+          />
+          <text
+            x={textPos.x}
+            y={textPos.y - (isPoison ? 5 : 0)}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="text-[12px] font-bold fill-slate-400"
+          >
+            {drekNum}
+          </text>
+          {isPoison && (
+            <text
+              x={textPos.x}
+              y={textPos.y + 7}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-[9px] font-bold fill-red-500"
+            >
+              {lang === 'th' ? poisonLabel : 'Poison'}
+            </text>
+          )}
+        </g>,
+      );
+    }
+    return slices;
+  };
+
+  // --- Universal 12-Slice Planet Ring Generator (Ring 7 & 8) ---
   const generatePlanetRing = (
     innerR: number,
     outerR: number,
@@ -109,13 +235,13 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     ringName: string,
   ) => {
     const slices = [];
+    const width = outerR - innerR;
 
     for (let i = 1; i <= 12; i++) {
       const startAngle = 180 + (i - 1) * 30;
       const endAngle = startAngle + 30;
       const midAngle = startAngle + 15;
 
-      // 1. Gather all occupants for this specific slice and property layer
       const occupants: Occupant[] = [];
 
       if (data.lagna[property] === i) {
@@ -137,7 +263,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         }
       });
 
-      // 2. Radial Slot Layout Algorithm (Prevents overlaps for Stelliums)
       let row1 = occupants;
       let row2: Occupant[] = [];
       if (occupants.length > 4) {
@@ -159,17 +284,17 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
                 textAnchor="middle"
                 dominantBaseline="central"
                 fill={occ.color}
-                className="text-xl font-bold pointer-events-none"
+                className="text-[16px] font-bold pointer-events-none"
               >
                 {occ.symbol}
               </text>
               {occ.isRetro && (
                 <text
-                  x={pos.x + 8}
-                  y={pos.y + 8}
+                  x={pos.x + 6}
+                  y={pos.y + 6}
                   textAnchor="start"
                   fill="#dc2626"
-                  className="text-[10px] font-bold pointer-events-none"
+                  className="text-[9px] font-bold pointer-events-none"
                 >
                   {lang === 'th' ? 'พ' : 'R'}
                 </text>
@@ -179,8 +304,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         });
       };
 
-      // 3. Render the geometric slice
-      const signTextPos = polarToCartesian(innerR + 18, midAngle);
+      const signTextPos = polarToCartesian(innerR + width * 0.15, midAngle);
 
       slices.push(
         <g key={`${property}-${i}`}>
@@ -191,33 +315,31 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             strokeWidth="1.5"
             className="transition-colors hover:fill-indigo-50"
           />
-          {/* Sign Indicator at the base of the slice */}
           <text
             x={signTextPos.x}
             y={signTextPos.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-xs font-bold fill-gray-400 select-none"
+            className="text-[10px] font-bold fill-gray-400 select-none"
           >
             {t.signs[i]}
           </text>
-
-          {/* Subtle Ring Name label only on Aries (Slice 1) */}
           {i === 1 && (
             <text
               x={signTextPos.x}
               y={signTextPos.y + 12}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="text-[9px] font-semibold fill-indigo-400 select-none"
+              className="text-[8px] font-semibold fill-indigo-400 select-none"
             >
               {ringName}
             </text>
           )}
-
-          {/* Plot Planets in their calculated radial row */}
-          {renderRow(row1, row2.length > 0 ? innerR + 55 : innerR + 70)}
-          {row2.length > 0 && renderRow(row2, innerR + 95)}
+          {renderRow(
+            row1,
+            row2.length > 0 ? innerR + width * 0.5 : innerR + width * 0.6,
+          )}
+          {row2.length > 0 && renderRow(row2, innerR + width * 0.8)}
         </g>,
       );
     }
@@ -230,6 +352,12 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         viewBox="-500 -500 1000 1000"
         className="w-full h-auto drop-shadow-sm max-h-[85vh]"
       >
+        {/* Ring 3: Nakshatras (27 Divisions) */}
+        <g id="nakshatra-ring">{generateNakshatraRing(NAK_INNER, NAK_OUTER)}</g>
+
+        {/* Ring 4: Drekkana (36 Divisions) */}
+        <g id="drekkana-ring">{generateDrekkanaRing(DREK_INNER, DREK_OUTER)}</g>
+
         {/* Ring 7: Navamsa Layer (Outer) */}
         <g id="navamsa-ring">
           {generatePlanetRing(
@@ -264,21 +392,12 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         />
         <text
           x="0"
-          y="-12"
+          y="-8"
           textAnchor="middle"
           dominantBaseline="middle"
-          className="text-indigo-900 text-xl font-bold"
+          className="text-indigo-900 text-lg font-bold"
         >
           {lang === 'th' ? 'ดวงชาตา' : 'Natal Chart'}
-        </text>
-        <text
-          x="0"
-          y="14"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className="text-gray-500 text-sm font-medium"
-        >
-          Rasi & Navamsa
         </text>
       </svg>
     </div>
