@@ -54,6 +54,7 @@ export const translations = {
       nakshatra: 'Nakshatra',
       pada: 'Pada',
       house: 'House',
+      houseLord: 'House Lord', // NEW
       ascendant: 'Ascendant',
       retroSymbol: 'R',
     },
@@ -124,6 +125,22 @@ export const translations = {
       'Uttara Bhadrapada',
       'Revati',
     ],
+    // NEW: Classical Vedic House Names
+    houses: [
+      'Dummy',
+      'Tanu',
+      'Dhana',
+      'Sahaja',
+      'Bandhu',
+      'Putra',
+      'Ari',
+      'Yuvati',
+      'Randhra',
+      'Dharma',
+      'Karma',
+      'Labha',
+      'Vyaya',
+    ],
   },
   th: {
     appTitle: 'โปรแกรมคำนวณโหราศาสตร์',
@@ -180,6 +197,7 @@ export const translations = {
       nakshatra: 'นักษัตร',
       pada: 'บาท',
       house: 'เรือน',
+      houseLord: 'เจ้าเรือน', // NEW
       ascendant: 'ลัคนา',
       retroSymbol: 'พ.',
     },
@@ -249,6 +267,22 @@ export const translations = {
       'ปุรวภัทรบท',
       'อุตรภัทรบท',
       'เรวตี',
+    ],
+    // NEW: Classical Thai House Names
+    houses: [
+      'Dummy',
+      'ตนุ',
+      'กดุมภะ',
+      'สหัชชะ',
+      'พันธุ',
+      'ปุตตะ',
+      'อริ',
+      'ปัตนิ',
+      'มรณะ',
+      'ศุภะ',
+      'กัมมะ',
+      'ลาภะ',
+      'วินาศ',
     ],
   },
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
-// 1. Define the exact standard Vedic sequence (excluding Uranus, Neptune, Pluto)
 const PLANET_ORDER = [
   'SUN',
   'MOON',
@@ -13,6 +12,19 @@ const PLANET_ORDER = [
   'RAHU',
   'KETU',
 ];
+
+// Mapping Planets to the Zodiac Signs (1-12) they intrinsically rule.
+// We use the Thai/Vedic hybrid system (Rahu rules Aquarius = 11).
+const PLANET_DOMICILES: Partial<Record<string, number[]>> = {
+  SUN: [5], // Leo
+  MOON: [4], // Cancer
+  MARS: [1, 8], // Aries, Scorpio
+  MERCURY: [3, 6], // Gemini, Virgo
+  JUPITER: [9, 12], // Sagittarius, Pisces
+  VENUS: [2, 7], // Taurus, Libra
+  SATURN: [10], // Capricorn
+  RAHU: [11], // Aquarius
+};
 
 interface PlanetData {
   key: keyof typeof translations.en.planets;
@@ -53,10 +65,23 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
   const tTable = t.planetTable;
   const pad = (num: number) => num.toString().padStart(2, '0');
 
-  // 2. Filter out the outer planets and sort by our precise Vedic order
   const visiblePlanets = data.planets
     .filter((p) => PLANET_ORDER.includes(p.key))
     .sort((a, b) => PLANET_ORDER.indexOf(a.key) - PLANET_ORDER.indexOf(b.key));
+
+  // Calculates which houses a planet rules relative to the Ascendant (Lagna)
+  const getRuledHouses = (planetKey: string, lagnaRasi: number) => {
+    const domiciles = PLANET_DOMICILES[planetKey];
+    if (!domiciles) return '-'; // Ketu and Ascendant don't rule houses
+
+    return domiciles
+      .map((sign) => {
+        let houseNum = sign - lagnaRasi + 1;
+        if (houseNum <= 0) houseNum += 12;
+        return `${t.houses[houseNum]} (${houseNum})`; // Format like "ตนุ (1)"
+      })
+      .join(', '); // Separate multiple houses with a comma
+  };
 
   return (
     <div className="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200">
@@ -76,7 +101,6 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <th className="px-4 py-3 font-semibold text-center">
               {tTable.sec}
             </th>
-            {/* Removed the dedicated Retrograde column header here */}
             <th className="px-4 py-3 font-semibold text-center text-indigo-700">
               {tTable.drekkana}
             </th>
@@ -90,14 +114,17 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <th className="px-4 py-3 font-semibold text-center">
               {tTable.house}
             </th>
+            <th className="px-4 py-3 font-semibold text-center">
+              {tTable.houseLord}
+            </th>
           </tr>
         </thead>
         <tbody>
-          {/* Row 1: Lagna (Always First) */}
+          {/* Row 1: Lagna */}
           <tr className="bg-blue-50 border-b hover:bg-blue-100 font-medium whitespace-nowrap">
             <td className="px-4 py-3 text-blue-900">{tTable.ascendant}</td>
             <td className="px-4 py-3 text-center">
-              {pad(data.lagna.rasi)}: {t.signs[data.lagna.rasi]}
+              {t.signs[data.lagna.rasi]}
             </td>
             <td className="px-4 py-3 text-center">{pad(data.lagna.deg)}</td>
             <td className="px-4 py-3 text-center">{pad(data.lagna.min)}</td>
@@ -112,12 +139,14 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
               {t.nakshatras[data.lagna.nakshatraIndex]}
             </td>
             <td className="px-4 py-3 text-center">{data.lagna.pada}</td>
-            <td className="px-4 py-3 text-center">1</td>
+            <td className="px-4 py-3 text-center text-indigo-800">
+              {t.houses[1]} (1)
+            </td>
+            <td className="px-4 py-3 text-center font-bold text-gray-800">-</td>
           </tr>
 
-          {/* Rows 2+: Planets (Filtered & Sorted) */}
+          {/* Rows 2+: Planets */}
           {visiblePlanets.map((planet) => {
-            // 3. Logic to append (R) or (พ.) only for real retrogrades, ignoring Nodes
             const isNode = planet.key === 'RAHU' || planet.key === 'KETU';
             const showRetrograde = planet.isRetrograde && !isNode;
 
@@ -135,7 +164,7 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
                   )}
                 </td>
                 <td className="px-4 py-3 text-center">
-                  {pad(planet.rasi)}: {t.signs[planet.rasi]}
+                  {t.signs[planet.rasi]}
                 </td>
                 <td className="px-4 py-3 text-center">{pad(planet.degrees)}</td>
                 <td className="px-4 py-3 text-center">{pad(planet.minutes)}</td>
@@ -150,7 +179,12 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
                   {t.nakshatras[planet.nakshatraIndex]}
                 </td>
                 <td className="px-4 py-3 text-center">{planet.pada}</td>
-                <td className="px-4 py-3 text-center">{planet.house}</td>
+                <td className="px-4 py-3 text-center text-indigo-800">
+                  {t.houses[planet.house]} ({planet.house})
+                </td>
+                <td className="px-4 py-3 text-center font-bold text-gray-800">
+                  {getRuledHouses(planet.key, data.lagna.rasi)}
+                </td>
               </tr>
             );
           })}
