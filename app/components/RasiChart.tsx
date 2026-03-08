@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -97,6 +97,27 @@ const VIMSHOTTARI_LORDS = [
 ];
 const VIMSHOTTARI_YEARS = [7, 20, 6, 10, 7, 18, 16, 19, 17];
 
+const THAI_PLANET_NAMES: Record<string, string> = {
+  SUN: 'อาทิตย์',
+  MOON: 'จันทร์',
+  MARS: 'อังคาร',
+  MERCURY: 'พุธ',
+  JUPITER: 'พฤหัสฯ',
+  VENUS: 'ศุกร์',
+  SATURN: 'เสาร์',
+  RAHU: 'ราหู',
+  KETU: 'เกตุ',
+};
+
+const toThaiNumerals = (num: number) => {
+  const thaiDigits = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
+  return num
+    .toString()
+    .split('')
+    .map((d) => thaiDigits[parseInt(d)])
+    .join('');
+};
+
 interface PlanetData {
   key: string;
   rasi: number;
@@ -121,7 +142,60 @@ interface Occupant {
 
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
-  const svgRef = useRef<SVGSVGElement>(null); // NEW: Ref for exporting
+  const svgRef = useRef<SVGSVGElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  // --- Zoom & Pan State ---
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (viewportRef.current) {
+      viewportRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+      viewportRef.current.style.transformOrigin = 'center';
+      viewportRef.current.style.transition = isDragging ? 'none' : 'transform 0.15s ease-out';
+    }
+  }, [position.x, position.y, scale, isDragging]);
+
+  const handleZoomIn = () => setScale((s) => Math.min(s + 0.4, 4));
+  const handleZoomOut = () => setScale((s) => Math.max(s - 0.4, 0.5));
+  const handleReset = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
+  // Mouse Drag Events
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartPos({ x: e.clientX - position.x, y: e.clientY - position.y });
+  };
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setPosition({ x: e.clientX - startPos.x, y: e.clientY - startPos.y });
+  };
+  const handleMouseUp = () => setIsDragging(false);
+
+  // Touch (Mobile) Drag Events
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      setIsDragging(true);
+      setStartPos({
+        x: e.touches[0].clientX - position.x,
+        y: e.touches[0].clientY - position.y,
+      });
+    }
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    if (e.touches.length === 1) {
+      setPosition({
+        x: e.touches[0].clientX - startPos.x,
+        y: e.touches[0].clientY - startPos.y,
+      });
+    }
+  };
 
   const CENTER_RADIUS = 35;
   const RASI_INNER = 35;
@@ -141,32 +215,27 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   const DASHA_INNER = 435;
   const DASHA_OUTER = 485;
 
-  // --- High Resolution PNG Export Engine ---
   const exportToPNG = () => {
     const svg = svgRef.current;
     if (!svg) return;
 
-    // Serialize SVG to string
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const img = new Image();
 
-    // Scale 3x for crisp High-Def resolution
-    const scale = 3;
-    canvas.width = 1000 * scale;
-    canvas.height = 1000 * scale;
+    const exportScale = 3;
+    canvas.width = 1000 * exportScale;
+    canvas.height = 1000 * exportScale;
 
     img.onload = () => {
       if (ctx) {
-        // Give it a solid white background (SVGs are transparent by default)
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.scale(scale, scale);
+        ctx.scale(exportScale, exportScale);
         ctx.drawImage(img, 0, 0, 1000, 1000);
 
-        // Trigger download
         const pngFile = canvas.toDataURL('image/png');
         const downloadLink = document.createElement('a');
         downloadLink.download = `rasi-chart-${new Date().getTime()}.png`;
@@ -175,7 +244,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       }
     };
 
-    // Safely encode SVG for the Image source
     img.src =
       'data:image/svg+xml;base64,' +
       btoa(unescape(encodeURIComponent(svgData)));
@@ -191,7 +259,18 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const endAngle = startAngle + step;
       const midAngle = startAngle + step / 2;
 
-      const years = VIMSHOTTARI_YEARS[(i - 1) % 9];
+      const lordIndex = (i - 1) % 9;
+      const lordKey = VIMSHOTTARI_LORDS[lordIndex];
+      const years = VIMSHOTTARI_YEARS[lordIndex];
+
+      let dashaLabel = '';
+      if (lang === 'th') {
+        dashaLabel = `${THAI_PLANET_NAMES[lordKey]} ${toThaiNumerals(years)}`;
+      } else {
+        const enName = lordKey.charAt(0) + lordKey.slice(1).toLowerCase();
+        dashaLabel = `${enName} ${years}`;
+      }
+
       const textPos = polarToCartesian(DASHA_INNER + width * 0.5, midAngle);
 
       slices.push(
@@ -207,10 +286,9 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             y={textPos.y}
             textAnchor="middle"
             dominantBaseline="central"
-            className="text-[12px] font-extrabold fill-indigo-600"
+            className="text-[10px] font-bold fill-indigo-700"
           >
-            {years}
-            {lang === 'th' ? 'ป.' : 'y'}
+            {dashaLabel}
           </text>
         </g>,
       );
@@ -595,9 +673,91 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-6">
-      {/* EXPORT BUTTON */}
-      <div className="w-full flex justify-end">
+    <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4">
+      {/* TOOLBAR CONTROLS */}
+      <div className="w-full flex justify-between items-center">
+        {/* Left: Zoom/Pan Controls */}
+        <div className="flex items-center space-x-1 bg-gray-100 p-1.5 rounded-lg border border-gray-200">
+          <button
+            onClick={handleZoomOut}
+            className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+            title="Zoom Out"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M20 12H4"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={handleReset}
+            className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+            title="Reset View"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={handleZoomIn}
+            className="p-2 bg-white rounded shadow-sm hover:bg-gray-50 text-gray-700 transition-colors"
+            title="Zoom In"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+          </button>
+          <div className="px-3 flex items-center text-xs font-semibold text-gray-500 border-l border-gray-300 ml-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 mr-1.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
+              />
+            </svg>
+            Drag to Move
+          </div>
+        </div>
+
+        {/* Right: Export Button */}
         <button
           onClick={exportToPNG}
           className="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors border border-indigo-100 shadow-sm"
@@ -616,54 +776,71 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
             />
           </svg>
-          <span>{t.tabs.exportBtn}</span>
+          <span className="hidden sm:inline">{t.tabs.exportBtn}</span>
+          <span className="sm:hidden">PNG</span>
         </button>
       </div>
 
-      {/* SVG CANVAS WITH REF */}
-      <svg
-        ref={svgRef}
-        viewBox="-500 -500 1000 1000"
-        className="w-full h-auto drop-shadow-sm max-h-[85vh] bg-white"
+      {/* INTERACTIVE VIEWPORT CONTAINER */}
+      <div
+        className={`relative w-full h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleMouseUp}
       >
-        <g id="ring-1-dasha">{ring1}</g>
-        <g id="ring-2-navamsa-lord">{ring2}</g>
-        <g id="ring-3-nakshatra">{ring3}</g>
-        <g id="ring-4-drekkana">{ring4}</g>
+        <div
+          ref={viewportRef}
+          className="w-full h-full flex items-center justify-center pointer-events-none"
+        >
+          <svg
+            ref={svgRef}
+            viewBox="-500 -500 1000 1000"
+            className="w-full h-full max-w-[900px] max-h-[900px] drop-shadow-sm bg-white pointer-events-auto"
+          >
+            <g id="ring-1-dasha">{ring1}</g>
+            <g id="ring-2-navamsa-lord">{ring2}</g>
+            <g id="ring-3-nakshatra">{ring3}</g>
+            <g id="ring-4-drekkana">{ring4}</g>
 
-        <g id="ring-5-pada-l1">{ring5}</g>
-        <g id="ring-6-pada-l2">{ring6}</g>
+            <g id="ring-5-pada-l1">{ring5}</g>
+            <g id="ring-6-pada-l2">{ring6}</g>
 
-        <g id="ring-7-navamsa-chart">
-          {generatePlanetRing(
-            NAV_INNER,
-            NAV_OUTER,
-            'navamsa',
-            ['#fdf8f6', '#ffffff'],
-            lang === 'th' ? 'นวางค์' : 'Navamsa',
-          )}
-        </g>
+            <g id="ring-7-navamsa-chart">
+              {generatePlanetRing(
+                NAV_INNER,
+                NAV_OUTER,
+                'navamsa',
+                ['#fdf8f6', '#ffffff'],
+                lang === 'th' ? 'นวางค์' : 'Navamsa',
+              )}
+            </g>
 
-        <g id="ring-8-rasi-chart">
-          {generatePlanetRing(
-            RASI_INNER,
-            RASI_OUTER,
-            'rasi',
-            ['#f8fafc', '#ffffff'],
-            lang === 'th' ? 'ราศี' : 'Rasi',
-          )}
-        </g>
+            <g id="ring-8-rasi-chart">
+              {generatePlanetRing(
+                RASI_INNER,
+                RASI_OUTER,
+                'rasi',
+                ['#f8fafc', '#ffffff'],
+                lang === 'th' ? 'ราศี' : 'Rasi',
+              )}
+            </g>
 
-        <circle
-          cx="0"
-          cy="0"
-          r={CENTER_RADIUS}
-          fill="#ffffff"
-          stroke="#94a3b8"
-          strokeWidth="2"
-          strokeDasharray="4,4"
-        />
-      </svg>
+            <circle
+              cx="0"
+              cy="0"
+              r={CENTER_RADIUS}
+              fill="#ffffff"
+              stroke="#94a3b8"
+              strokeWidth="2"
+              strokeDasharray="4,4"
+            />
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }
