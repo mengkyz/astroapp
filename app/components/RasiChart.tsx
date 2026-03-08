@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
 
 // --- Core SVG Mathematical Engine ---
@@ -143,7 +143,7 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
   const svgRef = useRef<SVGSVGElement>(null);
-  const viewportRef = useRef<HTMLDivElement>(null);
+  const transformRef = useRef<HTMLDivElement>(null);
 
   // --- Zoom & Pan State ---
   const [scale, setScale] = useState(1);
@@ -152,12 +152,10 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (viewportRef.current) {
-      viewportRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
-      viewportRef.current.style.transformOrigin = 'center';
-      viewportRef.current.style.transition = isDragging ? 'none' : 'transform 0.15s ease-out';
+    if (transformRef.current) {
+      transformRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
     }
-  }, [position.x, position.y, scale, isDragging]);
+  }, [position.x, position.y, scale]);
 
   const handleZoomIn = () => setScale((s) => Math.min(s + 0.4, 4));
   const handleZoomOut = () => setScale((s) => Math.max(s - 0.4, 0.5));
@@ -470,6 +468,8 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const lordKey = VIMSHOTTARI_LORDS[(i - 1) % 9];
       const lordSymbol =
         lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
+      const nakName = t.nakshatras[i - 1];
+
       const textPos = polarToCartesian(NAK_INNER + width * 0.5, midAngle);
 
       slices.push(
@@ -482,27 +482,18 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           />
           <text
             x={textPos.x}
-            y={textPos.y - 8}
+            y={textPos.y}
             textAnchor="middle"
-            dominantBaseline="middle"
-            className="text-[10px] font-bold fill-slate-400"
+            dominantBaseline="central"
+            className={`font-bold fill-indigo-800 ${lang === 'th' ? 'text-[8.5px]' : 'text-[6.5px] tracking-tight'}`}
           >
-            {i}
-          </text>
-          <text
-            x={textPos.x}
-            y={textPos.y + 8}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            className="text-[14px] font-bold fill-indigo-800"
-          >
-            {lordSymbol}
+            {nakName} {lordSymbol}
           </text>
         </g>,
       );
     }
     return slices;
-  }, [lang]);
+  }, [lang, t.nakshatras]);
 
   const ring4 = useMemo(() => {
     const slices = [];
@@ -676,7 +667,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
     <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md border border-gray-200 p-4 md:p-8 flex flex-col items-center space-y-4">
       {/* TOOLBAR CONTROLS */}
       <div className="w-full flex justify-between items-center">
-        {/* Left: Zoom/Pan Controls */}
         <div className="flex items-center space-x-1 bg-gray-100 p-1.5 rounded-lg border border-gray-200">
           <button
             onClick={handleZoomOut}
@@ -757,7 +747,6 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
           </div>
         </div>
 
-        {/* Right: Export Button */}
         <button
           onClick={exportToPNG}
           className="flex items-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-semibold py-2 px-4 rounded-lg transition-colors border border-indigo-100 shadow-sm"
@@ -781,7 +770,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         </button>
       </div>
 
-      {/* INTERACTIVE VIEWPORT CONTAINER */}
+      {/* FIXED: Removed inline heights, mapped to Tailwind classes */}
       <div
         className={`relative w-full h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden border border-gray-200 rounded-xl bg-white select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         onMouseDown={handleMouseDown}
@@ -792,9 +781,10 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleMouseUp}
       >
+        {/* FIXED: Dynamic transform MUST remain inline, but transition/origin moved to Tailwind */}
         <div
-          ref={viewportRef}
-          className="w-full h-full flex items-center justify-center pointer-events-none"
+          ref={transformRef}
+          className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
         >
           <svg
             ref={svgRef}
