@@ -118,6 +118,22 @@ const toThaiNumerals = (num: number) => {
     .join('');
 };
 
+// NEW: กฎตรียางค์ที่ต้องการเน้นสีแดงสำหรับแต่ละราศี
+const DREKKANA_HIGHLIGHTS: Record<number, string> = {
+  1: 'MARS', // เมษ => ๓
+  2: 'MERCURY', // พฤษภ => ๔
+  3: 'SATURN', // มิถุน => ๗
+  4: 'JUPITER', // กรกฎ => ๕
+  5: 'JUPITER', // สิงห์ => ๕
+  6: 'MERCURY', // กันย์ => ๔
+  7: 'SATURN', // ตุลย์ => ๗
+  8: 'MOON', // พิจิก => ๒
+  9: 'JUPITER', // ธนู => ๕
+  10: 'MERCURY', // มกร => ๔
+  11: 'MERCURY', // กุมภ์ => ๔
+  12: 'JUPITER', // มีน => ๕
+};
+
 interface PlanetData {
   key: string;
   rasi: number;
@@ -143,7 +159,7 @@ interface Occupant {
 export default function RasiChart({ data, lang }: RasiChartProps) {
   const t = translations[lang];
   const svgRef = useRef<SVGSVGElement>(null);
-  const transformRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // --- Zoom & Pan State ---
   const [scale, setScale] = useState(1);
@@ -152,10 +168,10 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (transformRef.current) {
-      transformRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+    if (containerRef.current) {
+      containerRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
     }
-  }, [position, scale]);
+  }, [position.x, position.y, scale]);
 
   const handleZoomIn = () => setScale((s) => Math.min(s + 0.4, 4));
   const handleZoomOut = () => setScale((s) => Math.max(s - 0.4, 0.5));
@@ -517,6 +533,12 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
       const lordSymbol =
         lang === 'th' ? THAI_SYMBOLS[lordKey] : EN_SYMBOLS[lordKey];
 
+      // เน้นสีแดงเมื่อดาวเข้าเกณฑ์ที่กำหนด
+      const isHighlighted = lordKey === DREKKANA_HIGHLIGHTS[signNum];
+      const textColorClass = isHighlighted
+        ? 'fill-red-600 text-[14px]'
+        : 'fill-slate-500 text-[12px]';
+
       const textPos = polarToCartesian(DREK_INNER + width * 0.5, midAngle);
 
       slices.push(
@@ -532,7 +554,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
             y={textPos.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-[12px] font-bold fill-slate-500"
+            className={`font-bold ${textColorClass}`}
           >
             {lordSymbol}
           </text>
@@ -772,7 +794,7 @@ export default function RasiChart({ data, lang }: RasiChartProps) {
         onTouchEnd={handleMouseUp}
       >
         <div
-          ref={transformRef}
+          ref={containerRef}
           className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
         >
           <svg
