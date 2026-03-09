@@ -36,25 +36,52 @@ function getSlicePath(
   ].join(' ');
 }
 
-// NEW: Polygon path for inner straight-edged rings
-function getPolygonSlicePath(
-  innerRadius: number,
+// NEW: Math engine to construct the inner borders of the traditional Thai "ราศีจักร"
+function getThaiInnerPoint(angleInDegrees: number, radius: number) {
+  const S = radius * Math.sin((15 * Math.PI) / 180.0);
+  const a = ((angleInDegrees % 360) + 360) % 360; // Normalize 0-359
+
+  // TR (Top-Right Inner Corner)
+  if (Math.abs(a - 15) < 1 || Math.abs(a - 45) < 1 || Math.abs(a - 75) < 1)
+    return { x: S, y: -S };
+  // TL (Top-Left Inner Corner)
+  if (Math.abs(a - 105) < 1 || Math.abs(a - 135) < 1 || Math.abs(a - 165) < 1)
+    return { x: -S, y: -S };
+  // BL (Bottom-Left Inner Corner)
+  if (Math.abs(a - 195) < 1 || Math.abs(a - 225) < 1 || Math.abs(a - 255) < 1)
+    return { x: -S, y: S };
+  // BR (Bottom-Right Inner Corner)
+  if (Math.abs(a - 285) < 1 || Math.abs(a - 315) < 1 || Math.abs(a - 345) < 1)
+    return { x: S, y: S };
+
+  return { x: 0, y: 0 };
+}
+
+function getThaiRasiSlicePath(
   outerRadius: number,
   startAngle: number,
   endAngle: number,
 ) {
   const startOuter = polarToCartesian(outerRadius, startAngle);
   const endOuter = polarToCartesian(outerRadius, endAngle);
-  const startInner = polarToCartesian(innerRadius, endAngle);
-  const endInner = polarToCartesian(innerRadius, startAngle);
+  const pEndInner = getThaiInnerPoint(endAngle, outerRadius);
+  const pStartInner = getThaiInnerPoint(startAngle, outerRadius);
 
-  return [
+  const path = [
     `M ${startOuter.x} ${startOuter.y}`,
-    `L ${endOuter.x} ${endOuter.y}`,
-    `L ${startInner.x} ${startInner.y}`,
-    `L ${endInner.x} ${endInner.y}`,
-    `Z`,
-  ].join(' ');
+    `A ${outerRadius} ${outerRadius} 0 0 0 ${endOuter.x} ${endOuter.y}`,
+    `L ${pEndInner.x} ${pEndInner.y}`,
+  ];
+
+  if (
+    Math.abs(pEndInner.x - pStartInner.x) > 0.1 ||
+    Math.abs(pEndInner.y - pStartInner.y) > 0.1
+  ) {
+    path.push(`L ${pStartInner.x} ${pStartInner.y}`);
+  }
+
+  path.push('Z');
+  return path.join(' ');
 }
 
 // --- Helpers ---
@@ -645,6 +672,10 @@ export default function RasiChart({
     const labelOffset = 14;
     const styles: string[] = [];
 
+    // To prevent overlapping planet/texts with the central box logic of the Thai Zodiac grid,
+    // we safely push inner contents outward for the RASI chart rendering
+    const layoutInnerR = property === 'rasi' ? 55 : innerR;
+
     for (let i = 1; i <= 12; i++) {
       const startAngle = 75 + (i - 1) * 30; // ALREADY AT 75
       const endAngle = startAngle + 30;
@@ -730,20 +761,29 @@ export default function RasiChart({
         });
       };
 
-      const signTextPos = polarToCartesian(innerR + labelOffset, midAngle);
-      const width = outerR - innerR;
+      const signTextPos = polarToCartesian(
+        layoutInnerR + labelOffset,
+        midAngle,
+      );
+      const width = outerR - layoutInnerR;
 
       const row1Elements = renderRow(
         row1,
-        row2.length > 0 ? innerR + width * 0.5 : innerR + width * 0.6,
+        row2.length > 0
+          ? layoutInnerR + width * 0.5
+          : layoutInnerR + width * 0.6,
       );
       const row2Elements =
-        row2.length > 0 ? renderRow(row2, innerR + width * 0.8) : null;
+        row2.length > 0 ? renderRow(row2, layoutInnerR + width * 0.8) : null;
 
       slices.push(
         <g key={`${property}-${i}`}>
           <path
-            d={getPolygonSlicePath(innerR, outerR, startAngle, endAngle)} // USING getPolygonSlicePath
+            d={
+              property === 'rasi'
+                ? getThaiRasiSlicePath(outerR, startAngle, endAngle)
+                : getSlicePath(innerR, outerR, startAngle, endAngle)
+            }
             fill="#ffffff"
             stroke="#94a3b8"
             strokeWidth="2"
