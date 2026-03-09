@@ -16,6 +16,18 @@ function polarToCartesian(radius: number, angleInDegrees: number) {
   };
 }
 
+// NEW: Calculates the exact rotation angle to make text tangent (inline) to the circular path
+function getTangentialRotation(angleInDegrees: number) {
+  const svgAngle = 360 - angleInDegrees;
+  let textRot = (svgAngle + 90) % 360;
+
+  // Flip the text if it's upside down to ensure it remains readable left-to-right
+  if (textRot > 90 && textRot < 270) {
+    textRot -= 180;
+  }
+  return textRot;
+}
+
 function getSlicePath(
   innerRadius: number,
   outerRadius: number,
@@ -36,7 +48,7 @@ function getSlicePath(
   ].join(' ');
 }
 
-// NEW: Math engine to construct the inner borders of the traditional Thai "ราศีจักร"
+// Math engine to construct the inner borders of the traditional Thai "ราศีจักร"
 function getThaiInnerPoint(angleInDegrees: number, radius: number) {
   const S = radius * Math.sin((15 * Math.PI) / 180.0);
   const a = ((angleInDegrees % 360) + 360) % 360; // Normalize 0-359
@@ -214,7 +226,7 @@ interface LagnaData {
 interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
-  printMode?: boolean; // <-- เพิ่มบรรทัดนี้สำหรับโหมด Print PDF
+  printMode?: boolean;
 }
 
 interface Occupant {
@@ -224,11 +236,7 @@ interface Occupant {
   tooltipText: string;
 }
 
-export default function RasiChart({
-  data,
-  lang,
-  printMode, // <-- รับค่า PrintMode
-}: RasiChartProps) {
+export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
   const t = translations[lang];
   const containerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -247,7 +255,6 @@ export default function RasiChart({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // ปิดการ scroll body เฉพาะตอนไม่ใช้โหมดพิมพ์
     if (!printMode && isModalOpen) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'unset';
     return () => {
@@ -338,21 +345,23 @@ export default function RasiChart({
     }
   };
 
-
-  const RASI_INNER = 35;
-  const RASI_OUTER = 115;
-  const NAV_INNER = 115;
-  const NAV_OUTER = 185;
-  const PL_INNER_BASE = 245;
-  const PL_OUTER = 275;
-  const DREK_INNER = 275;
-  const DREK_OUTER = 325;
-  const NAK_INNER = 325;
-  const NAK_OUTER = 385;
-  const NAV_LORD_INNER = 385;
-  const NAV_LORD_OUTER = 435;
-  const DASHA_INNER = 435;
-  const DASHA_OUTER = 485;
+  // --- RECALCULATED RADII: Enlarged inner charts, compressed outer charts ---
+  const RASI_INNER = 50;
+  const RASI_OUTER = 176; // Rasi thickness = 126
+  const NAV_INNER = 176;
+  const NAV_OUTER = 239; // Navamsa thickness = 63 (50% of Rasi)
+  
+  // Squeezed outer rings using tangential text flow
+  const PL_INNER_BASE = 365; // Blank space = 365 - 239 = 126 (same as Rasi thickness)
+  const PL_OUTER = 390;
+  const DREK_INNER = 390;
+  const DREK_OUTER = 410;
+  const NAK_INNER = 410;
+  const NAK_OUTER = 435;
+  const NAV_LORD_INNER = 435;
+  const NAV_LORD_OUTER = 455;
+  const DASHA_INNER = 455;
+  const DASHA_OUTER = 480;
 
   const rasiGapConnectors = useMemo(() => {
     const lines = [];
@@ -398,6 +407,7 @@ export default function RasiChart({
       }
 
       const textPos = polarToCartesian(DASHA_INNER + width * 0.5, midAngle);
+      const rot = getTangentialRotation(midAngle); // Align inline
 
       slices.push(
         <g key={`dasha-${i}`}>
@@ -408,8 +418,7 @@ export default function RasiChart({
             strokeWidth="1.5"
           />
           <text
-            x={textPos.x}
-            y={textPos.y}
+            transform={`translate(${textPos.x}, ${textPos.y}) rotate(${rot})`}
             textAnchor="middle"
             dominantBaseline="central"
             className="text-[10px] font-bold fill-indigo-700 pointer-events-none"
@@ -514,7 +523,7 @@ export default function RasiChart({
       if (occs.length > 1) {
         currentInner = Math.max(
           NAV_OUTER + 5,
-          PL_INNER_BASE - (occs.length - 1) * 20,
+          PL_INNER_BASE - (occs.length - 1) * 15, // Reduced step value to squeeze smoothly
         );
       }
 
@@ -584,6 +593,7 @@ export default function RasiChart({
       const nakName = t.nakshatras[i - 1];
 
       const textPos = polarToCartesian(NAK_INNER + width * 0.5, midAngle);
+      const rot = getTangentialRotation(midAngle); // Align inline
 
       slices.push(
         <g key={`nak-${i}`}>
@@ -594,8 +604,7 @@ export default function RasiChart({
             strokeWidth="1.5"
           />
           <text
-            x={textPos.x}
-            y={textPos.y}
+            transform={`translate(${textPos.x}, ${textPos.y}) rotate(${rot})`}
             textAnchor="middle"
             dominantBaseline="central"
             className={`font-bold fill-indigo-800 pointer-events-none ${lang === 'th' ? 'text-[8.5px]' : 'text-[6.5px] tracking-tight'}`}
@@ -663,9 +672,9 @@ export default function RasiChart({
     const labelOffset = 14;
     const styles: string[] = [];
 
-    // To prevent overlapping planet/texts with the central box logic of the Thai Zodiac grid,
-    // we safely push inner contents outward for the RASI chart rendering
-    const layoutInnerR = property === 'rasi' ? 55 : innerR;
+    // Safely pushes inner contents outward for the RASI chart to not overlap with the central Thai grid shape
+    const layoutInnerR =
+      property === 'rasi' ? Math.round(outerR * 0.38) : innerR;
 
     for (let i = 1; i <= 12; i++) {
       const startAngle = 75 + (i - 1) * 30; // ALREADY AT 75
@@ -1003,7 +1012,6 @@ export default function RasiChart({
               <g id="ring-8-rasi-chart">
                 {generatePlanetRing(RASI_INNER, RASI_OUTER, 'rasi')}
               </g>
-
 
             </svg>
           </div>
