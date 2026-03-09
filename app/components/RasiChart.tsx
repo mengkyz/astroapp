@@ -347,21 +347,21 @@ export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
 
   // --- RECALCULATED RADII: Enlarged inner charts, compressed outer charts ---
   const RASI_INNER = 50;
-  const RASI_OUTER = 176; // Rasi thickness = 126
-  const NAV_INNER = 176;
-  const NAV_OUTER = 239; // Navamsa thickness = 63 (50% of Rasi)
+  const RASI_OUTER = 201; // Rasi thickness = 151 (+20% from 126)
+  const NAV_INNER = 201;
+  const NAV_OUTER = 258; // Navamsa thickness = 57 (-10% from 63)
   
   // Squeezed outer rings using tangential text flow
-  const PL_INNER_BASE = 365; // Blank space = 365 - 239 = 126 (same as Rasi thickness)
-  const PL_OUTER = 390;
-  const DREK_INNER = 390;
-  const DREK_OUTER = 410;
-  const NAK_INNER = 410;
-  const NAK_OUTER = 435;
-  const NAV_LORD_INNER = 435;
-  const NAV_LORD_OUTER = 455;
-  const DASHA_INNER = 455;
-  const DASHA_OUTER = 480;
+  const PL_INNER_BASE = 409; // Blank space = 409 - 258 = 151 (same as Rasi thickness)
+  const PL_OUTER = 434;
+  const DREK_INNER = 434;
+  const DREK_OUTER = 454;
+  const NAK_INNER = 454;
+  const NAK_OUTER = 479;
+  const NAV_LORD_INNER = 479;
+  const NAV_LORD_OUTER = 499;
+  const DASHA_INNER = 499;
+  const DASHA_OUTER = 524;
 
   const rasiGapConnectors = useMemo(() => {
     const lines = [];
@@ -747,7 +747,7 @@ export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
                 textAnchor="middle"
                 dominantBaseline="central"
                 fill={occ.color}
-                className="text-[16px] font-bold"
+                className={`font-bold ${property === 'rasi' ? 'text-[20px]' : 'text-[16px]'}`}
               >
                 {occ.isRetro ? `(${occ.symbol})` : occ.symbol}
               </text>
@@ -790,7 +790,7 @@ export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
               y={signTextPos.y}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="text-[9px] font-bold fill-gray-400 select-none pointer-events-none"
+              className="text-[12px] font-bold fill-gray-400 select-none pointer-events-none"
             >
               {t.signs[i]}
             </text>
@@ -992,7 +992,7 @@ export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
             className={`w-full h-full flex items-center justify-center pointer-events-none origin-center ${!printMode && isDragging ? 'transition-none' : 'transition-transform duration-150 ease-out'}`}
           >
             <svg
-              viewBox="-500 -500 1000 1000"
+              viewBox="-550 -550 1100 1100"
               className={`w-full h-full max-w-[900px] max-h-[900px] bg-white ${printMode ? '' : 'drop-shadow-sm pointer-events-auto'}`}
             >
               <g id="ring-1-dasha">{ring1}</g>
