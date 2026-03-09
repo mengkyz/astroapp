@@ -433,7 +433,7 @@ export default function RasiChart({
       if (pIdx >= 0 && pIdx < 108) {
         padaOccupants[pIdx].push({
           symbol: lang === 'th' ? 'ล' : 'Asc',
-          color: '#dc2626',
+          color: '#000000',
           isRetro: false,
           tooltipText: `ลัคนา: ${formatDegMin(data.lagna.longitude)}`,
         });
@@ -458,7 +458,7 @@ export default function RasiChart({
 
           padaOccupants[pIdx].push({
             symbol: lang === 'th' ? THAI_SYMBOLS[p.key] : EN_SYMBOLS[p.key],
-            color: '#1e293b',
+            color: '#000000',
             isRetro: p.isRetrograde && !isNode,
             tooltipText: `${pName}: ${formatDegMin(p.longitude)}${retroStr}`,
           });
@@ -558,12 +558,7 @@ export default function RasiChart({
                 fill={occ.color}
                 className="text-[12px] font-bold"
               >
-                {occ.symbol}
-                {occ.isRetro && (
-                  <tspan dx="1" dy="-5" fill="#dc2626" fontSize="8">
-                    {lang === 'th' ? 'พ' : 'R'}
-                  </tspan>
-                )}
+                {occ.isRetro ? `(${occ.symbol})` : occ.symbol}
               </text>
             </g>,
           );
@@ -682,7 +677,7 @@ export default function RasiChart({
       if (data.lagna[property] === i) {
         occupants.push({
           symbol: lang === 'th' ? 'ล' : 'Asc',
-          color: '#dc2626',
+          color: '#000000',
           isRetro: false,
           tooltipText: `ลัคนา: ${formatDegMin(data.lagna.longitude)}`,
         });
@@ -704,7 +699,7 @@ export default function RasiChart({
 
           occupants.push({
             symbol: lang === 'th' ? THAI_SYMBOLS[p.key] : EN_SYMBOLS[p.key],
-            color: '#1e293b',
+            color: '#000000',
             isRetro: p.isRetrograde && !isNode,
             tooltipText: `${pName}: ${formatDegMin(p.longitude)}${retroStr}`,
           });
@@ -745,12 +740,7 @@ export default function RasiChart({
                 fill={occ.color}
                 className="text-[16px] font-bold"
               >
-                {occ.symbol}
-                {occ.isRetro && (
-                  <tspan dx="2" dy="-6" fill="#dc2626" fontSize="10">
-                    {lang === 'th' ? 'พ' : 'R'}
-                  </tspan>
-                )}
+                {occ.isRetro ? `(${occ.symbol})` : occ.symbol}
               </text>
             </g>
           );
