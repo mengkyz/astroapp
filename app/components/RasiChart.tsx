@@ -214,8 +214,6 @@ interface LagnaData {
 interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
-  birthDateText?: string;
-  birthTimeText?: string;
   printMode?: boolean; // <-- เพิ่มบรรทัดนี้สำหรับโหมด Print PDF
 }
 
@@ -229,8 +227,6 @@ interface Occupant {
 export default function RasiChart({
   data,
   lang,
-  birthDateText,
-  birthTimeText,
   printMode, // <-- รับค่า PrintMode
 }: RasiChartProps) {
   const t = translations[lang];
@@ -342,7 +338,7 @@ export default function RasiChart({
     }
   };
 
-  const CENTER_RADIUS = 35;
+
   const RASI_INNER = 35;
   const RASI_OUTER = 115;
   const NAV_INNER = 115;
@@ -1016,39 +1012,7 @@ export default function RasiChart({
                 {generatePlanetRing(RASI_INNER, RASI_OUTER, 'rasi')}
               </g>
 
-              {/* ข้อมูลกลางดวง */}
-              <circle
-                cx="0"
-                cy="0"
-                r={CENTER_RADIUS}
-                fill="#ffffff"
-                stroke="#94a3b8"
-                strokeWidth="2"
-                strokeDasharray="4,4"
-              />
 
-              {birthDateText && (
-                <text
-                  x="0"
-                  y="-4"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  className="text-[8px] font-semibold fill-slate-700 pointer-events-none"
-                >
-                  {birthDateText}
-                </text>
-              )}
-              {birthTimeText && (
-                <text
-                  x="0"
-                  y="6"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  className="text-[7.5px] font-medium fill-slate-500 pointer-events-none"
-                >
-                  {birthTimeText}
-                </text>
-              )}
             </svg>
           </div>
         </div>
