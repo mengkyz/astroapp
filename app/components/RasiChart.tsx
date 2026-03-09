@@ -785,15 +785,17 @@ export default function RasiChart({
             strokeWidth="2"
             className="transition-colors hover:fill-indigo-50"
           />
-          <text
-            x={signTextPos.x}
-            y={signTextPos.y}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            className="text-[9px] font-bold fill-gray-400 select-none pointer-events-none"
-          >
-            {t.signs[i]}
-          </text>
+          {property === 'navamsa' && (
+            <text
+              x={signTextPos.x}
+              y={signTextPos.y}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="text-[9px] font-bold fill-gray-400 select-none pointer-events-none"
+            >
+              {t.signs[i]}
+            </text>
+          )}
           {row1Elements}
           {row2Elements}
         </g>,
