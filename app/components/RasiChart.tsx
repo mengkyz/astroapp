@@ -790,7 +790,7 @@ export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
               y={signTextPos.y}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="text-[12px] font-bold fill-gray-400 select-none pointer-events-none"
+              className="text-[10px] tracking-tight font-bold fill-gray-400 select-none pointer-events-none"
             >
               {t.signs[i]}
             </text>
