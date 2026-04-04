@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, ComponentProps } from 'react';
+import dayjs from 'dayjs';
 import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
 import ThaiLocationSelect from './components/ThaiLocationSelect';
@@ -50,6 +51,93 @@ function dmsToDecimal(d: number, m: number, s: number, dir: string) {
   return dec;
 }
 
+// --- CSV Export Helpers ---
+const PLANET_ORDER_CSV = ['SUN', 'MOON', 'MARS', 'MERCURY', 'JUPITER', 'VENUS', 'SATURN', 'RAHU', 'KETU', 'URANUS'];
+const PLANET_DOMICILES_CSV: Partial<Record<string, number[]>> = {
+  SUN: [5], MOON: [4], MARS: [1, 8], MERCURY: [3, 6],
+  JUPITER: [9, 12], VENUS: [2, 7], SATURN: [10], RAHU: [11],
+};
+
+function esc(v: string) {
+  return `"${v.replace(/"/g, '""')}"`;
+}
+
+function csvFormatLocalDate(isoStr: string, lang: Language) {
+  const d = dayjs(isoStr);
+  if (lang === 'th') {
+    const thMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    return `${d.date()} ${thMonths[d.month()]} ${d.year() + 543}`;
+  }
+  return d.format('MMM DD, YYYY');
+}
+
+function csvFormatDuration(startISO: string, endISO: string, tD: typeof translations.en.dashaTable) {
+  const start = dayjs(startISO);
+  const end = dayjs(endISO);
+  const years = end.diff(start, 'year');
+  let temp = start.add(years, 'year');
+  const months = end.diff(temp, 'month');
+  temp = temp.add(months, 'month');
+  const days = end.diff(temp, 'day');
+  return `${years}${tD.y}${months}${tD.m}${days}${tD.d}`;
+}
+
+function generatePlanetCSV(data: ChartResult, lang: Language): string {
+  const t = translations[lang];
+  const tT = t.planetTable;
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  const headers = [tT.planet, tT.rasi, tT.degree, tT.min, tT.sec, tT.drekkana, tT.navamsa, tT.nakshatra, tT.pada, tT.house, tT.houseLord].map(esc).join(',');
+  const rows: string[] = [headers];
+  const lagna = data.lagna;
+  rows.push([tT.ascendant, t.signs[lagna.rasi], pad(lagna.deg), pad(lagna.min), pad(lagna.sec), t.signs[lagna.drekkana], t.signs[lagna.navamsa], t.nakshatras[lagna.nakshatraIndex], String(lagna.pada), `${t.houses[1]} (1)`, '-'].map(esc).join(','));
+  const visiblePlanets = data.planets
+    .filter((p) => PLANET_ORDER_CSV.includes(p.key))
+    .sort((a, b) => PLANET_ORDER_CSV.indexOf(a.key) - PLANET_ORDER_CSV.indexOf(b.key));
+  for (const planet of visiblePlanets) {
+    const isNode = planet.key === 'RAHU' || planet.key === 'KETU';
+    const planetName = (t.planets[planet.key as keyof typeof t.planets] || planet.key) + (planet.isRetrograde && !isNode ? ` (${tT.retroSymbol})` : '');
+    const domiciles = PLANET_DOMICILES_CSV[planet.key];
+    const houseLord = domiciles
+      ? domiciles.map((sign) => { let h = sign - lagna.rasi + 1; if (h <= 0) h += 12; return `${t.houses[h]} (${h})`; }).join(', ')
+      : '-';
+    rows.push([planetName, t.signs[planet.rasi], pad(planet.degrees), pad(planet.minutes), pad(planet.seconds), t.signs[planet.drekkana], t.signs[planet.navamsa], t.nakshatras[planet.nakshatraIndex], String(planet.pada), `${t.houses[planet.house]} (${planet.house})`, houseLord].map(esc).join(','));
+  }
+  return rows.join('\r\n');
+}
+
+function generateDashaCSV(dashaData: DashaTableData, birthDateLocalStr: string, lang: Language): string {
+  const t = translations[lang];
+  const tD = t.dashaTable;
+  const birthDate = dayjs(birthDateLocalStr);
+  const headers = [tD.dashaBhukti, tD.age, tD.startDate, tD.duration].map(esc).join(',');
+  const rows: string[] = [headers];
+  for (const dasha of dashaData.dashas) {
+    if (dayjs(dasha.endDate).isBefore(birthDate)) continue;
+    for (const bhukti of dasha.bhuktis) {
+      if (dayjs(bhukti.endDate).isBefore(birthDate)) continue;
+      const isPartial = dayjs(bhukti.startDate).isBefore(birthDate) && dayjs(bhukti.endDate).isAfter(birthDate);
+      const dashaBhuktiName = `${t.planets[dasha.lord as keyof typeof t.planets]} / ${t.planets[bhukti.lord as keyof typeof t.planets]}`;
+      const age = isPartial ? `0${tD.y}0${tD.m}0${tD.d}` : csvFormatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), bhukti.startDate, tD);
+      const startDate = csvFormatLocalDate(isPartial ? birthDate.toISOString() : bhukti.startDate, lang);
+      const duration = isPartial
+        ? `${tD.remaining} ${csvFormatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), bhukti.endDate, tD)}`
+        : `(${csvFormatDuration(bhukti.startDate, bhukti.endDate, tD)})`;
+      rows.push([dashaBhuktiName, age, startDate, duration].map(esc).join(','));
+    }
+  }
+  return rows.join('\r\n');
+}
+
+function downloadCSV(content: string, filename: string) {
+  const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function Home() {
   const [lang, setLang] = useState<Language>('en');
   const t = translations[lang];
@@ -80,9 +168,8 @@ export default function Home() {
     'planets' | 'dasha' | 'chart' | 'rerk' | 'balas'
   >('planets');
 
-  // For PDF Export
+  // For Export
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
-  const [printLang, setPrintLang] = useState<Language>('th');
 
   useEffect(() => {
     const now = new Date();
@@ -99,12 +186,15 @@ export default function Home() {
     setYearInput(String(currentYear));
   }, []);
 
-  const handleExport = (exportLang: Language) => {
-    setPrintLang(exportLang);
+  const handleExport = (type: 'pdf' | 'csvPlanets' | 'csvDasha') => {
     setExportMenuOpen(false);
-    setTimeout(() => {
-      window.print();
-    }, 300);
+    if (type === 'pdf') {
+      setTimeout(() => { window.print(); }, 300);
+    } else if (type === 'csvPlanets' && result) {
+      downloadCSV(generatePlanetCSV(result, lang), `planet_positions_${lang}.csv`);
+    } else if (type === 'csvDasha' && result?.dasha) {
+      downloadCSV(generateDashaCSV(result.dasha, result.birthDateLocalStr, lang), `vimshottari_dasha_${lang}.csv`);
+    }
   };
 
   const toggleLanguage = () => {
@@ -726,7 +816,7 @@ export default function Home() {
                   </button>
                 </div>
 
-                {/* NEW: Export Dropdown */}
+                {/* Export Dropdown */}
                 <div className="relative pb-2 pr-2">
                   <button
                     onClick={() => setExportMenuOpen(!exportMenuOpen)}
@@ -735,18 +825,24 @@ export default function Home() {
                     {t.tabs.exportDropdown}
                   </button>
                   {exportMenuOpen && (
-                    <div className="absolute right-0 top-full mt-1 w-40 bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden z-50">
+                    <div className="absolute right-0 top-full mt-1 w-56 bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden z-50">
                       <button
-                        onClick={() => handleExport('en')}
+                        onClick={() => handleExport('pdf')}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 font-medium"
                       >
-                        {t.tabs.pdfEnglish}
+                        {t.tabs.pdf}
                       </button>
                       <button
-                        onClick={() => handleExport('th')}
+                        onClick={() => handleExport('csvPlanets')}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 font-medium border-t border-gray-100"
                       >
-                        {t.tabs.pdfThai}
+                        {t.tabs.csvPlanets}
+                      </button>
+                      <button
+                        onClick={() => handleExport('csvDasha')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 font-medium border-t border-gray-100"
+                      >
+                        {t.tabs.csvDasha}
                       </button>
                     </div>
                   )}
@@ -802,7 +898,7 @@ export default function Home() {
 
       {/* PRINT ONLY LAYOUT */}
       {result && submittedData && (
-        <PrintLayout data={result} formData={submittedData} lang={printLang} />
+        <PrintLayout data={result} formData={submittedData} lang={lang} />
       )}
     </>
   );
