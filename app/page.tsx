@@ -5,7 +5,9 @@ import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
 import ThaiLocationSelect from './components/ThaiLocationSelect';
 import RasiChart from './components/RasiChart';
+import BalasTable from './components/BalasTable';
 import { translations, Language } from '@/lib/i18n/translations';
+import { BalasResult } from '@/lib/charts/shadbala';
 
 // Extract types
 type PlanetTableData = ComponentProps<typeof PlanetTable>['data'];
@@ -16,6 +18,7 @@ type ChartResult = PlanetTableData & {
   ayanamsa?: number;
   birthDateLocalStr: string;
   dasha?: DashaTableData;
+  balas?: BalasResult;
 };
 
 // --- GPS Math Conversion Helpers ---
@@ -65,7 +68,7 @@ export default function Home() {
   const [yearInput, setYearInput] = useState<string>('');
   const [result, setResult] = useState<ChartResult | null>(null);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'planets' | 'dasha' | 'chart'>(
+  const [activeTab, setActiveTab] = useState<'planets' | 'dasha' | 'chart' | 'balas'>(
     'planets',
   );
 
@@ -525,6 +528,13 @@ export default function Home() {
               >
                 {t.tabs.chart}
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('balas')}
+                className={`pb-3 px-2 text-lg font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'balas' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
+              >
+                {t.tabs.balas}
+              </button>
             </div>
 
             {activeTab === 'planets' && (
@@ -546,6 +556,16 @@ export default function Home() {
             {activeTab === 'chart' && (
               <div className="animate-fade-in-up">
                 <RasiChart data={result} lang={lang} />
+              </div>
+            )}
+
+            {activeTab === 'balas' && result.balas && (
+              <div className="animate-fade-in-up">
+                <BalasTable
+                  grahaBala={result.balas.grahaBala}
+                  bhavaBala={result.balas.bhavaBala}
+                  lang={lang}
+                />
               </div>
             )}
           </div>

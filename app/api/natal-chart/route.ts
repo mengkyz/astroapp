@@ -9,6 +9,7 @@ import { calculateVimshottariDasha } from '@/lib/charts/dasha';
 import { BirthInput } from '@/app/types/astrology';
 import { RASI_NAMES } from '@/lib/data/signs';
 import { NAKSHATRA_NAMES } from '@/lib/data/nakshatras';
+import { calculateBalas } from '@/lib/charts/shadbala';
 
 export async function POST(req: NextRequest) {
   try {
@@ -104,6 +105,30 @@ export async function POST(req: NextRequest) {
       dashaData = calculateVimshottariDasha(moon.longitude, birthDateLocalStr);
     }
 
+    // Calculate Shadbala (Graha Bala) and Bhava Bala
+    const balas = calculateBalas(
+      planets.map((p) => ({
+        key: p.key,
+        longitude: p.longitude,
+        rasi: p.rasi,
+        house: p.house,
+        drekkana: p.drekkana,
+        navamsa: p.navamsa,
+        isRetrograde: p.isRetrograde,
+      })),
+      { longitude: lagnaLon, rasi: lagnaRasi },
+      {
+        year: input.year,
+        month: input.month,
+        day: input.day,
+        hour: input.hour,
+        minute: input.minute,
+        second: input.second,
+        utcOffset: input.utcOffset,
+      },
+      jd,
+    );
+
     return NextResponse.json({
       julianDay: jd,
       ayanamsa,
@@ -122,7 +147,8 @@ export async function POST(req: NextRequest) {
         pada: lagnaPada,
       },
       planets,
-      dasha: dashaData, // Expose to frontend
+      dasha: dashaData,
+      balas, // Graha Bala (Shadbala) + Bhava Bala
     });
   } catch (error) {
     return NextResponse.json({ error: String(error) }, { status: 500 });
