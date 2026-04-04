@@ -59,8 +59,9 @@ export const translations = {
       rerk: 'Personal Rerk',
       balas: 'Graha & Bhava Bala',
       exportDropdown: 'Export ▾',
-      pdfEnglish: 'PDF (English)',
-      pdfThai: 'PDF (ภาษาไทย)',
+      pdf: 'PDF',
+      csvPlanets: 'CSV (Planet Positions)',
+      csvDasha: 'CSV (Vimshottari Dasha)',
     },
     balaTable: {
       grahaBalaTitle: 'Graha Bala (Shadbala) — Planetary Strength',
@@ -264,8 +265,9 @@ export const translations = {
       rerk: 'ฤกษ์ส่วนตัว',
       balas: 'กำลังดาว & เรือน',
       exportDropdown: 'ส่งออกไฟล์ ▾',
-      pdfEnglish: 'PDF (English)',
-      pdfThai: 'PDF (ภาษาไทย)',
+      pdf: 'PDF',
+      csvPlanets: 'CSV (ตำแหน่งดาว)',
+      csvDasha: 'CSV (ทศา Vimshottari)',
     },
     planetTable: {
       planet: 'ดาว/ปัจจัย',
