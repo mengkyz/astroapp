@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { GrahaBala, BhavaBala, MIN_SHADBALA } from '@/lib/charts/shadbala';
 import { Language, translations } from '@/lib/i18n/translations';
 
@@ -101,9 +101,8 @@ function GrashaBalaTable({ grahaBala, lang }: { grahaBala: GrahaBala[]; lang: La
               const sufficient = g.rupas >= min;
               const isExp = expanded === g.planet;
               return (
-                <>
+                <React.Fragment key={g.planet}>
                   <tr
-                    key={g.planet}
                     className={`cursor-pointer transition-colors ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-indigo-50`}
                     onClick={() => toggle(g.planet)}
                   >
@@ -181,7 +180,7 @@ function GrashaBalaTable({ grahaBala, lang }: { grahaBala: GrahaBala[]; lang: La
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
           </tbody>
