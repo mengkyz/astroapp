@@ -7,7 +7,9 @@ import ThaiLocationSelect from './components/ThaiLocationSelect';
 import RasiChart from './components/RasiChart';
 import RerkResult from './components/RerkResult';
 import PrintLayout from './components/PrintLayout';
+import BalasTable from './components/BalasTable';
 import { translations, Language } from '@/lib/i18n/translations';
+import { BalasResult } from '@/lib/charts/shadbala';
 
 // Extract types
 type PlanetTableData = ComponentProps<typeof PlanetTable>['data'];
@@ -18,6 +20,7 @@ type ChartResult = PlanetTableData & {
   ayanamsa?: number;
   birthDateLocalStr: string;
   dasha?: DashaTableData;
+  balas?: BalasResult;
 };
 
 // --- GPS Helpers ---
@@ -74,7 +77,7 @@ export default function Home() {
   const [result, setResult] = useState<ChartResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<
-    'planets' | 'dasha' | 'chart' | 'rerk'
+    'planets' | 'dasha' | 'chart' | 'rerk' | 'balas'
   >('planets');
 
   // For PDF Export
@@ -714,6 +717,13 @@ export default function Home() {
                   >
                     {lang === 'th' ? 'ฤกษ์ส่วนตัว' : 'Personal Rerk'}
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('balas')}
+                    className={`pb-3 px-2 text-lg font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'balas' ? 'border-b-4 border-indigo-600 text-indigo-900' : 'text-gray-400 hover:text-indigo-600'}`}
+                  >
+                    {t.tabs.balas}
+                  </button>
                 </div>
 
                 {/* NEW: Export Dropdown */}
@@ -774,6 +784,15 @@ export default function Home() {
               {activeTab === 'rerk' && (
                 <div className="animate-fade-in-up">
                   <RerkResult data={result} lang={lang} />
+                </div>
+              )}
+              {activeTab === 'balas' && result.balas && (
+                <div className="animate-fade-in-up">
+                  <BalasTable
+                    grahaBala={result.balas.grahaBala}
+                    bhavaBala={result.balas.bhavaBala}
+                    lang={lang}
+                  />
                 </div>
               )}
             </div>
