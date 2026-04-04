@@ -105,6 +105,7 @@ export async function POST(req: NextRequest) {
       dashaData = calculateVimshottariDasha(moon.longitude, birthDateLocalStr);
     }
 
+    // Calculate Shadbala (Graha Bala) and Bhava Bala
     const balas = calculateBalas(
       planets.map((p) => ({
         key: p.key,
@@ -147,7 +148,7 @@ export async function POST(req: NextRequest) {
       },
       planets,
       dasha: dashaData,
-      balas,
+      balas, // Graha Bala (Shadbala) + Bhava Bala
     });
   } catch (error) {
     return NextResponse.json({ error: String(error) }, { status: 500 });
