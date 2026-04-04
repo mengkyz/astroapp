@@ -57,6 +57,40 @@ const PLANET_DOMICILES_CSV: Partial<Record<string, number[]>> = {
   SUN: [5], MOON: [4], MARS: [1, 8], MERCURY: [3, 6],
   JUPITER: [9, 12], VENUS: [2, 7], SATURN: [10], RAHU: [11],
 };
+const PLANET_CODE_CSV: Record<string, string> = {
+  SUN: '1', MOON: '2', MARS: '3', MERCURY: '4', JUPITER: '5',
+  VENUS: '6', SATURN: '7', RAHU: '8', KETU: '9', URANUS: '0',
+};
+const SIGN_ELEMENT_CSV = ['','fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
+const SIGN_MODALITY_CSV = ['','cardinal','fixed','mutable','cardinal','fixed','mutable','cardinal','fixed','mutable','cardinal','fixed','mutable'];
+
+function csvSignDist(a: number, b: number): number {
+  const diff = Math.abs(a - b);
+  return diff > 6 ? 12 - diff : diff;
+}
+function csvSpecialTarget(planetSign: number, n: number): number {
+  return ((planetSign + n - 2) % 12) + 1;
+}
+function csvAspects(targetRasi: number, selfKey: string, bodies: Array<{ code: string; rasi: number; key: string }>) {
+  const kum: string[] = [], yok: string[] = [], chak: string[] = [],
+        trikon: string[] = [], leng: string[] = [], special: string[] = [];
+  bodies.forEach((b) => {
+    if (b.key === selfKey) return;
+    const d = csvSignDist(targetRasi, b.rasi);
+    if (d === 0) kum.push(b.code);
+    else if (d === 2) yok.push(b.code);
+    else if (d === 3) chak.push(b.code);
+    else if (d === 4) trikon.push(b.code);
+    else if (d === 6) leng.push(b.code);
+  });
+  [{ key: 'MARS', code: '3', pos: [4, 8] }, { key: 'JUPITER', code: '5', pos: [5, 9] }, { key: 'SATURN', code: '7', pos: [3, 10] }]
+    .forEach(({ key, code, pos }) => {
+      const src = bodies.find((b) => b.key === key);
+      if (!src) return;
+      pos.forEach((n) => { if (csvSpecialTarget(src.rasi, n) === targetRasi) special.push(code); });
+    });
+  return [kum, yok, chak, trikon, leng, special].map((arr) => arr.join(' '));
+}
 
 function esc(v: string) {
   return `"${v.replace(/"/g, '""')}"`;
@@ -86,13 +120,38 @@ function generatePlanetCSV(data: ChartResult, lang: Language): string {
   const t = translations[lang];
   const tT = t.planetTable;
   const pad = (n: number) => n.toString().padStart(2, '0');
-  const headers = [tT.planet, tT.rasi, tT.degree, tT.min, tT.sec, tT.drekkana, tT.navamsa, tT.nakshatra, tT.pada, tT.house, tT.houseLord].map(esc).join(',');
+  const headers = [
+    tT.planet, tT.rasi, tT.degree, tT.min, tT.sec,
+    tT.drekkana, tT.navamsa, tT.nakshatra, tT.pada, tT.house, tT.houseLord,
+    tT.kum, tT.yok, tT.chak, tT.trikon, tT.leng, tT.specialCriteria, tT.element, tT.signType,
+  ].map(esc).join(',');
   const rows: string[] = [headers];
+
   const lagna = data.lagna;
-  rows.push([tT.ascendant, t.signs[lagna.rasi], pad(lagna.deg), pad(lagna.min), pad(lagna.sec), t.signs[lagna.drekkana], t.signs[lagna.navamsa], t.nakshatras[lagna.nakshatraIndex], String(lagna.pada), `${t.houses[1]} (1)`, '-'].map(esc).join(','));
   const visiblePlanets = data.planets
     .filter((p) => PLANET_ORDER_CSV.includes(p.key))
     .sort((a, b) => PLANET_ORDER_CSV.indexOf(a.key) - PLANET_ORDER_CSV.indexOf(b.key));
+
+  // Bodies list (planets only — Lagna excluded from aspect columns)
+  const allBodiesCSV = visiblePlanets.map((p) => ({
+    code: PLANET_CODE_CSV[p.key] ?? p.key,
+    rasi: p.rasi,
+    key: p.key as string,
+  }));
+
+  const getElement = (rasi: number) => (tT as Record<string, string>)[SIGN_ELEMENT_CSV[rasi]] ?? '';
+  const getModality = (rasi: number) => (tT as Record<string, string>)[SIGN_MODALITY_CSV[rasi]] ?? '';
+
+  // Lagna row
+  const lagnaAsp = csvAspects(lagna.rasi, 'LAGNA', allBodiesCSV);
+  rows.push([
+    tT.ascendant, t.signs[lagna.rasi], pad(lagna.deg), pad(lagna.min), pad(lagna.sec),
+    t.signs[lagna.drekkana], t.signs[lagna.navamsa], t.nakshatras[lagna.nakshatraIndex],
+    String(lagna.pada), `${t.houses[1]} (1)`, '-',
+    ...lagnaAsp, getElement(lagna.rasi), getModality(lagna.rasi),
+  ].map(esc).join(','));
+
+  // Planet rows
   for (const planet of visiblePlanets) {
     const isNode = planet.key === 'RAHU' || planet.key === 'KETU';
     const planetName = (t.planets[planet.key as keyof typeof t.planets] || planet.key) + (planet.isRetrograde && !isNode ? ` (${tT.retroSymbol})` : '');
@@ -100,7 +159,13 @@ function generatePlanetCSV(data: ChartResult, lang: Language): string {
     const houseLord = domiciles
       ? domiciles.map((sign) => { let h = sign - lagna.rasi + 1; if (h <= 0) h += 12; return `${t.houses[h]} (${h})`; }).join(', ')
       : '-';
-    rows.push([planetName, t.signs[planet.rasi], pad(planet.degrees), pad(planet.minutes), pad(planet.seconds), t.signs[planet.drekkana], t.signs[planet.navamsa], t.nakshatras[planet.nakshatraIndex], String(planet.pada), `${t.houses[planet.house]} (${planet.house})`, houseLord].map(esc).join(','));
+    const asp = csvAspects(planet.rasi, planet.key, allBodiesCSV);
+    rows.push([
+      planetName, t.signs[planet.rasi], pad(planet.degrees), pad(planet.minutes), pad(planet.seconds),
+      t.signs[planet.drekkana], t.signs[planet.navamsa], t.nakshatras[planet.nakshatraIndex],
+      String(planet.pada), `${t.houses[planet.house]} (${planet.house})`, houseLord,
+      ...asp, getElement(planet.rasi), getModality(planet.rasi),
+    ].map(esc).join(','));
   }
   return rows.join('\r\n');
 }
@@ -109,7 +174,7 @@ function generateDashaCSV(dashaData: DashaTableData, birthDateLocalStr: string, 
   const t = translations[lang];
   const tD = t.dashaTable;
   const birthDate = dayjs(birthDateLocalStr);
-  const headers = [tD.dashaBhukti, tD.age, tD.startDate, tD.duration].map(esc).join(',');
+  const headers = [tD.dashaBhukti, tD.age, tD.period, tD.duration].map(esc).join(',');
   const rows: string[] = [headers];
   for (const dasha of dashaData.dashas) {
     if (dayjs(dasha.endDate).isBefore(birthDate)) continue;
@@ -118,11 +183,12 @@ function generateDashaCSV(dashaData: DashaTableData, birthDateLocalStr: string, 
       const isPartial = dayjs(bhukti.startDate).isBefore(birthDate) && dayjs(bhukti.endDate).isAfter(birthDate);
       const dashaBhuktiName = `${t.planets[dasha.lord as keyof typeof t.planets]} / ${t.planets[bhukti.lord as keyof typeof t.planets]}`;
       const age = isPartial ? `0${tD.y}0${tD.m}0${tD.d}` : csvFormatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), bhukti.startDate, tD);
-      const startDate = csvFormatLocalDate(isPartial ? birthDate.toISOString() : bhukti.startDate, lang);
+      const startIso = isPartial ? birthDate.toISOString() : bhukti.startDate;
+      const period = `${csvFormatLocalDate(startIso, lang)} - ${csvFormatLocalDate(bhukti.endDate, lang)}`;
       const duration = isPartial
         ? `${tD.remaining} ${csvFormatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), bhukti.endDate, tD)}`
         : `(${csvFormatDuration(bhukti.startDate, bhukti.endDate, tD)})`;
-      rows.push([dashaBhuktiName, age, startDate, duration].map(esc).join(','));
+      rows.push([dashaBhuktiName, age, period, duration].map(esc).join(','));
     }
   }
   return rows.join('\r\n');
