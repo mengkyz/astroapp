@@ -114,7 +114,7 @@ export default function DashaTable({
                       {t.dashaTable.dashaBhukti}
                     </th>
                     <th className="px-4 py-3 font-semibold">
-                      {t.dashaTable.startDate}
+                      {t.dashaTable.period}
                     </th>
                     <th className="px-4 py-3 font-semibold">
                       {t.dashaTable.duration}
@@ -165,8 +165,10 @@ export default function DashaTable({
                         <td className="px-4 py-3 font-medium text-gray-800">
                           {t.planets[dasha.lord]} / {t.planets[bhukti.lord]}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-3 text-gray-700">
                           {formatLocalDate(displayStartDate, lang)}
+                          <span className="text-gray-400 mx-1">–</span>
+                          {formatLocalDate(bhukti.endDate, lang)}
                         </td>
                         <td className="px-4 py-3 text-gray-600">
                           {durationStr}
