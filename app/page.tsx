@@ -24,6 +24,31 @@ type ChartResult = PlanetTableData & {
   balas?: BalasResult;
 };
 
+// --- Saved Persons ---
+const SAVED_PERSONS_KEY = 'verdictAstro_savedPersons';
+
+interface SavedPerson {
+  id: string;
+  firstName: string;
+  lastName: string;
+  nickname: string;
+  day: number;
+  month: number;
+  year: number; // CE year
+  hour: number;
+  minute: number;
+  second: number;
+  locationName: string;
+  latitude: number | string;
+  longitude: number | string;
+  quickSelect: { p: string; d: string; s: string } | null;
+}
+
+function personDisplayName(person: SavedPerson): string {
+  const full = [person.firstName, person.lastName].filter(Boolean).join(' ');
+  return full || person.nickname || '—';
+}
+
 // --- GPS Helpers ---
 function decimalToDMS(decimal: number, isLat: boolean) {
   const dir = decimal >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
@@ -237,6 +262,17 @@ export default function Home() {
   // For Export
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
 
+  // Saved Persons
+  const [savedPersons, setSavedPersons] = useState<SavedPerson[]>(() => {
+    try {
+      const stored = localStorage.getItem(SAVED_PERSONS_KEY);
+      return stored ? (JSON.parse(stored) as SavedPerson[]) : [];
+    } catch { return []; }
+  });
+  const [currentQS, setCurrentQS] = useState<{ p: string; d: string; s: string }>({ p: '', d: '', s: '' });
+  const [locationSelectKey, setLocationSelectKey] = useState(0);
+  const [locationSelectInit, setLocationSelectInit] = useState<{ p: string; d: string; s: string } | null | undefined>(undefined);
+
   useEffect(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -269,6 +305,62 @@ export default function Home() {
     setYearInput(
       nextLang === 'th' ? String(formData.year + 543) : String(formData.year),
     );
+  };
+
+  // Persist saved persons to localStorage whenever they change
+  useEffect(() => {
+    try { localStorage.setItem(SAVED_PERSONS_KEY, JSON.stringify(savedPersons)); } catch { /* ignore */ }
+  }, [savedPersons]);
+
+  const handleSavePerson = () => {
+    const person: SavedPerson = {
+      id: Date.now().toString(),
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      nickname: formData.nickname,
+      day: Number(formData.day),
+      month: Number(formData.month),
+      year: Number(formData.year),
+      hour: Number(formData.hour),
+      minute: Number(formData.minute),
+      second: Number(formData.second),
+      locationName: formData.locationName,
+      latitude: formData.latitude,
+      longitude: formData.longitude,
+      quickSelect: currentQS.p ? { ...currentQS } : null,
+    };
+    setSavedPersons((prev) => [...prev, person]);
+  };
+
+  const handleLoadPerson = (person: SavedPerson) => {
+    setFormData((prev) => ({
+      ...prev,
+      firstName: person.firstName,
+      lastName: person.lastName,
+      nickname: person.nickname,
+      day: person.day,
+      month: person.month,
+      year: person.year,
+      hour: person.hour,
+      minute: person.minute,
+      second: person.second,
+      locationName: person.locationName,
+      latitude: person.latitude,
+      longitude: person.longitude,
+    }));
+    setYearInput(lang === 'th' ? String(person.year + 543) : String(person.year));
+    if (person.quickSelect) {
+      setLocationSelectInit(person.quickSelect);
+      setCurrentQS(person.quickSelect);
+    } else {
+      setLocationSelectInit(null); // null = skip Bangkok default on remount
+      setCurrentQS({ p: '', d: '', s: '' });
+    }
+    setLocationSelectKey((k) => k + 1);
+  };
+
+  const handleDeletePerson = (id: string) => {
+    setSavedPersons((prev) => prev.filter((p) => p.id !== id));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -362,6 +454,49 @@ export default function Home() {
             >
               {t.form.langToggle}
             </button>
+          </div>
+
+          {/* Saved Persons Panel */}
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold text-gray-700">{t.form.savedPersons}</h3>
+            </div>
+            {savedPersons.length === 0 ? (
+              <p className="text-xs text-gray-400">{t.form.noSavedPersons}</p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {savedPersons.map((person) => (
+                  <div
+                    key={person.id}
+                    className="flex items-center gap-2 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2 text-sm"
+                  >
+                    <div className="leading-tight">
+                      <span className="font-semibold text-indigo-900">{personDisplayName(person)}</span>
+                      <span className="text-indigo-500 text-xs ml-2">
+                        {person.day}/{person.month}/{person.year}
+                      </span>
+                      {person.locationName && (
+                        <span className="text-gray-400 text-xs ml-2 hidden sm:inline">· {person.locationName}</span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleLoadPerson(person)}
+                      className="text-xs font-bold text-indigo-600 hover:text-indigo-900 border border-indigo-300 rounded px-1.5 py-0.5 transition"
+                    >
+                      ↩
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeletePerson(person.id)}
+                      className="text-xs text-red-400 hover:text-red-600 transition"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <form
@@ -572,9 +707,11 @@ export default function Home() {
                 </h3>
 
                 <ThaiLocationSelect
+                  key={locationSelectKey}
                   lang={lang}
                   currentLat={formData.latitude}
                   currentLng={formData.longitude}
+                  initialSelection={locationSelectInit}
                   onSelect={(lat, lng, name) =>
                     setFormData((prev) => ({
                       ...prev,
@@ -590,6 +727,9 @@ export default function Home() {
                       longitude: '',
                       locationName: '',
                     }))
+                  }
+                  onSelectionChange={(newP, newD, newS) =>
+                    setCurrentQS({ p: newP, d: newD, s: newS })
                   }
                 />
 
@@ -773,13 +913,20 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="pt-4">
+            <div className="pt-4 flex gap-3">
               <button
                 disabled={loading}
                 type="submit"
-                className="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold shadow-md hover:bg-indigo-700 transition duration-200 disabled:opacity-70 text-lg"
+                className="flex-1 bg-indigo-600 text-white p-4 rounded-xl font-bold shadow-md hover:bg-indigo-700 transition duration-200 disabled:opacity-70 text-lg"
               >
                 {loading ? t.form.loading : t.form.submit}
+              </button>
+              <button
+                type="button"
+                onClick={handleSavePerson}
+                className="bg-emerald-500 hover:bg-emerald-600 text-white px-5 rounded-xl font-bold shadow-md transition duration-200 text-sm"
+              >
+                {t.form.savePerson}
               </button>
             </div>
           </form>

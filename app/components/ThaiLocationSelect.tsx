@@ -18,6 +18,8 @@ interface Props {
   currentLng: number | string;
   onSelect: (lat: number, lng: number, placeName: string) => void;
   onClear: () => void;
+  onSelectionChange?: (p: string, d: string, s: string) => void;
+  initialSelection?: { p: string; d: string; s: string } | null;
 }
 
 export default function ThaiLocationSelect({
@@ -26,6 +28,8 @@ export default function ThaiLocationSelect({
   currentLng,
   onSelect,
   onClear,
+  onSelectionChange,
+  initialSelection,
 }: Props) {
   const t = translations[lang].form;
   const [data, setData] = useState<GeoRecord[]>([]);
@@ -36,6 +40,14 @@ export default function ThaiLocationSelect({
 
   const [prevLat, setPrevLat] = useState(currentLat);
   const [prevLng, setPrevLng] = useState(currentLng);
+
+  // Format location name: Province, District, Sub-district (bigger first, filter empties)
+  const getLocName = (r: GeoRecord | undefined) => {
+    if (!r) return '';
+    return lang === 'th'
+      ? [r.p_th, r.d_th, r.s_th].filter(Boolean).join(', ')
+      : [r.p_en, r.d_en, r.s_en].filter(Boolean).join(', ');
+  };
 
   useEffect(() => {
     fetch('/data/ThailandGeography.csv')
@@ -61,18 +73,34 @@ export default function ThaiLocationSelect({
 
         setData(parsed);
 
-        const def = parsed.find(
-          (x) =>
-            x.p_th === 'กทม' &&
-            x.d_th === 'พระนคร' &&
-            x.s_th === 'พระบรมมหาราชวัง',
-        );
-        if (def) {
-          setP(def.p_th);
-          setD(def.d_th);
-          setS(def.s_th);
-          const name = [def.s_th, def.d_th, def.p_th].join(', ');
-          onSelect(def.lat, def.lng, name);
+        // Use initialSelection if provided, otherwise default to Bangkok
+        if (initialSelection && initialSelection.p) {
+          const { p: initP, d: initD, s: initS } = initialSelection;
+          const rec = parsed.find(
+            (x) => x.p_th === initP && x.d_th === initD && x.s_th === initS,
+          );
+          if (rec) {
+            setP(initP);
+            setD(initD);
+            setS(initS);
+            onSelect(rec.lat, rec.lng, getLocName(rec));
+            onSelectionChange?.(initP, initD, initS);
+          }
+        } else if (initialSelection !== null) {
+          // null means "no selection, skip default"; undefined means "use default Bangkok"
+          const def = parsed.find(
+            (x) =>
+              x.p_th === 'กทม' &&
+              x.d_th === 'พระนคร' &&
+              x.s_th === 'พระบรมมหาราชวัง',
+          );
+          if (def) {
+            setP(def.p_th);
+            setD(def.d_th);
+            setS(def.s_th);
+            onSelect(def.lat, def.lng, getLocName(def));
+            onSelectionChange?.(def.p_th, def.d_th, def.s_th);
+          }
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,18 +154,10 @@ export default function ThaiLocationSelect({
     return Array.from(map.entries()).sort((a, b) => a[0].localeCompare(b[0]));
   }, [data, p, d]);
 
-  const getLocName = (r: GeoRecord | undefined) => {
-    if (!r) return '';
-    return lang === 'th'
-      ? [r.s_th, r.d_th, r.p_th].join(', ')
-      : [r.s_en, r.d_en, r.p_en].join(', ');
-  };
-
   const handleProv = (newP: string) => {
     if (!newP) {
-      setP('');
-      setD('');
-      setS('');
+      setP(''); setD(''); setS('');
+      onSelectionChange?.('', '', '');
       onClear();
       return;
     }
@@ -145,32 +165,30 @@ export default function ThaiLocationSelect({
     const firstD = newDists[0].d_th;
     const firstS = newDists.find((x) => x.d_th === firstD)?.s_th || '';
     const rec = newDists.find((x) => x.d_th === firstD && x.s_th === firstS);
-
-    setP(newP);
-    setD(firstD);
-    setS(firstS);
+    setP(newP); setD(firstD); setS(firstS);
+    onSelectionChange?.(newP, firstD, firstS);
     if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
   };
 
   const handleDist = (newD: string) => {
     if (!newD) {
-      setD('');
-      setS('');
+      setD(''); setS('');
+      onSelectionChange?.(p, '', '');
       onClear();
       return;
     }
     const newSubs = data.filter((x) => x.p_th === p && x.d_th === newD);
     const firstS = newSubs[0].s_th;
     const rec = newSubs[0];
-
-    setD(newD);
-    setS(firstS);
+    setD(newD); setS(firstS);
+    onSelectionChange?.(p, newD, firstS);
     if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
   };
 
   const handleSub = (newS: string) => {
     if (!newS) {
       setS('');
+      onSelectionChange?.(p, d, '');
       onClear();
       return;
     }
@@ -178,6 +196,7 @@ export default function ThaiLocationSelect({
       (x) => x.p_th === p && x.d_th === d && x.s_th === newS,
     );
     setS(newS);
+    onSelectionChange?.(p, d, newS);
     if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
   };
 
@@ -190,9 +209,8 @@ export default function ThaiLocationSelect({
         <button
           type="button"
           onClick={() => {
-            setP('');
-            setD('');
-            setS('');
+            setP(''); setD(''); setS('');
+            onSelectionChange?.('', '', '');
             onClear();
           }}
           className="text-xs font-semibold text-red-500 hover:text-red-700 transition"

@@ -37,6 +37,10 @@ export const translations = {
       summaryDate: 'Date of Birth',
       summaryTime: 'Time of Birth',
       summaryLocation: 'Location',
+      savedPersons: 'Saved Persons',
+      savePerson: 'Save Person',
+      deletePerson: 'Delete',
+      noSavedPersons: 'No saved persons yet.',
     },
     months: [
       'January',
@@ -260,6 +264,10 @@ export const translations = {
       summaryDate: 'วันที่เกิด',
       summaryTime: 'เวลาเกิด',
       summaryLocation: 'พิกัดที่เกิด',
+      savedPersons: 'บุคคลที่บันทึกไว้',
+      savePerson: 'บันทึกบุคคล',
+      deletePerson: 'ลบ',
+      noSavedPersons: 'ยังไม่มีบุคคลที่บันทึกไว้',
     },
     months: [
       'มกราคม',
