@@ -24,6 +24,33 @@ type ChartResult = PlanetTableData & {
   balas?: BalasResult;
 };
 
+// --- Saved Persons ---
+
+interface SavedPerson {
+  id: string;
+  firstNameEn: string; lastNameEn: string; nicknameEn: string;
+  firstNameTh: string; lastNameTh: string; nicknameTh: string;
+  day: number; month: number; year: number;
+  hour: number; minute: number; second: number;
+  locationNameEn: string; locationNameTh: string;
+  latitude: number | string; longitude: number | string;
+  quickSelect: { p: string; d: string; s: string } | null;
+}
+
+function personDisplayName(person: SavedPerson, lang: Language): string {
+  const firstName = lang === 'th' ? (person.firstNameTh || person.firstNameEn) : (person.firstNameEn || person.firstNameTh);
+  const lastName = lang === 'th' ? (person.lastNameTh || person.lastNameEn) : (person.lastNameEn || person.lastNameTh);
+  const nickname = lang === 'th' ? (person.nicknameTh || person.nicknameEn) : (person.nicknameEn || person.nicknameTh);
+  const full = [firstName, lastName].filter(Boolean).join(' ');
+  return full || nickname || '—';
+}
+
+function personLocName(person: SavedPerson, lang: Language): string {
+  return lang === 'th'
+    ? (person.locationNameTh || person.locationNameEn)
+    : (person.locationNameEn || person.locationNameTh);
+}
+
 // --- GPS Helpers ---
 function decimalToDMS(decimal: number, isLat: boolean) {
   const dir = decimal >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
@@ -237,6 +264,16 @@ export default function Home() {
   // For Export
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
 
+  // Saved Persons
+  const [savedPersons, setSavedPersons] = useState<SavedPerson[]>([]);
+  const [savedPersonsOpen, setSavedPersonsOpen] = useState(false);
+  const [editingPersonId, setEditingPersonId] = useState<string | null>(null);
+  const [saveToast, setSaveToast] = useState<'saved' | 'updated' | null>(null);
+  const [locationNameBilingual, setLocationNameBilingual] = useState({ en: '', th: '' });
+  const [currentQS, setCurrentQS] = useState<{ p: string; d: string; s: string }>({ p: '', d: '', s: '' });
+  const [locationSelectKey, setLocationSelectKey] = useState(0);
+  const [locationSelectInit, setLocationSelectInit] = useState<{ p: string; d: string; s: string } | null | undefined>(undefined);
+
   useEffect(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -269,6 +306,141 @@ export default function Home() {
     setYearInput(
       nextLang === 'th' ? String(formData.year + 543) : String(formData.year),
     );
+  };
+
+  // Load saved persons from CSV via API on mount
+  useEffect(() => {
+    fetch('/api/saved-persons')
+      .then((r) => r.json())
+      .then((data) => setSavedPersons(data))
+      .catch(() => {});
+  }, []);
+
+  // Persist saved persons to CSV via API
+  const persistPersons = (persons: SavedPerson[]) => {
+    fetch('/api/saved-persons', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(persons),
+    }).catch(() => {});
+  };
+
+  const showToast = (type: 'saved' | 'updated') => {
+    setSaveToast(type);
+    setTimeout(() => setSaveToast(null), 2500);
+  };
+
+  const handleSavePerson = () => {
+    if (editingPersonId) {
+      setSavedPersons((prev) => {
+        const next = prev.map((p) => {
+          if (p.id !== editingPersonId) return p;
+          return {
+            ...p,
+            firstNameEn: lang === 'en' ? formData.firstName : p.firstNameEn,
+            lastNameEn: lang === 'en' ? formData.lastName : p.lastNameEn,
+            nicknameEn: lang === 'en' ? formData.nickname : p.nicknameEn,
+            firstNameTh: lang === 'th' ? formData.firstName : p.firstNameTh,
+            lastNameTh: lang === 'th' ? formData.lastName : p.lastNameTh,
+            nicknameTh: lang === 'th' ? formData.nickname : p.nicknameTh,
+            day: Number(formData.day), month: Number(formData.month), year: Number(formData.year),
+            hour: Number(formData.hour), minute: Number(formData.minute), second: Number(formData.second),
+            locationNameEn: locationNameBilingual.en,
+            locationNameTh: locationNameBilingual.th,
+            latitude: formData.latitude,
+            longitude: formData.longitude,
+            quickSelect: currentQS.p ? { ...currentQS } : null,
+          };
+        });
+        persistPersons(next);
+        return next;
+      });
+      setEditingPersonId(null);
+      showToast('updated');
+    } else {
+      const person: SavedPerson = {
+        id: Date.now().toString(),
+        firstNameEn: lang === 'en' ? formData.firstName : '',
+        lastNameEn: lang === 'en' ? formData.lastName : '',
+        nicknameEn: lang === 'en' ? formData.nickname : '',
+        firstNameTh: lang === 'th' ? formData.firstName : '',
+        lastNameTh: lang === 'th' ? formData.lastName : '',
+        nicknameTh: lang === 'th' ? formData.nickname : '',
+        day: Number(formData.day), month: Number(formData.month), year: Number(formData.year),
+        hour: Number(formData.hour), minute: Number(formData.minute), second: Number(formData.second),
+        locationNameEn: locationNameBilingual.en,
+        locationNameTh: locationNameBilingual.th,
+        latitude: formData.latitude,
+        longitude: formData.longitude,
+        quickSelect: currentQS.p ? { ...currentQS } : null,
+      };
+      setSavedPersons((prev) => {
+        const next = [...prev, person];
+        persistPersons(next);
+        return next;
+      });
+      showToast('saved');
+    }
+  };
+
+  const handleLoadPerson = (person: SavedPerson) => {
+    const displayFirst = lang === 'th' ? (person.firstNameTh || person.firstNameEn) : (person.firstNameEn || person.firstNameTh);
+    const displayLast = lang === 'th' ? (person.lastNameTh || person.lastNameEn) : (person.lastNameEn || person.lastNameTh);
+    const displayNick = lang === 'th' ? (person.nicknameTh || person.nicknameEn) : (person.nicknameEn || person.nicknameTh);
+    const displayLoc = personLocName(person, lang);
+    setFormData((prev) => ({
+      ...prev,
+      firstName: displayFirst,
+      lastName: displayLast,
+      nickname: displayNick,
+      day: person.day, month: person.month, year: person.year,
+      hour: person.hour, minute: person.minute, second: person.second,
+      locationName: displayLoc,
+      latitude: person.latitude,
+      longitude: person.longitude,
+    }));
+    setLocationNameBilingual({ en: person.locationNameEn, th: person.locationNameTh });
+    setYearInput(lang === 'th' ? String(person.year + 543) : String(person.year));
+    if (person.quickSelect) {
+      setLocationSelectInit(person.quickSelect);
+      setCurrentQS(person.quickSelect);
+    } else {
+      setLocationSelectInit(null);
+      setCurrentQS({ p: '', d: '', s: '' });
+    }
+    setLocationSelectKey((k) => k + 1);
+  };
+
+  const handleEditPerson = (person: SavedPerson) => {
+    handleLoadPerson(person);
+    setEditingPersonId(person.id);
+    setSavedPersonsOpen(false);
+  };
+
+  const handleDeletePerson = (id: string) => {
+    setSavedPersons((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      persistPersons(next);
+      return next;
+    });
+    if (editingPersonId === id) setEditingPersonId(null);
+  };
+
+  const handleClearForm = () => {
+    const now = new Date();
+    setFormData((prev) => ({
+      ...prev,
+      firstName: '', lastName: '', nickname: '',
+      locationName: '', latitude: '', longitude: '',
+      day: now.getDate(), month: now.getMonth() + 1, year: now.getFullYear(),
+      hour: now.getHours(), minute: now.getMinutes(), second: now.getSeconds(),
+    }));
+    setYearInput(lang === 'th' ? String(now.getFullYear() + 543) : String(now.getFullYear()));
+    setLocationNameBilingual({ en: '', th: '' });
+    setEditingPersonId(null);
+    setCurrentQS({ p: '', d: '', s: '' });
+    setLocationSelectInit(null);
+    setLocationSelectKey((k) => k + 1);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -304,7 +476,11 @@ export default function Home() {
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'locationName') {
+      setLocationNameBilingual({ en: value, th: value });
+    }
   };
 
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -364,6 +540,61 @@ export default function Home() {
             </button>
           </div>
 
+          {/* Saved Persons Modal */}
+          {savedPersonsOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                onClick={() => setSavedPersonsOpen(false)}
+              />
+              <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[80vh]">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                  <h2 className="text-base font-bold text-gray-800">{t.form.savedPersons}</h2>
+                  <button
+                    type="button"
+                    onClick={() => setSavedPersonsOpen(false)}
+                    className="text-gray-400 hover:text-gray-700 text-lg font-bold transition"
+                  >✕</button>
+                </div>
+                <div className="overflow-y-auto flex-1 p-4 space-y-2">
+                  {savedPersons.length === 0 ? (
+                    <p className="text-sm text-gray-400 text-center py-6">{t.form.noSavedPersons}</p>
+                  ) : (
+                    savedPersons.map((person) => (
+                      <div key={person.id} className="flex items-center gap-2 border border-gray-200 rounded-xl p-3 hover:bg-gray-50 transition">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-gray-800 text-sm truncate">{personDisplayName(person, lang)}</div>
+                          <div className="text-xs text-gray-400 mt-0.5">
+                            {person.day}/{person.month}/{person.year}
+                            {personLocName(person, lang) && <span className="ml-2">· {personLocName(person, lang)}</span>}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          title="Load"
+                          onClick={() => { handleLoadPerson(person); setSavedPersonsOpen(false); }}
+                          className="text-xs font-bold text-indigo-600 hover:text-white hover:bg-indigo-600 border border-indigo-300 rounded-lg px-2 py-1 transition"
+                        >↩</button>
+                        <button
+                          type="button"
+                          title={t.form.editPerson}
+                          onClick={() => handleEditPerson(person)}
+                          className="text-xs font-bold text-amber-600 hover:text-white hover:bg-amber-500 border border-amber-300 rounded-lg px-2 py-1 transition"
+                        >✏</button>
+                        <button
+                          type="button"
+                          title={t.form.deletePerson}
+                          onClick={() => handleDeletePerson(person.id)}
+                          className="text-xs text-red-400 hover:text-red-600 transition px-1"
+                        >✕</button>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           <form
             onSubmit={handleSubmit}
             className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100 space-y-6"
@@ -371,9 +602,17 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* PERSONAL DETAILS CARD */}
               <div className="space-y-4 md:col-span-2">
-                <h3 className="text-lg font-bold text-gray-800 border-b pb-2">
-                  {t.form.personalDetails}
-                </h3>
+                <div className="flex items-center justify-between border-b pb-2">
+                  <h3 className="text-lg font-bold text-gray-800">{t.form.personalDetails}</h3>
+                  <button
+                    type="button"
+                    onClick={() => setSavedPersonsOpen(true)}
+                    className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg px-3 py-1.5 transition"
+                  >
+                    <span>👤</span>
+                    <span>{t.form.openSavedPersons}{savedPersons.length > 0 ? ` (${savedPersons.length})` : ''}</span>
+                  </button>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label
@@ -572,17 +811,16 @@ export default function Home() {
                 </h3>
 
                 <ThaiLocationSelect
+                  key={locationSelectKey}
                   lang={lang}
                   currentLat={formData.latitude}
                   currentLng={formData.longitude}
-                  onSelect={(lat, lng, name) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      latitude: lat,
-                      longitude: lng,
-                      locationName: name,
-                    }))
-                  }
+                  initialSelection={locationSelectInit}
+                  onSelect={(lat, lng, nameEn, nameTh) => {
+                    const displayName = lang === 'th' ? nameTh : nameEn;
+                    setFormData((prev) => ({ ...prev, latitude: lat, longitude: lng, locationName: displayName }));
+                    setLocationNameBilingual({ en: nameEn, th: nameTh });
+                  }}
                   onClear={() =>
                     setFormData((prev) => ({
                       ...prev,
@@ -590,6 +828,9 @@ export default function Home() {
                       longitude: '',
                       locationName: '',
                     }))
+                  }
+                  onSelectionChange={(newP, newD, newS) =>
+                    setCurrentQS({ p: newP, d: newD, s: newS })
                   }
                 />
 
@@ -773,14 +1014,36 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="pt-4">
-              <button
-                disabled={loading}
-                type="submit"
-                className="w-full bg-indigo-600 text-white p-4 rounded-xl font-bold shadow-md hover:bg-indigo-700 transition duration-200 disabled:opacity-70 text-lg"
-              >
-                {loading ? t.form.loading : t.form.submit}
-              </button>
+            <div className="pt-4 space-y-2">
+              {editingPersonId && (
+                <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                  <span className="font-semibold">✏ {t.form.editPerson}: {personDisplayName(savedPersons.find(p => p.id === editingPersonId)!, lang)}</span>
+                  <button type="button" onClick={() => setEditingPersonId(null)} className="ml-auto text-amber-500 hover:text-amber-700 font-bold">{t.form.cancelEdit}</button>
+                </div>
+              )}
+              <div className="flex gap-3">
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="flex-1 bg-indigo-600 text-white p-4 rounded-xl font-bold shadow-md hover:bg-indigo-700 transition duration-200 disabled:opacity-70 text-lg"
+                >
+                  {loading ? t.form.loading : t.form.submit}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSavePerson}
+                  className={`px-5 rounded-xl font-bold shadow-md transition duration-200 text-sm text-white ${editingPersonId ? 'bg-amber-500 hover:bg-amber-600' : 'bg-emerald-500 hover:bg-emerald-600'}`}
+                >
+                  {editingPersonId ? t.form.updatePerson : t.form.savePerson}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleClearForm}
+                  className="px-4 rounded-xl font-bold shadow-sm transition duration-200 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 border border-gray-200"
+                >
+                  {t.form.clearForm}
+                </button>
+              </div>
             </div>
           </form>
 
@@ -965,6 +1228,14 @@ export default function Home() {
       {/* PRINT ONLY LAYOUT */}
       {result && submittedData && (
         <PrintLayout data={result} formData={submittedData} lang={lang} />
+      )}
+
+      {/* Save Toast */}
+      {saveToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white px-5 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-2">
+          <span>✓</span>
+          <span>{saveToast === 'updated' ? t.form.personUpdated : t.form.personSaved}</span>
+        </div>
       )}
     </>
   );
