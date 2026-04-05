@@ -16,7 +16,7 @@ interface Props {
   lang: Language;
   currentLat: number | string;
   currentLng: number | string;
-  onSelect: (lat: number, lng: number, placeName: string) => void;
+  onSelect: (lat: number, lng: number, nameEn: string, nameTh: string) => void;
   onClear: () => void;
   onSelectionChange?: (p: string, d: string, s: string) => void;
   initialSelection?: { p: string; d: string; s: string } | null;
@@ -41,13 +41,17 @@ export default function ThaiLocationSelect({
   const [prevLat, setPrevLat] = useState(currentLat);
   const [prevLng, setPrevLng] = useState(currentLng);
 
-  // Format location name: Province, District, Sub-district (bigger first, filter empties)
-  const getLocName = (r: GeoRecord | undefined) => {
+  const getLocNameEn = (r: GeoRecord | undefined) => {
     if (!r) return '';
-    return lang === 'th'
-      ? [r.p_th, r.d_th, r.s_th].filter(Boolean).join(', ')
-      : [r.p_en, r.d_en, r.s_en].filter(Boolean).join(', ');
+    return [r.p_en, r.d_en, r.s_en].filter(Boolean).join(', ');
   };
+  const getLocNameTh = (r: GeoRecord | undefined) => {
+    if (!r) return '';
+    return [r.p_th, r.d_th, r.s_th].filter(Boolean).join(', ');
+  };
+  // Display name follows current language
+  const getLocName = (r: GeoRecord | undefined) =>
+    lang === 'th' ? getLocNameTh(r) : getLocNameEn(r);
 
   useEffect(() => {
     fetch('/data/ThailandGeography.csv')
@@ -83,7 +87,7 @@ export default function ThaiLocationSelect({
             setP(initP);
             setD(initD);
             setS(initS);
-            onSelect(rec.lat, rec.lng, getLocName(rec));
+            onSelect(rec.lat, rec.lng, getLocNameEn(rec), getLocNameTh(rec));
             onSelectionChange?.(initP, initD, initS);
           }
         } else if (initialSelection !== null) {
@@ -98,7 +102,7 @@ export default function ThaiLocationSelect({
             setP(def.p_th);
             setD(def.d_th);
             setS(def.s_th);
-            onSelect(def.lat, def.lng, getLocName(def));
+            onSelect(def.lat, def.lng, getLocNameEn(def), getLocNameTh(def));
             onSelectionChange?.(def.p_th, def.d_th, def.s_th);
           }
         }
@@ -167,7 +171,7 @@ export default function ThaiLocationSelect({
     const rec = newDists.find((x) => x.d_th === firstD && x.s_th === firstS);
     setP(newP); setD(firstD); setS(firstS);
     onSelectionChange?.(newP, firstD, firstS);
-    if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
+    if (rec) onSelect(rec.lat, rec.lng, getLocNameEn(rec), getLocNameTh(rec));
   };
 
   const handleDist = (newD: string) => {
@@ -182,7 +186,7 @@ export default function ThaiLocationSelect({
     const rec = newSubs[0];
     setD(newD); setS(firstS);
     onSelectionChange?.(p, newD, firstS);
-    if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
+    if (rec) onSelect(rec.lat, rec.lng, getLocNameEn(rec), getLocNameTh(rec));
   };
 
   const handleSub = (newS: string) => {
@@ -197,7 +201,7 @@ export default function ThaiLocationSelect({
     );
     setS(newS);
     onSelectionChange?.(p, d, newS);
-    if (rec) onSelect(rec.lat, rec.lng, getLocName(rec));
+    if (rec) onSelect(rec.lat, rec.lng, getLocNameEn(rec), getLocNameTh(rec));
   };
 
   if (data.length === 0) return null;

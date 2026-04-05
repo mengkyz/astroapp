@@ -1,1 +1,1 @@
-id,firstName,lastName,nickname,day,month,year,hour,minute,second,locationName,latitude,longitude,quickSelectP,quickSelectD,quickSelectS
+id,firstNameEn,lastNameEn,nicknameEn,firstNameTh,lastNameTh,nicknameTh,day,month,year,hour,minute,second,locationNameEn,locationNameTh,latitude,longitude,quickSelectP,quickSelectD,quickSelectS

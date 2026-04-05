@@ -3,22 +3,17 @@ import fs from 'fs';
 import path from 'path';
 
 const CSV_PATH = path.join(process.cwd(), 'public', 'data', 'savedPersons.csv');
-const CSV_HEADER = 'id,firstName,lastName,nickname,day,month,year,hour,minute,second,locationName,latitude,longitude,quickSelectP,quickSelectD,quickSelectS';
+const CSV_HEADER =
+  'id,firstNameEn,lastNameEn,nicknameEn,firstNameTh,lastNameTh,nicknameTh,day,month,year,hour,minute,second,locationNameEn,locationNameTh,latitude,longitude,quickSelectP,quickSelectD,quickSelectS';
 
 interface SavedPerson {
   id: string;
-  firstName: string;
-  lastName: string;
-  nickname: string;
-  day: number;
-  month: number;
-  year: number;
-  hour: number;
-  minute: number;
-  second: number;
-  locationName: string;
-  latitude: number | string;
-  longitude: number | string;
+  firstNameEn: string; lastNameEn: string; nicknameEn: string;
+  firstNameTh: string; lastNameTh: string; nicknameTh: string;
+  day: number; month: number; year: number;
+  hour: number; minute: number; second: number;
+  locationNameEn: string; locationNameTh: string;
+  latitude: number | string; longitude: number | string;
   quickSelect: { p: string; d: string; s: string } | null;
 }
 
@@ -27,13 +22,6 @@ function csvField(val: string | number): string {
   return s.includes(',') || s.includes('"') || s.includes('\n')
     ? `"${s.replace(/"/g, '""')}"`
     : s;
-}
-
-function parseField(val: string): string {
-  if (val.startsWith('"') && val.endsWith('"')) {
-    return val.slice(1, -1).replace(/""/g, '"');
-  }
-  return val;
 }
 
 function parseCsvLine(line: string): string[] {
@@ -59,24 +47,23 @@ function parseCsvLine(line: string): string[] {
 function readPersons(): SavedPerson[] {
   if (!fs.existsSync(CSV_PATH)) return [];
   const lines = fs.readFileSync(CSV_PATH, 'utf-8').split('\n').filter(Boolean);
-  // skip header
   return lines.slice(1).map((line) => {
-    const [id, firstName, lastName, nickname, day, month, year, hour, minute, second, locationName, latitude, longitude, quickSelectP, quickSelectD, quickSelectS] = parseCsvLine(line);
+    const [
+      id, firstNameEn, lastNameEn, nicknameEn,
+      firstNameTh, lastNameTh, nicknameTh,
+      day, month, year, hour, minute, second,
+      locationNameEn, locationNameTh,
+      latitude, longitude,
+      quickSelectP, quickSelectD, quickSelectS,
+    ] = parseCsvLine(line);
     return {
-      id: parseField(id),
-      firstName: parseField(firstName),
-      lastName: parseField(lastName),
-      nickname: parseField(nickname),
-      day: Number(day),
-      month: Number(month),
-      year: Number(year),
-      hour: Number(hour),
-      minute: Number(minute),
-      second: Number(second),
-      locationName: parseField(locationName),
-      latitude: parseField(latitude),
-      longitude: parseField(longitude),
-      quickSelect: quickSelectP ? { p: parseField(quickSelectP), d: parseField(quickSelectD), s: parseField(quickSelectS) } : null,
+      id, firstNameEn, lastNameEn, nicknameEn,
+      firstNameTh, lastNameTh, nicknameTh,
+      day: Number(day), month: Number(month), year: Number(year),
+      hour: Number(hour), minute: Number(minute), second: Number(second),
+      locationNameEn, locationNameTh,
+      latitude, longitude,
+      quickSelect: quickSelectP ? { p: quickSelectP, d: quickSelectD ?? '', s: quickSelectS ?? '' } : null,
     };
   });
 }
@@ -85,18 +72,12 @@ function writePersons(persons: SavedPerson[]): void {
   const rows = persons.map((p) =>
     [
       csvField(p.id),
-      csvField(p.firstName),
-      csvField(p.lastName),
-      csvField(p.nickname),
-      csvField(p.day),
-      csvField(p.month),
-      csvField(p.year),
-      csvField(p.hour),
-      csvField(p.minute),
-      csvField(p.second),
-      csvField(p.locationName),
-      csvField(p.latitude),
-      csvField(p.longitude),
+      csvField(p.firstNameEn), csvField(p.lastNameEn), csvField(p.nicknameEn),
+      csvField(p.firstNameTh), csvField(p.lastNameTh), csvField(p.nicknameTh),
+      csvField(p.day), csvField(p.month), csvField(p.year),
+      csvField(p.hour), csvField(p.minute), csvField(p.second),
+      csvField(p.locationNameEn), csvField(p.locationNameTh),
+      csvField(p.latitude), csvField(p.longitude),
       csvField(p.quickSelect?.p ?? ''),
       csvField(p.quickSelect?.d ?? ''),
       csvField(p.quickSelect?.s ?? ''),
