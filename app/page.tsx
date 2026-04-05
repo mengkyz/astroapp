@@ -25,7 +25,6 @@ type ChartResult = PlanetTableData & {
 };
 
 // --- Saved Persons ---
-const SAVED_PERSONS_KEY = 'verdictAstro_savedPersons';
 
 interface SavedPerson {
   id: string;
@@ -263,12 +262,7 @@ export default function Home() {
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
 
   // Saved Persons
-  const [savedPersons, setSavedPersons] = useState<SavedPerson[]>(() => {
-    try {
-      const stored = localStorage.getItem(SAVED_PERSONS_KEY);
-      return stored ? (JSON.parse(stored) as SavedPerson[]) : [];
-    } catch { return []; }
-  });
+  const [savedPersons, setSavedPersons] = useState<SavedPerson[]>([]);
   const [currentQS, setCurrentQS] = useState<{ p: string; d: string; s: string }>({ p: '', d: '', s: '' });
   const [locationSelectKey, setLocationSelectKey] = useState(0);
   const [locationSelectInit, setLocationSelectInit] = useState<{ p: string; d: string; s: string } | null | undefined>(undefined);
@@ -307,10 +301,22 @@ export default function Home() {
     );
   };
 
-  // Persist saved persons to localStorage whenever they change
+  // Load saved persons from CSV via API on mount
   useEffect(() => {
-    try { localStorage.setItem(SAVED_PERSONS_KEY, JSON.stringify(savedPersons)); } catch { /* ignore */ }
-  }, [savedPersons]);
+    fetch('/api/saved-persons')
+      .then((r) => r.json())
+      .then((data) => setSavedPersons(data))
+      .catch(() => {});
+  }, []);
+
+  // Persist saved persons to CSV via API
+  const persistPersons = (persons: SavedPerson[]) => {
+    fetch('/api/saved-persons', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(persons),
+    }).catch(() => {});
+  };
 
   const handleSavePerson = () => {
     const person: SavedPerson = {
@@ -329,7 +335,11 @@ export default function Home() {
       longitude: formData.longitude,
       quickSelect: currentQS.p ? { ...currentQS } : null,
     };
-    setSavedPersons((prev) => [...prev, person]);
+    setSavedPersons((prev) => {
+      const next = [...prev, person];
+      persistPersons(next);
+      return next;
+    });
   };
 
   const handleLoadPerson = (person: SavedPerson) => {
@@ -360,7 +370,11 @@ export default function Home() {
   };
 
   const handleDeletePerson = (id: string) => {
-    setSavedPersons((prev) => prev.filter((p) => p.id !== id));
+    setSavedPersons((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      persistPersons(next);
+      return next;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
