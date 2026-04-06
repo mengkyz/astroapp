@@ -14,6 +14,19 @@ const PLANET_ORDER = [
   'URANUS',
 ];
 
+// Absolute rerk group by nakshatra index (0-based): nakshatraIndex % 9
+const RERKS_ORDER = [
+  { th: 'ทลิทโท',  en: 'Talittho'   },
+  { th: 'มหัทธโน', en: 'Mahatthano' },
+  { th: 'โจโร',    en: 'Choro'      },
+  { th: 'ภูมิปาโล',en: 'Bhumipalo'  },
+  { th: 'เทศาตรี', en: 'Tesatri'    },
+  { th: 'เทวี',    en: 'Taewee'     },
+  { th: 'เพชฌฆาต', en: 'Petchakat'  },
+  { th: 'ราชา',    en: 'Racha'      },
+  { th: 'สมโณ',    en: 'Samano'     },
+];
+
 const PLANET_DOMICILES: Partial<Record<string, number[]>> = {
   SUN: [5],
   MOON: [4],
@@ -197,6 +210,7 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
             <th className={`${thCenter} text-purple-700`}>{tTable.navamsa}</th>
             <th className={thLeft}>{tTable.nakshatra}</th>
             <th className={thCenter}>{tTable.pada}</th>
+            <th className={`${thCenter} text-rose-700`}>{tTable.bigRerk}</th>
             <th className={thCenter}>{tTable.house}</th>
             <th className={thCenter}>{tTable.houseLord}</th>
             {/* New aspect & sign-property columns */}
@@ -225,6 +239,9 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
                 <td className="px-3 py-3 text-center text-purple-600">{t.signs[data.lagna.navamsa]}</td>
                 <td className="px-3 py-3">{t.nakshatras[data.lagna.nakshatraIndex]}</td>
                 <td className="px-3 py-3 text-center">{data.lagna.pada}</td>
+                <td className="px-3 py-3 text-center text-rose-700 font-medium">
+                  {lang === 'th' ? RERKS_ORDER[data.lagna.nakshatraIndex % 9].th : RERKS_ORDER[data.lagna.nakshatraIndex % 9].en}
+                </td>
                 <td className="px-3 py-3 text-center text-indigo-800">{t.houses[1]} (1)</td>
                 <td className="px-3 py-3 text-center font-bold text-gray-800">-</td>
                 <td className="px-3 py-3 text-center text-emerald-700 border-l border-gray-200">{asp.kum.join(', ')}</td>
@@ -263,6 +280,9 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
                 <td className="px-3 py-3 text-center text-purple-600">{t.signs[planet.navamsa]}</td>
                 <td className="px-3 py-3">{t.nakshatras[planet.nakshatraIndex]}</td>
                 <td className="px-3 py-3 text-center">{planet.pada}</td>
+                <td className="px-3 py-3 text-center text-rose-700 font-medium">
+                  {lang === 'th' ? RERKS_ORDER[planet.nakshatraIndex % 9].th : RERKS_ORDER[planet.nakshatraIndex % 9].en}
+                </td>
                 <td className="px-3 py-3 text-center text-indigo-800">
                   {t.houses[planet.house]} ({planet.house})
                 </td>
