@@ -1,37 +1,24 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useSyncExternalStore } from 'react';
 import dayjs from 'dayjs';
 import { translations, Language } from '@/lib/i18n/translations';
+import { formatLocalDate, formatDuration } from '@/lib/utils/format';
 
-// Helper to format localized Date (adds 543 for Thai BE)
-function formatLocalDate(isoStr: string, lang: Language) {
-  const d = dayjs(isoStr);
-  if (lang === 'th') {
-    const thMonths = [
-      'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
-      'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.',
-    ];
-    return `${d.date()} ${thMonths[d.month()]} ${d.year() + 543}`;
+// Client-only "now" snapshot: null during SSR/hydration, then the render time.
+// Cached so getSnapshot is referentially stable across calls.
+let nowCache: { today: dayjs.Dayjs; timezone: string } | null = null;
+const emptySubscribe = () => () => {};
+function getNowSnapshot() {
+  if (!nowCache) {
+    nowCache = {
+      today: dayjs(),
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    };
   }
-  return d.format('MMM DD, YYYY');
+  return nowCache;
 }
-
-// Precise calendar-walk logic returning string based on language
-function formatDuration(
-  startISO: string,
-  endISO: string,
-  tStr: typeof translations.en.dashaTable,
-) {
-  const start = dayjs(startISO);
-  const end = dayjs(endISO);
-  const years = end.diff(start, 'year');
-  let temp = start.add(years, 'year');
-  const months = end.diff(temp, 'month');
-  temp = temp.add(months, 'month');
-  const days = end.diff(temp, 'day');
-  return `${years}${tStr.y}${months}${tStr.m}${days}${tStr.d}`;
-}
+const getServerNowSnapshot = () => null;
 
 // --- TypeScript Interfaces ---
 interface BhuktiData {
@@ -65,13 +52,9 @@ export default function DashaTable({
   const birthDate = dayjs(birthDateLocalStr);
   const t = translations[lang];
 
-  const [today, setToday] = useState<dayjs.Dayjs | null>(null);
-  const [timezone, setTimezone] = useState<string>('');
-
-  useEffect(() => {
-    setToday(dayjs());
-    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
-  }, []);
+  const now = useSyncExternalStore(emptySubscribe, getNowSnapshot, getServerNowSnapshot);
+  const today = now?.today ?? null;
+  const timezone = now?.timezone ?? '';
 
   const todayDisplay = today
     ? lang === 'th'
@@ -146,7 +129,7 @@ export default function DashaTable({
                     isCurrentDasha ? 'text-amber-700' : 'text-indigo-700'
                   }`}
                 >
-                  {formatLocalDate(headerStart.toISOString(), lang)} -{' '}
+                  {formatLocalDate(headerStart.format('YYYY-MM-DDTHH:mm:ss'), lang)} -{' '}
                   {formatLocalDate(dasha.endDate, lang)}
                 </span>
               </div>
@@ -192,8 +175,10 @@ export default function DashaTable({
                       );
                     }
 
+                    // Keep the timezone-less local string — .toISOString()
+                    // would shift the date across midnight for non-UTC viewers
                     const displayStartDate = isPartiallyElapsed
-                      ? birthDate.toISOString()
+                      ? birthDate.format('YYYY-MM-DDTHH:mm:ss')
                       : bhukti.startDate;
                     const durationStr = isPartiallyElapsed ? (
                       <span className="text-red-600 font-medium">

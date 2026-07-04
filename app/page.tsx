@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, ComponentProps } from 'react';
-import dayjs from 'dayjs';
+import { useState, useEffect, useRef, ComponentProps } from 'react';
 import PlanetTable from './components/PlanetTable';
 import DashaTable from './components/DashaTable';
 import ThaiLocationSelect from './components/ThaiLocationSelect';
@@ -11,6 +10,9 @@ import PrintLayout from './components/PrintLayout';
 import BalasTable from './components/BalasTable';
 import { translations, Language } from '@/lib/i18n/translations';
 import { BalasResult } from '@/lib/charts/shadbala';
+import { SavedPerson, personDisplayName, personLocName } from '@/lib/types/person';
+import { decimalToDMS, dmsToDecimal } from '@/lib/utils/format';
+import { generatePlanetCSV, generateDashaCSV, downloadCSV } from '@/lib/csv/export';
 
 // Extract types
 type PlanetTableData = ComponentProps<typeof PlanetTable>['data'];
@@ -24,211 +26,10 @@ type ChartResult = PlanetTableData & {
   balas?: BalasResult;
 };
 
-// --- Saved Persons ---
+const LANG_STORAGE_KEY = 'astroapp.lang';
 
-interface SavedPerson {
-  id: string;
-  firstNameEn: string; lastNameEn: string; nicknameEn: string;
-  firstNameTh: string; lastNameTh: string; nicknameTh: string;
-  day: number; month: number; year: number;
-  hour: number; minute: number; second: number;
-  locationNameEn: string; locationNameTh: string;
-  latitude: number | string; longitude: number | string;
-  quickSelect: { p: string; d: string; s: string } | null;
-}
-
-function personDisplayName(person: SavedPerson, lang: Language): string {
-  const firstName = lang === 'th' ? (person.firstNameTh || person.firstNameEn) : (person.firstNameEn || person.firstNameTh);
-  const lastName = lang === 'th' ? (person.lastNameTh || person.lastNameEn) : (person.lastNameEn || person.lastNameTh);
-  const nickname = lang === 'th' ? (person.nicknameTh || person.nicknameEn) : (person.nicknameEn || person.nicknameTh);
-  const full = [firstName, lastName].filter(Boolean).join(' ');
-  return full || nickname || '—';
-}
-
-function personLocName(person: SavedPerson, lang: Language): string {
-  return lang === 'th'
-    ? (person.locationNameTh || person.locationNameEn)
-    : (person.locationNameEn || person.locationNameTh);
-}
-
-// --- GPS Helpers ---
-function decimalToDMS(decimal: number, isLat: boolean) {
-  const dir = decimal >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
-  const abs = Math.abs(decimal || 0);
-  let d = Math.floor(abs);
-  const mDec = (abs - d) * 60;
-  let m = Math.floor(mDec);
-  let s = Math.round((mDec - m) * 60);
-
-  if (s === 60) {
-    s = 0;
-    m += 1;
-  }
-  if (m === 60) {
-    m = 0;
-    d += 1;
-  }
-
-  return { d, m, s, dir };
-}
-
-function dmsToDecimal(d: number, m: number, s: number, dir: string) {
-  let dec = d + m / 60 + s / 3600;
-  if (dir === 'S' || dir === 'W') dec = -dec;
-  return dec;
-}
-
-// --- CSV Export Helpers ---
-const PLANET_ORDER_CSV = ['SUN', 'MOON', 'MARS', 'MERCURY', 'JUPITER', 'VENUS', 'SATURN', 'RAHU', 'KETU', 'URANUS'];
-const PLANET_DOMICILES_CSV: Partial<Record<string, number[]>> = {
-  SUN: [5], MOON: [4], MARS: [1, 8], MERCURY: [3, 6],
-  JUPITER: [9, 12], VENUS: [2, 7], SATURN: [10], RAHU: [11],
-};
-const PLANET_CODE_CSV: Record<string, string> = {
-  SUN: '1', MOON: '2', MARS: '3', MERCURY: '4', JUPITER: '5',
-  VENUS: '6', SATURN: '7', RAHU: '8', KETU: '9', URANUS: '0',
-};
-const SIGN_ELEMENT_CSV = ['','fire','earth','air','water','fire','earth','air','water','fire','earth','air','water'];
-const SIGN_MODALITY_CSV = ['','cardinal','fixed','mutable','cardinal','fixed','mutable','cardinal','fixed','mutable','cardinal','fixed','mutable'];
-
-function csvSignDist(a: number, b: number): number {
-  const diff = Math.abs(a - b);
-  return diff > 6 ? 12 - diff : diff;
-}
-function csvSpecialTarget(planetSign: number, n: number): number {
-  return ((planetSign + n - 2) % 12) + 1;
-}
-function csvAspects(targetRasi: number, selfKey: string, bodies: Array<{ code: string; rasi: number; key: string }>) {
-  const kum: string[] = [], yok: string[] = [], chak: string[] = [],
-        trikon: string[] = [], leng: string[] = [], special: string[] = [];
-  bodies.forEach((b) => {
-    if (b.key === selfKey) return;
-    const d = csvSignDist(targetRasi, b.rasi);
-    if (d === 0) kum.push(b.code);
-    else if (d === 2) yok.push(b.code);
-    else if (d === 3) chak.push(b.code);
-    else if (d === 4) trikon.push(b.code);
-    else if (d === 6) leng.push(b.code);
-  });
-  [{ key: 'MARS', code: '3', pos: [4, 8] }, { key: 'JUPITER', code: '5', pos: [5, 9] }, { key: 'SATURN', code: '7', pos: [3, 10] }]
-    .forEach(({ key, code, pos }) => {
-      const src = bodies.find((b) => b.key === key);
-      if (!src) return;
-      pos.forEach((n) => { if (csvSpecialTarget(src.rasi, n) === targetRasi) special.push(code); });
-    });
-  return [kum, yok, chak, trikon, leng, special].map((arr) => arr.join(' '));
-}
-
-function esc(v: string) {
-  return `"${v.replace(/"/g, '""')}"`;
-}
-
-function csvFormatLocalDate(isoStr: string, lang: Language) {
-  const d = dayjs(isoStr);
-  if (lang === 'th') {
-    const thMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-    return `${d.date()} ${thMonths[d.month()]} ${d.year() + 543}`;
-  }
-  return d.format('MMM DD, YYYY');
-}
-
-function csvFormatDuration(startISO: string, endISO: string, tD: typeof translations.en.dashaTable) {
-  const start = dayjs(startISO);
-  const end = dayjs(endISO);
-  const years = end.diff(start, 'year');
-  let temp = start.add(years, 'year');
-  const months = end.diff(temp, 'month');
-  temp = temp.add(months, 'month');
-  const days = end.diff(temp, 'day');
-  return `${years}${tD.y}${months}${tD.m}${days}${tD.d}`;
-}
-
-function generatePlanetCSV(data: ChartResult, lang: Language): string {
-  const t = translations[lang];
-  const tT = t.planetTable;
-  const pad = (n: number) => n.toString().padStart(2, '0');
-  const headers = [
-    tT.planet, tT.rasi, tT.degree, tT.min, tT.sec,
-    tT.drekkana, tT.navamsa, tT.nakshatra, tT.pada, tT.house, tT.houseLord,
-    tT.kum, tT.yok, tT.chak, tT.trikon, tT.leng, tT.specialCriteria, tT.element, tT.signType,
-  ].map(esc).join(',');
-  const rows: string[] = [headers];
-
-  const lagna = data.lagna;
-  const visiblePlanets = data.planets
-    .filter((p) => PLANET_ORDER_CSV.includes(p.key))
-    .sort((a, b) => PLANET_ORDER_CSV.indexOf(a.key) - PLANET_ORDER_CSV.indexOf(b.key));
-
-  // Bodies list (planets only — Lagna excluded from aspect columns)
-  const allBodiesCSV = visiblePlanets.map((p) => ({
-    code: PLANET_CODE_CSV[p.key] ?? p.key,
-    rasi: p.rasi,
-    key: p.key as string,
-  }));
-
-  const getElement = (rasi: number) => (tT as Record<string, string>)[SIGN_ELEMENT_CSV[rasi]] ?? '';
-  const getModality = (rasi: number) => (tT as Record<string, string>)[SIGN_MODALITY_CSV[rasi]] ?? '';
-
-  // Lagna row
-  const lagnaAsp = csvAspects(lagna.rasi, 'LAGNA', allBodiesCSV);
-  rows.push([
-    tT.ascendant, t.signs[lagna.rasi], pad(lagna.deg), pad(lagna.min), pad(lagna.sec),
-    t.signs[lagna.drekkana], t.signs[lagna.navamsa], t.nakshatras[lagna.nakshatraIndex],
-    String(lagna.pada), `${t.houses[1]} (1)`, '-',
-    ...lagnaAsp, getElement(lagna.rasi), getModality(lagna.rasi),
-  ].map(esc).join(','));
-
-  // Planet rows
-  for (const planet of visiblePlanets) {
-    const isNode = planet.key === 'RAHU' || planet.key === 'KETU';
-    const planetName = (t.planets[planet.key as keyof typeof t.planets] || planet.key) + (planet.isRetrograde && !isNode ? ` (${tT.retroSymbol})` : '');
-    const domiciles = PLANET_DOMICILES_CSV[planet.key];
-    const houseLord = domiciles
-      ? domiciles.map((sign) => { let h = sign - lagna.rasi + 1; if (h <= 0) h += 12; return `${t.houses[h]} (${h})`; }).join(', ')
-      : '-';
-    const asp = csvAspects(planet.rasi, planet.key, allBodiesCSV);
-    rows.push([
-      planetName, t.signs[planet.rasi], pad(planet.degrees), pad(planet.minutes), pad(planet.seconds),
-      t.signs[planet.drekkana], t.signs[planet.navamsa], t.nakshatras[planet.nakshatraIndex],
-      String(planet.pada), `${t.houses[planet.house]} (${planet.house})`, houseLord,
-      ...asp, getElement(planet.rasi), getModality(planet.rasi),
-    ].map(esc).join(','));
-  }
-  return rows.join('\r\n');
-}
-
-function generateDashaCSV(dashaData: DashaTableData, birthDateLocalStr: string, lang: Language): string {
-  const t = translations[lang];
-  const tD = t.dashaTable;
-  const birthDate = dayjs(birthDateLocalStr);
-  const headers = [tD.dashaBhukti, tD.age, tD.period, tD.duration].map(esc).join(',');
-  const rows: string[] = [headers];
-  for (const dasha of dashaData.dashas) {
-    if (dayjs(dasha.endDate).isBefore(birthDate)) continue;
-    for (const bhukti of dasha.bhuktis) {
-      if (dayjs(bhukti.endDate).isBefore(birthDate)) continue;
-      const isPartial = dayjs(bhukti.startDate).isBefore(birthDate) && dayjs(bhukti.endDate).isAfter(birthDate);
-      const dashaBhuktiName = `${t.planets[dasha.lord as keyof typeof t.planets]} / ${t.planets[bhukti.lord as keyof typeof t.planets]}`;
-      const age = isPartial ? `0${tD.y}0${tD.m}0${tD.d}` : csvFormatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), bhukti.startDate, tD);
-      const startIso = isPartial ? birthDate.toISOString() : bhukti.startDate;
-      const period = `${csvFormatLocalDate(startIso, lang)} - ${csvFormatLocalDate(bhukti.endDate, lang)}`;
-      const duration = isPartial
-        ? `${tD.remaining} ${csvFormatDuration(birthDate.format('YYYY-MM-DDTHH:mm:ss'), bhukti.endDate, tD)}`
-        : `(${csvFormatDuration(bhukti.startDate, bhukti.endDate, tD)})`;
-      rows.push([dashaBhuktiName, age, period, duration].map(esc).join(','));
-    }
-  }
-  return rows.join('\r\n');
-}
-
-function downloadCSV(content: string, filename: string) {
-  const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
+function daysInMonth(month: number, year: number): number {
+  return new Date(year, month, 0).getDate();
 }
 
 export default function Home() {
@@ -257,12 +58,14 @@ export default function Home() {
   const [yearInput, setYearInput] = useState<string>('');
   const [result, setResult] = useState<ChartResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<
     'planets' | 'dasha' | 'chart' | 'rerk' | 'balas'
   >('planets');
 
   // For Export
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const exportMenuRef = useRef<HTMLDivElement>(null);
 
   // Saved Persons
   const [savedPersons, setSavedPersons] = useState<SavedPerson[]>([]);
@@ -274,9 +77,18 @@ export default function Home() {
   const [locationSelectKey, setLocationSelectKey] = useState(0);
   const [locationSelectInit, setLocationSelectInit] = useState<{ p: string; d: string; s: string } | null | undefined>(undefined);
 
+  // Initialize with the current date/time and the persisted language
   useEffect(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
+    let initialLang: Language = 'en';
+    try {
+      const stored = window.localStorage.getItem(LANG_STORAGE_KEY);
+      if (stored === 'th' || stored === 'en') initialLang = stored;
+    } catch {
+      // localStorage unavailable (private mode) — keep default
+    }
+    setLang(initialLang);
     setFormData((prev) => ({
       ...prev,
       day: now.getDate(),
@@ -286,8 +98,30 @@ export default function Home() {
       minute: now.getMinutes(),
       second: now.getSeconds(),
     }));
-    setYearInput(String(currentYear));
+    setYearInput(String(initialLang === 'th' ? currentYear + 543 : currentYear));
   }, []);
+
+  // Reflect the language in <html lang> and persist it
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    try {
+      window.localStorage.setItem(LANG_STORAGE_KEY, lang);
+    } catch {
+      // ignore
+    }
+  }, [lang]);
+
+  // Close the export dropdown when clicking outside it
+  useEffect(() => {
+    if (!exportMenuOpen) return;
+    const onMouseDown = (e: MouseEvent) => {
+      if (exportMenuRef.current && !exportMenuRef.current.contains(e.target as Node)) {
+        setExportMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
+  }, [exportMenuOpen]);
 
   const handleExport = (type: 'pdf' | 'csvPlanets' | 'csvDasha') => {
     setExportMenuOpen(false);
@@ -312,7 +146,9 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/saved-persons')
       .then((r) => r.json())
-      .then((data) => setSavedPersons(data))
+      .then((data) => {
+        if (Array.isArray(data)) setSavedPersons(data);
+      })
       .catch(() => {});
   }, []);
 
@@ -328,6 +164,11 @@ export default function Home() {
   const showToast = (type: 'saved' | 'updated') => {
     setSaveToast(type);
     setTimeout(() => setSaveToast(null), 2500);
+  };
+
+  const showError = (msg: string) => {
+    setErrorMsg(msg);
+    setTimeout(() => setErrorMsg(null), 5000);
   };
 
   const handleSavePerson = () => {
@@ -359,7 +200,7 @@ export default function Home() {
       showToast('updated');
     } else {
       const person: SavedPerson = {
-        id: Date.now().toString(),
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
         firstNameEn: lang === 'en' ? formData.firstName : '',
         lastNameEn: lang === 'en' ? formData.lastName : '',
         nicknameEn: lang === 'en' ? formData.nickname : '',
@@ -418,6 +259,7 @@ export default function Home() {
   };
 
   const handleDeletePerson = (id: string) => {
+    if (!window.confirm(t.form.confirmDelete)) return;
     setSavedPersons((prev) => {
       const next = prev.filter((p) => p.id !== id);
       persistPersons(next);
@@ -434,6 +276,7 @@ export default function Home() {
       locationName: '', latitude: '', longitude: '',
       day: now.getDate(), month: now.getMonth() + 1, year: now.getFullYear(),
       hour: now.getHours(), minute: now.getMinutes(), second: now.getSeconds(),
+      utcOffset: 7,
     }));
     setYearInput(lang === 'th' ? String(now.getFullYear() + 543) : String(now.getFullYear()));
     setLocationNameBilingual({ en: '', th: '' });
@@ -446,11 +289,13 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg(null);
     try {
       const payload = {
         ...formData,
         latitude: Number(formData.latitude) || 0,
         longitude: Number(formData.longitude) || 0,
+        utcOffset: Number(formData.utcOffset),
       };
 
       const res = await fetch('/api/natal-chart', {
@@ -459,10 +304,18 @@ export default function Home() {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
+      if (!res.ok || data.error) {
+        const detail = Array.isArray(data.details) && data.details.length > 0
+          ? ` (${data.details.map((d: { message: string }) => d.message).join(' ')})`
+          : '';
+        showError(`${t.form.calcError}${detail}`);
+        return;
+      }
       setResult(data);
       setSubmittedData(payload);
     } catch (error) {
       console.error(error);
+      showError(t.form.calcError);
     } finally {
       setLoading(false);
     }
@@ -472,7 +325,15 @@ export default function Home() {
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   ) => {
     const numValue = e.target.value === '' ? '' : Number(e.target.value);
-    setFormData({ ...formData, [e.target.name]: numValue });
+    setFormData((prev) => {
+      const next = { ...prev, [e.target.name]: numValue };
+      // Keep the selected day valid for the selected month/year
+      if ((e.target.name === 'month' || e.target.name === 'year') && typeof numValue === 'number') {
+        const maxDay = daysInMonth(next.month, next.year);
+        if (next.day > maxDay) next.day = maxDay;
+      }
+      return next;
+    });
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -488,10 +349,11 @@ export default function Home() {
     setYearInput(val);
     const num = parseInt(val, 10);
     if (!isNaN(num))
-      setFormData((prev) => ({
-        ...prev,
-        year: lang === 'th' ? num - 543 : num,
-      }));
+      setFormData((prev) => {
+        const year = lang === 'th' ? num - 543 : num;
+        const maxDay = daysInMonth(prev.month, year);
+        return { ...prev, year, day: Math.min(prev.day, maxDay) };
+      });
   };
 
   const handleDMSChange = (
@@ -519,7 +381,10 @@ export default function Home() {
 
   const latDMS = decimalToDMS(Number(formData.latitude) || 0, true);
   const lngDMS = decimalToDMS(Number(formData.longitude) || 0, false);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const days = Array.from(
+    { length: daysInMonth(formData.month, formData.year) },
+    (_, i) => i + 1,
+  );
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const minutesSeconds = Array.from({ length: 60 }, (_, i) => i);
 
@@ -801,6 +666,26 @@ export default function Home() {
                       ))}
                     </select>
                   </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="utcOffset"
+                    className="block text-xs font-semibold text-gray-500 uppercase mb-1"
+                  >
+                    {t.form.utcOffset}
+                  </label>
+                  <input
+                    id="utcOffset"
+                    type="number"
+                    name="utcOffset"
+                    step="any"
+                    min={-14}
+                    max={14}
+                    value={formData.utcOffset}
+                    onChange={handleSelectChange}
+                    className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
+                  />
+                  <p className="text-[11px] text-gray-400 mt-1">{t.form.utcOffsetHint}</p>
                 </div>
               </div>
 
@@ -1091,6 +976,9 @@ export default function Home() {
                       {String(submittedData.hour).padStart(2, '0')}:
                       {String(submittedData.minute).padStart(2, '0')}:
                       {String(submittedData.second).padStart(2, '0')}
+                      <span className="text-indigo-400 text-xs ml-1.5">
+                        UTC{Number(submittedData.utcOffset) >= 0 ? '+' : ''}{submittedData.utcOffset}
+                      </span>
                     </span>
                   </div>
                   <div>
@@ -1102,6 +990,16 @@ export default function Home() {
                         `${Number(submittedData.latitude || 0).toFixed(4)}°, ${Number(submittedData.longitude || 0).toFixed(4)}°`}
                     </span>
                   </div>
+                  {result.ayanamsa !== undefined && (
+                    <div>
+                      <span className="block text-indigo-400 font-semibold mb-0.5">
+                        {t.form.ayanamsa}
+                      </span>
+                      <span className="block text-indigo-900 font-medium">
+                        {result.ayanamsa.toFixed(4)}°
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1134,7 +1032,7 @@ export default function Home() {
                     onClick={() => setActiveTab('rerk')}
                     className={`pb-3 px-2 text-lg font-bold transition-all duration-200 whitespace-nowrap ${activeTab === 'rerk' ? 'border-b-4 border-emerald-600 text-emerald-900' : 'text-gray-400 hover:text-emerald-600'}`}
                   >
-                    {lang === 'th' ? 'ฤกษ์ส่วนตัว' : 'Personal Rerk'}
+                    {t.tabs.rerk}
                   </button>
                   <button
                     type="button"
@@ -1146,8 +1044,9 @@ export default function Home() {
                 </div>
 
                 {/* Export Dropdown */}
-                <div className="relative pb-2 pr-2">
+                <div className="relative pb-2 pr-2" ref={exportMenuRef}>
                   <button
+                    type="button"
                     onClick={() => setExportMenuOpen(!exportMenuOpen)}
                     className="bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-bold py-1.5 px-4 rounded-lg text-sm transition-colors shadow-sm"
                   >
@@ -1156,18 +1055,21 @@ export default function Home() {
                   {exportMenuOpen && (
                     <div className="absolute right-0 top-full mt-1 w-56 bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden z-50">
                       <button
+                        type="button"
                         onClick={() => handleExport('pdf')}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 font-medium"
                       >
                         {t.tabs.pdf}
                       </button>
                       <button
+                        type="button"
                         onClick={() => handleExport('csvPlanets')}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 font-medium border-t border-gray-100"
                       >
                         {t.tabs.csvPlanets}
                       </button>
                       <button
+                        type="button"
                         onClick={() => handleExport('csvDasha')}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 font-medium border-t border-gray-100"
                       >
@@ -1235,6 +1137,14 @@ export default function Home() {
         <div className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white px-5 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-2">
           <span>✓</span>
           <span>{saveToast === 'updated' ? t.form.personUpdated : t.form.personSaved}</span>
+        </div>
+      )}
+
+      {/* Error Toast */}
+      {errorMsg && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-red-500 text-white px-5 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-2 max-w-lg">
+          <span>⚠</span>
+          <span>{errorMsg}</span>
         </div>
       )}
     </>

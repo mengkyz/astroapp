@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
+import { RERKS_ORDER, VIMSHOTTARI_LORDS } from '@/lib/astro/constants';
 
 interface PlanetData {
   key: string;
@@ -12,23 +13,6 @@ interface RerkResultProps {
   data: { planets: PlanetData[] };
   lang: Language;
 }
-
-const RERKS_ORDER = [
-  { th: 'ทลิทโท', en: 'Talittho' },
-  { th: 'มหัทธโน', en: 'Mahatthano' },
-  { th: 'โจโร', en: 'Choro' },
-  { th: 'ภูมิปาโล', en: 'Bhumipalo' },
-  { th: 'เทศาตรี', en: 'Tesatri' },
-  { th: 'เทวี', en: 'Taewee' },
-  { th: 'เพชฌฆาต', en: 'Petchakat' },
-  { th: 'ราชา', en: 'Racha' },
-  { th: 'สมโณ', en: 'Samano' },
-];
-
-// Vimshottari nakshatra lords: nakIdx % 9 → lord (Ashwini=0 → Ketu, ...)
-const NAKSHATRA_LORDS_ORDER = [
-  'KETU', 'VENUS', 'SUN', 'MOON', 'MARS', 'RAHU', 'JUPITER', 'SATURN', 'MERCURY',
-];
 
 const PLANET_DISPLAY: Record<string, {
   en: string; th: string;
@@ -91,9 +75,9 @@ export default function RerkResult({ data, lang }: RerkResultProps) {
       const nakEntries = [i, i + 9, i + 18].map((nakIdx) => ({
         nakIdx,
         name: t.nakshatras[nakIdx],
-        lord: NAKSHATRA_LORDS_ORDER[nakIdx % 9],
+        lord: VIMSHOTTARI_LORDS[nakIdx % 9],
         planets: (planetInNak.get(nakIdx) ?? []).sort(
-          (a, b) => PLANET_ORDER.indexOf(a) - PLANET_ORDER.indexOf(b),
+          (a, b) => PLANET_ORDER.indexOf(a.key) - PLANET_ORDER.indexOf(b.key),
         ),
       }));
 

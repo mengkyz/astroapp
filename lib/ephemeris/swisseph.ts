@@ -1,4 +1,14 @@
 import swisseph from 'swisseph';
+import path from 'path';
+import fs from 'fs';
+
+// Load the Swiss Ephemeris data files bundled with the npm package.
+// Without this, swisseph silently falls back to the lower-precision
+// Moshier ephemeris. Runs once at module load.
+const EPHE_DIR = path.join(process.cwd(), 'node_modules', 'swisseph', 'ephe');
+if (fs.existsSync(EPHE_DIR)) {
+  swisseph.swe_set_ephe_path(EPHE_DIR);
+}
 
 export const PLANET_IDS = {
   SUN: swisseph.SE_SUN, // 0
@@ -9,8 +19,6 @@ export const PLANET_IDS = {
   JUPITER: swisseph.SE_JUPITER, // 5
   SATURN: swisseph.SE_SATURN, // 6
   URANUS: swisseph.SE_URANUS, // 7  (มฤตยู)
-  NEPTUNE: swisseph.SE_NEPTUNE, // 8  (เนปจูน)
-  PLUTO: swisseph.SE_PLUTO, // 9  (พลูโต)
   RAHU: swisseph.SE_MEAN_NODE, // 11 (ราหู)
 };
 
@@ -31,6 +39,58 @@ export function calcPlanet(planetId: number, jd: number) {
     speed: result.longitudeSpeed, // negative means it is moving backwards
     isRetrograde: result.longitudeSpeed < 0,
   };
+}
+
+/** True equatorial declination of a planet, in degrees (north positive). */
+export function calcDeclination(planetId: number, jd: number): number {
+  const flags = swisseph.SEFLG_SPEED | swisseph.SEFLG_EQUATORIAL;
+  const result = swisseph.swe_calc_ut(jd, planetId, flags) as {
+    error?: string;
+    declination?: number;
+  };
+  if (result.error || result.declination === undefined) {
+    // Fall back to an ecliptic approximation if the call fails
+    return 0;
+  }
+  return result.declination;
+}
+
+/**
+ * Sunrise and sunset (Julian Day, UT) surrounding the given birth moment.
+ * Searches from local midnight so the returned events belong to the birth's
+ * local calendar day. Returns null when unavailable (e.g. polar regions).
+ */
+export function calcSunriseSunset(
+  jd: number,
+  latitude: number,
+  longitude: number,
+  utcOffset: number,
+): { sunriseJd: number; sunsetJd: number } | null {
+  // Local midnight of the birth day, expressed in UT
+  const localJd = jd + utcOffset / 24;
+  const localMidnightUt = Math.floor(localJd - 0.5) + 0.5 - utcOffset / 24;
+
+  const search = (rsmi: number): number | null => {
+    const result = swisseph.swe_rise_trans(
+      localMidnightUt,
+      swisseph.SE_SUN,
+      '',
+      swisseph.SEFLG_SWIEPH,
+      rsmi,
+      longitude,
+      latitude,
+      0,
+      0,
+      0,
+    ) as { transitTime?: number; error?: string };
+    if (result.error || result.transitTime === undefined) return null;
+    return result.transitTime;
+  };
+
+  const sunriseJd = search(swisseph.SE_CALC_RISE);
+  const sunsetJd = search(swisseph.SE_CALC_SET);
+  if (sunriseJd === null || sunsetJd === null) return null;
+  return { sunriseJd, sunsetJd };
 }
 
 // Ketu (๙) is always exactly 180 degrees opposite Rahu (๘)

@@ -48,6 +48,11 @@ export const translations = {
       clearForm: 'Clear',
       personSaved: 'Saved!',
       personUpdated: 'Updated!',
+      utcOffset: 'UTC Offset (hours)',
+      utcOffsetHint: 'Thailand = +7. Births before Apr 1920 used Bangkok Mean Time (+6.7).',
+      calcError: 'Calculation failed. Please check the birth data and try again.',
+      confirmDelete: 'Delete this saved person?',
+      ayanamsa: 'Ayanamsa (Lahiri)',
     },
     months: [
       'January',
@@ -148,6 +153,7 @@ export const translations = {
       cardinal: 'Cardinal',
       fixed: 'Fixed',
       mutable: 'Mutable',
+      codeLegend: 'Planet codes in aspect columns',
     },
     dashaTable: {
       age: 'Age',
@@ -283,6 +289,11 @@ export const translations = {
       clearForm: 'ล้าง',
       personSaved: 'บันทึกแล้ว!',
       personUpdated: 'อัปเดตแล้ว!',
+      utcOffset: 'โซนเวลา (UTC ชั่วโมง)',
+      utcOffsetHint: 'ประเทศไทย = +7 (ก่อน เม.ย. 2463 ใช้เวลาบางกอก +6.7)',
+      calcError: 'คำนวณไม่สำเร็จ กรุณาตรวจสอบข้อมูลเกิดแล้วลองใหม่',
+      confirmDelete: 'ต้องการลบบุคคลนี้หรือไม่?',
+      ayanamsa: 'อายนางศ์ (ลาหิรี)',
     },
     months: [
       'มกราคม',
@@ -342,6 +353,7 @@ export const translations = {
       cardinal: 'จรราศี',
       fixed: 'สถิรราศี',
       mutable: 'อุภยราศี',
+      codeLegend: 'รหัสดาวในช่องเกณฑ์',
     },
     dashaTable: {
       age: 'อายุ',

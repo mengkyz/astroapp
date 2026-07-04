@@ -3,58 +3,8 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { translations, Language } from '@/lib/i18n/translations';
 import RasiChart from './RasiChart';
-
-function formatLocalDate(isoStr: string, lang: Language) {
-  const d = dayjs(isoStr);
-  if (lang === 'th') {
-    const thMonths = [
-      'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
-      'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.',
-    ];
-    return `${d.date()} ${thMonths[d.month()]} ${d.year() + 543}`;
-  }
-  return d.format('MMM DD, YYYY');
-}
-
-function formatDuration(
-  startISO: string,
-  endISO: string,
-  tStr: typeof translations.en.dashaTable,
-) {
-  const start = dayjs(startISO);
-  const end = dayjs(endISO);
-  const years = end.diff(start, 'year');
-  let temp = start.add(years, 'year');
-  const months = end.diff(temp, 'month');
-  temp = temp.add(months, 'month');
-  const days = end.diff(temp, 'day');
-  return `${years}${tStr.y}${months}${tStr.m}${days}${tStr.d}`;
-}
-
-const PLANET_ORDER = [
-  'SUN',
-  'MOON',
-  'MARS',
-  'MERCURY',
-  'JUPITER',
-  'VENUS',
-  'SATURN',
-  'RAHU',
-  'KETU',
-  'URANUS',
-];
-
-const RERKS_ORDER = [
-  { th: 'ทลิทโท', en: 'Talittho' },
-  { th: 'มหัทธโน', en: 'Mahatthano' },
-  { th: 'โจโร', en: 'Choro' },
-  { th: 'ภูมิปาโล', en: 'Bhumipalo' },
-  { th: 'เทศาตรี', en: 'Tesatri' },
-  { th: 'เทวี', en: 'Taewee' },
-  { th: 'เพชฌฆาต', en: 'Petchakat' },
-  { th: 'ราชา', en: 'Racha' },
-  { th: 'สมโณ', en: 'Samano' },
-];
+import { formatLocalDate, formatDuration } from '@/lib/utils/format';
+import { PLANET_ORDER, RERKS_ORDER } from '@/lib/astro/constants';
 
 // --- สร้าง Interfaces ให้ตรงกับ ChartResult ที่ส่งมาจากหน้าหลักเป๊ะๆ ---
 interface PlanetData {
@@ -224,10 +174,11 @@ export default function PrintLayout({
               <td className="border border-black py-1.5"></td>
             </tr>
             {data.planets
-              .filter((p) => PLANET_ORDER.includes(p.key))
+              .filter((p) => (PLANET_ORDER as readonly string[]).includes(p.key))
               .sort(
                 (a, b) =>
-                  PLANET_ORDER.indexOf(a.key) - PLANET_ORDER.indexOf(b.key),
+                  (PLANET_ORDER as readonly string[]).indexOf(a.key) -
+                  (PLANET_ORDER as readonly string[]).indexOf(b.key),
               )
               .map((p) => (
                 <tr key={p.key}>
