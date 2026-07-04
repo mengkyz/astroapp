@@ -82,11 +82,16 @@ export function calculateVimshottariDasha(
       const bhuktiDecimalYears = (mahaYears * subYears) / 120;
       const bhukti = decimalToYMD(bhuktiDecimalYears);
 
-      // THE CALENDAR WALK: Add the exact years, months, and days to step forward
-      const bhuktiEndDate = bhuktiStartDate
-        .add(bhukti.years, 'year')
-        .add(bhukti.months, 'month')
-        .add(bhukti.days, 'day');
+      // THE CALENDAR WALK: Add the exact years, months, and days to step forward.
+      // The last bhukti is pinned to the maha dasha end date so that per-bhukti
+      // day rounding cannot drift the sequence past the period boundary.
+      const bhuktiEndDate =
+        j === 8
+          ? mahaEndDate
+          : bhuktiStartDate
+              .add(bhukti.years, 'year')
+              .add(bhukti.months, 'month')
+              .add(bhukti.days, 'day');
 
       bhuktis.push({
         lord: subLord,

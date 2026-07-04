@@ -2,9 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const CSV_PATH = path.join(process.cwd(), 'public', 'data', 'savedPersons.csv');
+// Saved persons contain personal data (names, birth data, GPS) and must NOT
+// live under public/ where any visitor could download them. They are stored
+// in a private data/ directory at the project root instead.
+const DATA_DIR = path.join(process.cwd(), 'data');
+const CSV_PATH = path.join(DATA_DIR, 'savedPersons.csv');
+// Old location (publicly served) — migrated away from on first read.
+const LEGACY_CSV_PATH = path.join(process.cwd(), 'public', 'data', 'savedPersons.csv');
+
 const CSV_HEADER =
   'id,firstNameEn,lastNameEn,nicknameEn,firstNameTh,lastNameTh,nicknameTh,day,month,year,hour,minute,second,locationNameEn,locationNameTh,latitude,longitude,quickSelectP,quickSelectD,quickSelectS';
+
+const MAX_PERSONS = 2000;
 
 interface SavedPerson {
   id: string;
@@ -44,7 +53,16 @@ function parseCsvLine(line: string): string[] {
   return fields;
 }
 
+/** One-time migration: move the CSV out of the public folder. */
+function migrateLegacyFile(): void {
+  if (fs.existsSync(CSV_PATH) || !fs.existsSync(LEGACY_CSV_PATH)) return;
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.copyFileSync(LEGACY_CSV_PATH, CSV_PATH);
+  fs.unlinkSync(LEGACY_CSV_PATH);
+}
+
 function readPersons(): SavedPerson[] {
+  migrateLegacyFile();
   if (!fs.existsSync(CSV_PATH)) return [];
   const lines = fs.readFileSync(CSV_PATH, 'utf-8').split('\n').filter(Boolean);
   return lines.slice(1).map((line) => {
@@ -69,6 +87,7 @@ function readPersons(): SavedPerson[] {
 }
 
 function writePersons(persons: SavedPerson[]): void {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
   const rows = persons.map((p) =>
     [
       csvField(p.id),
@@ -83,7 +102,29 @@ function writePersons(persons: SavedPerson[]): void {
       csvField(p.quickSelect?.s ?? ''),
     ].join(',')
   );
-  fs.writeFileSync(CSV_PATH, [CSV_HEADER, ...rows].join('\n') + '\n', 'utf-8');
+  // Atomic write: a crash mid-write must not corrupt the existing file
+  const tmpPath = `${CSV_PATH}.tmp`;
+  fs.writeFileSync(tmpPath, [CSV_HEADER, ...rows].join('\n') + '\n', 'utf-8');
+  fs.renameSync(tmpPath, CSV_PATH);
+}
+
+function isValidPerson(p: unknown): p is SavedPerson {
+  if (typeof p !== 'object' || p === null) return false;
+  const o = p as Record<string, unknown>;
+  const isStr = (v: unknown) => typeof v === 'string';
+  const isNum = (v: unknown) => typeof v === 'number' && Number.isFinite(v);
+  const isLatLng = (v: unknown) => isNum(v) || isStr(v);
+  return (
+    isStr(o.id) && (o.id as string).length > 0 && (o.id as string).length <= 64 &&
+    isStr(o.firstNameEn) && isStr(o.lastNameEn) && isStr(o.nicknameEn) &&
+    isStr(o.firstNameTh) && isStr(o.lastNameTh) && isStr(o.nicknameTh) &&
+    isNum(o.day) && isNum(o.month) && isNum(o.year) &&
+    isNum(o.hour) && isNum(o.minute) && isNum(o.second) &&
+    isStr(o.locationNameEn) && isStr(o.locationNameTh) &&
+    isLatLng(o.latitude) && isLatLng(o.longitude) &&
+    (o.quickSelect === null ||
+      (typeof o.quickSelect === 'object' && o.quickSelect !== null))
+  );
 }
 
 export async function GET() {
@@ -97,8 +138,20 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const persons: SavedPerson[] = await req.json();
-    writePersons(persons);
+    const body = await req.json();
+    if (!Array.isArray(body) || body.length > MAX_PERSONS) {
+      return NextResponse.json(
+        { ok: false, error: 'Expected an array of saved persons.' },
+        { status: 400 },
+      );
+    }
+    if (!body.every(isValidPerson)) {
+      return NextResponse.json(
+        { ok: false, error: 'One or more persons have invalid fields.' },
+        { status: 400 },
+      );
+    }
+    writePersons(body);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ ok: false }, { status: 500 });
