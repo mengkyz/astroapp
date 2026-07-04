@@ -49,10 +49,6 @@ export default function ThaiLocationSelect({
     if (!r) return '';
     return [r.p_th, r.d_th, r.s_th].filter(Boolean).join(', ');
   };
-  // Display name follows current language
-  const getLocName = (r: GeoRecord | undefined) =>
-    lang === 'th' ? getLocNameTh(r) : getLocNameEn(r);
-
   useEffect(() => {
     fetch('/data/ThailandGeography.csv')
       .then((res) => res.text())

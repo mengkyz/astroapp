@@ -246,14 +246,6 @@ function BhavaBalaTable({ bhavaBala, lang }: { bhavaBala: BhavaBala[]; lang: Lan
           </thead>
           <tbody>
             {bhavaBala.map((b, idx) => {
-              const signIdx = ((b.house - 1) % 12) + 1; // simplified: same as house since equal houses
-              // The sign lord is already computed server-side; reconstruct the key for display
-              const signLords: Record<number, string> = {
-                1: 'MARS', 2: 'VENUS', 3: 'MERCURY', 4: 'MOON',
-                5: 'SUN', 6: 'MERCURY', 7: 'VENUS', 8: 'MARS',
-                9: 'JUPITER', 10: 'SATURN', 11: 'SATURN', 12: 'JUPITER',
-              };
-              // Lagna rasi unknown here, but for display we show the planet key
               return (
                 <tr key={b.house} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   <td className="px-3 py-2 font-bold text-purple-700">H{b.house}</td>

@@ -6,6 +6,14 @@ import React, {
   useEffect,
 } from 'react';
 import { translations, Language } from '@/lib/i18n/translations';
+import {
+  PLANET_ORDER as SHARED_PLANET_ORDER,
+  THAI_SYMBOLS,
+  EN_SYMBOLS,
+  THAI_SIGN_LORDS,
+  VIMSHOTTARI_LORDS,
+  VIMSHOTTARI_YEARS,
+} from '@/lib/astro/constants';
 
 // --- Core SVG Mathematical Engine ---
 function polarToCartesian(radius: number, angleInDegrees: number) {
@@ -103,72 +111,8 @@ const formatDegMin = (lon: number) => {
   return `${deg.toString().padStart(2, '0')}° ${min.toString().padStart(2, '0')}'`;
 };
 
-const PLANET_ORDER = [
-  'SUN',
-  'MOON',
-  'MARS',
-  'MERCURY',
-  'JUPITER',
-  'VENUS',
-  'SATURN',
-  'RAHU',
-  'KETU',
-  'URANUS',
-];
-
-const THAI_SYMBOLS: Record<string, string> = {
-  SUN: '๑',
-  MOON: '๒',
-  MARS: '๓',
-  MERCURY: '๔',
-  JUPITER: '๕',
-  VENUS: '๖',
-  SATURN: '๗',
-  RAHU: '๘',
-  KETU: '๙',
-  URANUS: '๐',
-};
-
-const EN_SYMBOLS: Record<string, string> = {
-  SUN: '☉',
-  MOON: '☽',
-  MARS: '♂',
-  MERCURY: '☿',
-  JUPITER: '♃',
-  VENUS: '♀',
-  SATURN: '♄',
-  RAHU: '☊',
-  KETU: '☋',
-  URANUS: '♅',
-};
-
-const SIGN_LORDS: Record<number, string> = {
-  1: 'MARS',
-  2: 'VENUS',
-  3: 'MERCURY',
-  4: 'MOON',
-  5: 'SUN',
-  6: 'MERCURY',
-  7: 'VENUS',
-  8: 'MARS',
-  9: 'JUPITER',
-  10: 'SATURN',
-  11: 'RAHU',
-  12: 'JUPITER',
-};
-
-const VIMSHOTTARI_LORDS = [
-  'KETU',
-  'VENUS',
-  'SUN',
-  'MOON',
-  'MARS',
-  'RAHU',
-  'JUPITER',
-  'SATURN',
-  'MERCURY',
-];
-const VIMSHOTTARI_YEARS = [7, 20, 6, 10, 7, 18, 16, 19, 17];
+const PLANET_ORDER: readonly string[] = SHARED_PLANET_ORDER;
+const SIGN_LORDS = THAI_SIGN_LORDS;
 
 const THAI_PLANET_NAMES: Record<string, string> = {
   SUN: 'อาทิตย์',
@@ -227,6 +171,9 @@ interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
   printMode?: boolean;
+  /** Optional caption lines shown above the chart (birth date / time). */
+  birthDateText?: string;
+  birthTimeText?: string;
 }
 
 interface Occupant {
@@ -236,7 +183,13 @@ interface Occupant {
   tooltipText: string;
 }
 
-export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
+export default function RasiChart({
+  data,
+  lang,
+  printMode,
+  birthDateText,
+  birthTimeText,
+}: RasiChartProps) {
   const t = translations[lang];
   const containerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -835,6 +788,14 @@ export default function RasiChart({ data, lang, printMode }: RasiChartProps) {
           >
             {tooltip.text}
             <div className="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+          </div>
+        )}
+
+        {/* Birth date/time caption */}
+        {(birthDateText || birthTimeText) && (
+          <div className="w-full text-center text-sm text-gray-600 font-medium space-x-3">
+            {birthDateText && <span>{birthDateText}</span>}
+            {birthTimeText && <span>{birthTimeText}</span>}
           </div>
         )}
 
