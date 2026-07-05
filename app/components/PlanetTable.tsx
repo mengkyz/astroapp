@@ -3,12 +3,13 @@ import { translations, Language } from '@/lib/i18n/translations';
 import {
   PLANET_ORDER,
   PLANET_CODE,
-  PLANET_DOMICILES,
+  getPlanetDomiciles,
   RERKS_ORDER,
   SIGN_ELEMENT_KEY,
   SIGN_MODALITY_KEY,
 } from '@/lib/astro/constants';
 import { computeAspects, AspectBody } from '@/lib/astro/aspects';
+import { SystemMode } from '@/lib/astro/settings';
 
 interface PlanetData {
   key: keyof typeof translations.en.planets;
@@ -40,13 +41,16 @@ interface LagnaData {
 interface PlanetTableProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
+  /** Lordship convention for the "house lord" column (Thai: Rahu owns Aquarius). */
+  mode?: SystemMode;
 }
 
-export default function PlanetTable({ data, lang }: PlanetTableProps) {
+export default function PlanetTable({ data, lang, mode = 'thai' }: PlanetTableProps) {
   if (!data || !data.planets) return null;
 
   const t = translations[lang];
   const tTable = t.planetTable;
+  const domiciles = getPlanetDomiciles(mode);
   const pad = (num: number) => num.toString().padStart(2, '0');
 
   const visiblePlanets = data.planets
@@ -54,9 +58,9 @@ export default function PlanetTable({ data, lang }: PlanetTableProps) {
     .sort((a, b) => (PLANET_ORDER as readonly string[]).indexOf(a.key) - (PLANET_ORDER as readonly string[]).indexOf(b.key));
 
   const getRuledHouses = (planetKey: string, lagnaRasi: number) => {
-    const domiciles = PLANET_DOMICILES[planetKey];
-    if (!domiciles) return '-';
-    return domiciles
+    const ruled = domiciles[planetKey];
+    if (!ruled) return '-';
+    return ruled
       .map((sign) => {
         let houseNum = sign - lagnaRasi + 1;
         if (houseNum <= 0) houseNum += 12;

@@ -79,6 +79,33 @@ export const THAI_SIGN_LORDS: Record<number, string> = {
   9: 'JUPITER', 10: 'SATURN', 11: 'RAHU', 12: 'JUPITER',
 };
 
+/** Domicile signs per planet, Parashari convention (Saturn keeps Aquarius). */
+export const VEDIC_PLANET_DOMICILES: Partial<Record<string, number[]>> = {
+  SUN: [5],
+  MOON: [4],
+  MARS: [1, 8],
+  MERCURY: [3, 6],
+  JUPITER: [9, 12],
+  VENUS: [2, 7],
+  SATURN: [10, 11],
+};
+
+/** Sign lords, Parashari convention (index 1-12). */
+export const VEDIC_SIGN_LORDS: Record<number, string> = {
+  1: 'MARS', 2: 'VENUS', 3: 'MERCURY', 4: 'MOON',
+  5: 'SUN', 6: 'MERCURY', 7: 'VENUS', 8: 'MARS',
+  9: 'JUPITER', 10: 'SATURN', 11: 'SATURN', 12: 'JUPITER',
+};
+
+/** Lordship tables for the active system mode. */
+export function getSignLords(mode: 'thai' | 'vedic'): Record<number, string> {
+  return mode === 'vedic' ? VEDIC_SIGN_LORDS : THAI_SIGN_LORDS;
+}
+
+export function getPlanetDomiciles(mode: 'thai' | 'vedic'): Partial<Record<string, number[]>> {
+  return mode === 'vedic' ? VEDIC_PLANET_DOMICILES : PLANET_DOMICILES;
+}
+
 /** Element translation key by sign (index 1-12; index 0 unused). */
 export const SIGN_ELEMENT_KEY = [
   '', 'fire', 'earth', 'air', 'water',

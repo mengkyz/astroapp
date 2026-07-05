@@ -6,8 +6,9 @@ import {
   calcDeclination,
   calcSunriseSunset,
   calcTrueSiderealYear,
-  PLANET_IDS,
+  getPlanetIds,
 } from '@/lib/ephemeris/swisseph';
+import { ApiCalcSettings, isDashaYearType } from '@/lib/astro/settings';
 import { getLahiriAyanamsa } from '@/lib/ephemeris/ayanamsa';
 import { calcLagna } from '@/lib/charts/lagna';
 import { getRasi, getDegreesInRasi, roundToArcsecond } from '@/lib/charts/rasi';
@@ -55,6 +56,23 @@ function validateInput(input: Partial<BirthInput>): ValidationError[] {
     errors.push({ field: 'utcOffset', message: 'UTC offset must be between -14 and +14 hours.' });
   }
 
+  const s = (input as { settings?: Record<string, unknown> }).settings;
+  if (s !== undefined) {
+    if (typeof s !== 'object' || s === null) {
+      errors.push({ field: 'settings', message: 'settings must be an object.' });
+    } else {
+      if (s.truePositions !== undefined && typeof s.truePositions !== 'boolean') {
+        errors.push({ field: 'settings.truePositions', message: 'truePositions must be a boolean.' });
+      }
+      if (s.trueNode !== undefined && typeof s.trueNode !== 'boolean') {
+        errors.push({ field: 'settings.trueNode', message: 'trueNode must be a boolean.' });
+      }
+      if (s.dashaYearType !== undefined && !isDashaYearType(s.dashaYearType)) {
+        errors.push({ field: 'settings.dashaYearType', message: 'Unknown dashaYearType.' });
+      }
+    }
+  }
+
   // Reject impossible calendar dates (e.g. Feb 31) — swe_julday would
   // silently roll them into the next month.
   if (errors.length === 0) {
@@ -87,9 +105,17 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Calculation conventions (defaults = Thai preset, the app's original behavior)
+  const settings: Required<ApiCalcSettings> = {
+    truePositions: input.settings?.truePositions ?? false,
+    trueNode: input.settings?.trueNode ?? false,
+    dashaYearType: input.settings?.dashaYearType ?? 'trueSidereal',
+  };
+
   try {
     const jd = toJulianDay(input);
     const ayanamsa = getLahiriAyanamsa(jd);
+    const planetIds = getPlanetIds(settings.trueNode);
 
     // The bundled Swiss Ephemeris files cover 1800-2399; outside that range
     // swisseph silently degrades to the lower-precision Moshier model.
@@ -111,8 +137,8 @@ export async function POST(req: NextRequest) {
     const { index: lagnaNakshatraIdx, pada: lagnaPada } =
       getNakshatra(lagnaDisplayLon);
 
-    const planets = Object.entries(PLANET_IDS).map(([key, id]) => {
-      const result = calcPlanet(id, jd);
+    const planets = Object.entries(planetIds).map(([key, id]) => {
+      const result = calcPlanet(id, jd, settings.truePositions);
       const longitude = result.longitude;
       const displayLon = roundToArcsecond(longitude);
       const isRetrograde = result.isRetrograde;
@@ -168,6 +194,7 @@ export async function POST(req: NextRequest) {
         speed: rahu.speed,
         // A node lies on the ecliptic, so the opposite point's declination is the exact negation
         declination: rahu.declination === undefined ? undefined : -rahu.declination,
+        isRetrograde: rahu.isRetrograde,
         rasi: ketuRasi,
         rasiName: RASI_NAMES[ketuRasi],
         degrees: deg,
@@ -181,7 +208,6 @@ export async function POST(req: NextRequest) {
         nakshatraName: NAKSHATRA_NAMES[nakshatraIdx],
         pada,
         house,
-        isRetrograde: true,
       });
     }
 
@@ -199,8 +225,10 @@ export async function POST(req: NextRequest) {
       dashaData = calculateVimshottariDasha(
         moon.longitude,
         birthDateLocalStr,
-        'trueSidereal',
-        calcTrueSiderealYear(jd),
+        settings.dashaYearType,
+        settings.dashaYearType === 'trueSidereal'
+          ? calcTrueSiderealYear(jd, settings.truePositions)
+          : undefined,
       );
     }
 
@@ -239,6 +267,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       julianDay: jd,
       ayanamsa,
+      settings, // conventions actually used (echoed for the UI / exports)
       warnings,
       birthDateLocalStr, // Needed by frontend for age calculation
       lagna: {

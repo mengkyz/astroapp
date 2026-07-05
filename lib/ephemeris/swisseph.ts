@@ -22,12 +22,22 @@ export const PLANET_IDS = {
   RAHU: swisseph.SE_MEAN_NODE, // 11 (ราหู)
 };
 
-export function calcPlanet(planetId: number, jd: number) {
+export const MEAN_NODE_ID: number = swisseph.SE_MEAN_NODE;
+export const TRUE_NODE_ID: number = swisseph.SE_TRUE_NODE;
+
+/** Planet-id map honouring the node-type setting (true node = JHora default). */
+export function getPlanetIds(trueNode: boolean): typeof PLANET_IDS {
+  return { ...PLANET_IDS, RAHU: trueNode ? TRUE_NODE_ID : MEAN_NODE_ID };
+}
+
+export function calcPlanet(planetId: number, jd: number, truePositions = false) {
   // Enforce sidereal mode before calculating
   swisseph.swe_set_sid_mode(swisseph.SE_SIDM_LAHIRI, 0, 0);
 
-  // Flags: We want Sidereal positions + Speed (to check if retrograde)
-  const flags = swisseph.SEFLG_SIDEREAL | swisseph.SEFLG_SPEED;
+  // Sidereal + speed (for retrograde); SEFLG_TRUEPOS gives true geometric
+  // positions without light-time/aberration — Jagannatha Hora's convention.
+  let flags = swisseph.SEFLG_SIDEREAL | swisseph.SEFLG_SPEED;
+  if (truePositions) flags |= swisseph.SEFLG_TRUEPOS;
   const result = swisseph.swe_calc_ut(jd, planetId, flags) as { error?: string; longitude: number; longitudeSpeed: number };
 
   if (result.error) {
@@ -107,8 +117,8 @@ export function calcKetu(rahuLon: number): number {
  * Hora's default year length for dashas (varies slightly chart to chart,
  * ≈365.25–365.26 days) rather than the mean constant 365.256364.
  */
-export function calcTrueSiderealYear(jd: number): number {
-  const sunLon = (t: number) => calcPlanet(PLANET_IDS.SUN, t).longitude;
+export function calcTrueSiderealYear(jd: number, truePositions = false): number {
+  const sunLon = (t: number) => calcPlanet(PLANET_IDS.SUN, t, truePositions).longitude;
   // Deviation from 0° Aries mapped into [-180, 180)
   const wrap = (x: number) => ((((x + 180) % 360) + 360) % 360) - 180;
   const MEAN_SPEED = 360 / 365.2564; // deg/day, good enough for Newton steps

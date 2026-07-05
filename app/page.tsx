@@ -13,6 +13,14 @@ import { BalasResult } from '@/lib/charts/shadbala';
 import { SavedPerson, personDisplayName, personLocName } from '@/lib/types/person';
 import { decimalToDMS, dmsToDecimal } from '@/lib/utils/format';
 import { generatePlanetCSV, generateDashaCSV, downloadCSV } from '@/lib/csv/export';
+import {
+  CalcSettings,
+  DEFAULT_SETTINGS,
+  MODE_PRESETS,
+  DASHA_YEAR_TYPES,
+  SystemMode,
+} from '@/lib/astro/settings';
+import { DashaYearType } from '@/lib/charts/dasha';
 
 // Extract types
 type PlanetTableData = ComponentProps<typeof PlanetTable>['data'];
@@ -28,6 +36,26 @@ type ChartResult = PlanetTableData & {
 };
 
 const LANG_STORAGE_KEY = 'astroapp.lang';
+const SETTINGS_STORAGE_KEY = 'astroapp.settings';
+
+function loadStoredSettings(): CalcSettings {
+  try {
+    const raw = window.localStorage.getItem(SETTINGS_STORAGE_KEY);
+    if (!raw) return DEFAULT_SETTINGS;
+    const parsed = JSON.parse(raw) as Partial<CalcSettings>;
+    const mode: SystemMode = parsed.mode === 'vedic' ? 'vedic' : 'thai';
+    return {
+      mode,
+      truePositions: typeof parsed.truePositions === 'boolean' ? parsed.truePositions : MODE_PRESETS[mode].truePositions,
+      trueNode: typeof parsed.trueNode === 'boolean' ? parsed.trueNode : MODE_PRESETS[mode].trueNode,
+      dashaYearType: (DASHA_YEAR_TYPES as string[]).includes(parsed.dashaYearType as string)
+        ? (parsed.dashaYearType as DashaYearType)
+        : MODE_PRESETS[mode].dashaYearType,
+    };
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}
 
 function daysInMonth(month: number, year: number): number {
   return new Date(year, month, 0).getDate();
@@ -64,6 +92,10 @@ export default function Home() {
     'planets' | 'dasha' | 'chart' | 'rerk' | 'balas'
   >('planets');
 
+  // Calculation settings (Thai/Vedic presets + overrides), persisted locally
+  const [settings, setSettings] = useState<CalcSettings>(DEFAULT_SETTINGS);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
   // For Export
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const exportMenuRef = useRef<HTMLDivElement>(null);
@@ -90,6 +122,7 @@ export default function Home() {
       // localStorage unavailable (private mode) — keep default
     }
     setLang(initialLang);
+    setSettings(loadStoredSettings());
     setFormData((prev) => ({
       ...prev,
       day: now.getDate(),
@@ -112,6 +145,15 @@ export default function Home() {
     }
   }, [lang]);
 
+  // Persist calculation settings
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+    } catch {
+      // ignore
+    }
+  }, [settings]);
+
   // Close the export dropdown when clicking outside it
   useEffect(() => {
     if (!exportMenuOpen) return;
@@ -129,7 +171,7 @@ export default function Home() {
     if (type === 'pdf') {
       setTimeout(() => { window.print(); }, 300);
     } else if (type === 'csvPlanets' && result) {
-      downloadCSV(generatePlanetCSV(result, lang), `planet_positions_${lang}.csv`);
+      downloadCSV(generatePlanetCSV(result, lang, settings.mode), `planet_positions_${lang}.csv`);
     } else if (type === 'csvDasha' && result?.dasha) {
       downloadCSV(generateDashaCSV(result.dasha, result.birthDateLocalStr, lang), `vimshottari_dasha_${lang}.csv`);
     }
@@ -290,15 +332,14 @@ export default function Home() {
     setLocationSelectKey((k) => k + 1);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const runCalculation = async (data: typeof formData, calcSettings: CalcSettings) => {
     setErrorMsg(null);
 
     // Never fall back to 0,0 silently — an empty location must be an error,
     // not a chart for the Gulf of Guinea.
-    const lat = Number(formData.latitude);
-    const lng = Number(formData.longitude);
-    if (formData.latitude === '' || formData.longitude === '' || Number.isNaN(lat) || Number.isNaN(lng)) {
+    const lat = Number(data.latitude);
+    const lng = Number(data.longitude);
+    if (data.latitude === '' || data.longitude === '' || Number.isNaN(lat) || Number.isNaN(lng)) {
       showError(t.form.coordsRequired);
       return;
     }
@@ -310,10 +351,15 @@ export default function Home() {
     setLoading(true);
     try {
       const payload = {
-        ...formData,
+        ...data,
         latitude: lat,
         longitude: lng,
-        utcOffset: Number(formData.utcOffset),
+        utcOffset: Number(data.utcOffset),
+        settings: {
+          truePositions: calcSettings.truePositions,
+          trueNode: calcSettings.trueNode,
+          dashaYearType: calcSettings.dashaYearType,
+        },
       };
 
       const res = await fetch('/api/natal-chart', {
@@ -321,15 +367,15 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        const detail = Array.isArray(data.details) && data.details.length > 0
-          ? ` (${data.details.map((d: { message: string }) => d.message).join(' ')})`
+      const resData = await res.json();
+      if (!res.ok || resData.error) {
+        const detail = Array.isArray(resData.details) && resData.details.length > 0
+          ? ` (${resData.details.map((d: { message: string }) => d.message).join(' ')})`
           : '';
         showError(`${t.form.calcError}${detail}`);
         return;
       }
-      setResult(data);
+      setResult(resData);
       setSubmittedData(payload);
     } catch (error) {
       console.error(error);
@@ -337,6 +383,23 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await runCalculation(formData, settings);
+  };
+
+  // Changing calculation conventions re-runs the last chart automatically
+  useEffect(() => {
+    if (result && submittedData) {
+      runCalculation(submittedData, settings);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings.truePositions, settings.trueNode, settings.dashaYearType]);
+
+  const applyMode = (mode: SystemMode) => {
+    setSettings({ ...MODE_PRESETS[mode] });
   };
 
   const handleSelectChange = (
@@ -410,18 +473,143 @@ export default function Home() {
     <>
       <main className="min-h-screen p-4 md:p-8 bg-gray-50 text-black print:hidden">
         <div className="max-w-5xl mx-auto space-y-8">
-          <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex flex-wrap justify-between items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <h1 className="text-2xl md:text-3xl font-bold text-indigo-900">
               {t.appTitle}
             </h1>
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              className="bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-full transition-colors text-sm"
-            >
-              {t.form.langToggle}
-            </button>
+            <div className="flex items-center gap-2">
+              {/* System mode toggle: Thai / Vedic presets */}
+              <div className="flex rounded-full border border-indigo-200 overflow-hidden text-sm font-semibold" role="group" aria-label={t.settings.mode}>
+                <button
+                  type="button"
+                  onClick={() => applyMode('thai')}
+                  className={`py-2 px-4 transition-colors ${settings.mode === 'thai' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 hover:bg-indigo-50'}`}
+                >
+                  {t.settings.thai}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => applyMode('vedic')}
+                  className={`py-2 px-4 transition-colors ${settings.mode === 'vedic' ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-700 hover:bg-indigo-50'}`}
+                >
+                  {t.settings.vedic}
+                </button>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSettingsOpen(true)}
+                title={t.settings.title}
+                aria-label={t.settings.title}
+                className="bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-semibold py-2 px-3 rounded-full transition-colors text-sm"
+              >
+                ⚙
+              </button>
+              <button
+                type="button"
+                onClick={toggleLanguage}
+                className="bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-semibold py-2 px-4 rounded-full transition-colors text-sm"
+              >
+                {t.form.langToggle}
+              </button>
+            </div>
           </div>
+
+          {/* Calculation Settings Modal */}
+          {settingsOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                onClick={() => setSettingsOpen(false)}
+              />
+              <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md flex flex-col max-h-[85vh]">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                  <h2 className="text-base font-bold text-gray-800">⚙ {t.settings.title}</h2>
+                  <button
+                    type="button"
+                    onClick={() => setSettingsOpen(false)}
+                    aria-label={t.settings.close}
+                    className="text-gray-400 hover:text-gray-700 text-lg font-bold transition"
+                  >✕</button>
+                </div>
+                <div className="overflow-y-auto flex-1 p-5 space-y-5 text-sm">
+                  <p className="text-xs text-gray-500 bg-indigo-50 border border-indigo-100 rounded-lg px-3 py-2">
+                    {settings.mode === 'thai' ? t.settings.modeHintThai : t.settings.modeHintVedic}
+                  </p>
+
+                  {/* Node type */}
+                  <div>
+                    <span className="block text-xs font-semibold text-gray-500 uppercase mb-2">{t.settings.nodeType}</span>
+                    <div className="flex gap-2">
+                      {([false, true] as const).map((v) => (
+                        <button
+                          key={String(v)}
+                          type="button"
+                          onClick={() => setSettings((s) => ({ ...s, trueNode: v }))}
+                          className={`flex-1 py-2 px-3 rounded-lg border text-sm font-medium transition ${settings.trueNode === v ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-indigo-50'}`}
+                        >
+                          {v ? t.settings.trueNode : t.settings.meanNode}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Position type */}
+                  <div>
+                    <span className="block text-xs font-semibold text-gray-500 uppercase mb-2">{t.settings.positions}</span>
+                    <div className="flex gap-2">
+                      {([false, true] as const).map((v) => (
+                        <button
+                          key={String(v)}
+                          type="button"
+                          onClick={() => setSettings((s) => ({ ...s, truePositions: v }))}
+                          className={`flex-1 py-2 px-3 rounded-lg border text-sm font-medium transition ${settings.truePositions === v ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-indigo-50'}`}
+                        >
+                          {v ? t.settings.truePositions : t.settings.apparent}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Dasha year length */}
+                  <div>
+                    <label htmlFor="dashaYearType" className="block text-xs font-semibold text-gray-500 uppercase mb-2">
+                      {t.settings.dashaYear}
+                    </label>
+                    <select
+                      id="dashaYearType"
+                      value={settings.dashaYearType}
+                      onChange={(e) =>
+                        setSettings((s) => ({ ...s, dashaYearType: e.target.value as DashaYearType }))
+                      }
+                      className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
+                    >
+                      {DASHA_YEAR_TYPES.map((yt) => (
+                        <option key={yt} value={yt}>
+                          {t.settings.dashaYearTypes[yt]}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between gap-2 px-5 py-4 border-t border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => applyMode(settings.mode)}
+                    className="text-xs font-semibold text-gray-500 hover:text-indigo-700 transition"
+                  >
+                    ↺ {t.settings.resetPreset}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSettingsOpen(false)}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-2 px-5 rounded-lg transition"
+                  >
+                    {t.settings.close}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Saved Persons Modal */}
           {savedPersonsOpen && (
@@ -1030,6 +1218,14 @@ export default function Home() {
                       </span>
                     </div>
                   )}
+                  <div>
+                    <span className="block text-indigo-400 font-semibold mb-0.5">
+                      {t.settings.mode}
+                    </span>
+                    <span className="block text-indigo-900 font-medium">
+                      {settings.mode === 'thai' ? t.settings.thai : t.settings.vedic}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -1112,7 +1308,7 @@ export default function Home() {
 
               {activeTab === 'planets' && (
                 <div className="animate-fade-in-up">
-                  <PlanetTable data={result} lang={lang} />
+                  <PlanetTable data={result} lang={lang} mode={settings.mode} />
                 </div>
               )}
               {activeTab === 'dasha' && result.dasha && (
@@ -1129,6 +1325,7 @@ export default function Home() {
                   <RasiChart
                     data={result}
                     lang={lang}
+                    mode={settings.mode}
                     birthDateText={`${submittedData.day} ${t.months[submittedData.month - 1]} ${lang === 'th' ? submittedData.year + 543 : submittedData.year}`}
                     birthTimeText={
                       lang === 'th'
@@ -1159,7 +1356,7 @@ export default function Home() {
 
       {/* PRINT ONLY LAYOUT */}
       {result && submittedData && (
-        <PrintLayout data={result} formData={submittedData} lang={lang} />
+        <PrintLayout data={result} formData={submittedData} lang={lang} mode={settings.mode} />
       )}
 
       {/* Save Toast */}
