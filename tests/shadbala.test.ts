@@ -89,13 +89,16 @@ describe('calculateBalas', () => {
     }
   });
 
-  it('marks retrograde planets with maximum Chesta Bala', () => {
-    const withRetro = calculateBalas(
-      [...PLANETS.filter((p) => p.key !== 'SATURN'), planet('SATURN', 200, { isRetrograde: true, speed: -0.05 })],
-      LAGNA, BIRTH, JD,
-    );
-    const saturn = withRetro.grahaBala.find((g) => g.planet === 'SATURN')!;
-    expect(saturn.chesta).toBe(60);
+  it('gives Sun and Moon no Chesta Bala and others a graded chesta kendra', () => {
+    // JHora method: chesta comes from the true chesta kendra (mean-longitude
+    // based), not a flat retrograde bonus. Sun/Moon are excluded.
+    expect(result.grahaBala.find((g) => g.planet === 'SUN')!.chesta).toBe(0);
+    expect(result.grahaBala.find((g) => g.planet === 'MOON')!.chesta).toBe(0);
+    for (const key of ['MARS', 'MERCURY', 'JUPITER', 'VENUS', 'SATURN']) {
+      const g = result.grahaBala.find((x) => x.planet === key)!;
+      expect(g.chesta).toBeGreaterThanOrEqual(0);
+      expect(g.chesta).toBeLessThanOrEqual(120);
+    }
   });
 
   it('accepts explicit sunrise/sunset times', () => {

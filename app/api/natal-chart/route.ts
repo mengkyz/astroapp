@@ -6,6 +6,7 @@ import {
   calcDeclination,
   calcSunriseSunset,
   calcTrueSiderealYear,
+  calcPlacidusCusps,
   getPlanetIds,
 } from '@/lib/ephemeris/swisseph';
 import { ApiCalcSettings, isDashaYearType } from '@/lib/astro/settings';
@@ -262,6 +263,11 @@ export async function POST(req: NextRequest) {
       },
       jd,
       sunTimes,
+      {
+        ayanamsa,
+        julianDayLocal: jd + input.utcOffset / 24,
+        placidusCusps: calcPlacidusCusps(jd, input.latitude, input.longitude),
+      },
     );
 
     return NextResponse.json({
