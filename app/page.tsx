@@ -101,6 +101,7 @@ export default function Home() {
   // For Export
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const exportMenuRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   // Saved Persons
   const [savedPersons, setSavedPersons] = useState<SavedPerson[]>([]);
@@ -377,8 +378,13 @@ export default function Home() {
         showError(`${t.form.calcError}${detail}`);
         return;
       }
+      const isFirstResult = !result;
       setResult(resData);
       setSubmittedData(payload);
+      // Bring the results into view on a fresh calculation (not on settings re-runs)
+      if (isFirstResult) {
+        setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      }
     } catch (error) {
       console.error(error);
       showError(t.form.calcError);
@@ -639,6 +645,10 @@ export default function Home() {
                           <div className="font-semibold text-gray-800 text-sm truncate">{personDisplayName(person, lang)}</div>
                           <div className="text-xs text-gray-400 mt-0.5">
                             {person.day}/{person.month}/{person.year}
+                            <span className="ml-2">
+                              {String(person.hour).padStart(2, '0')}:{String(person.minute).padStart(2, '0')}
+                              {' '}UTC{(person.utcOffset ?? 7) >= 0 ? '+' : ''}{person.utcOffset ?? 7}
+                            </span>
                             {personLocName(person, lang) && <span className="ml-2">· {personLocName(person, lang)}</span>}
                           </div>
                         </div>
@@ -1148,7 +1158,7 @@ export default function Home() {
 
           {/* Output Section */}
           {result && submittedData && (
-            <div className="mt-8">
+            <div className="mt-8" ref={resultsRef}>
               {result.warnings?.includes('epheRange') && (
                 <div className="flex items-start gap-2 bg-amber-50 border border-amber-300 text-amber-800 rounded-xl px-4 py-3 mb-4 text-sm">
                   <span aria-hidden>⚠</span>

@@ -93,8 +93,18 @@ export default function PlanetTable({ data, lang, mode = 'thai' }: PlanetTablePr
     <div className="overflow-x-auto bg-white rounded-lg shadow-md border border-gray-200">
       <table className="w-full text-sm text-left text-gray-700">
         <thead className="text-xs text-gray-700 uppercase bg-gray-100 border-b border-gray-300 whitespace-nowrap">
+          {/* Group header row */}
+          <tr className="text-[10px] tracking-wider text-gray-400 border-b border-gray-200">
+            <th className="sticky left-0 z-20 bg-gray-100" />
+            <th colSpan={4} className="px-3 py-1.5 text-center border-l border-gray-200">{tTable.groupPosition}</th>
+            <th colSpan={5} className="px-3 py-1.5 text-center border-l border-gray-200">{tTable.groupVargas}</th>
+            <th colSpan={2} className="px-3 py-1.5 text-center border-l border-gray-200">{tTable.groupHouse}</th>
+            <th colSpan={6} className="px-3 py-1.5 text-center border-l border-gray-200">{tTable.groupAspects}</th>
+            <th colSpan={2} className="px-3 py-1.5 text-center border-l border-gray-200">{tTable.groupSign}</th>
+          </tr>
           <tr>
-            <th className={thLeft}>{tTable.planet}</th>
+            {/* Frozen first column so the planet stays visible while scrolling */}
+            <th className={`${thLeft} sticky left-0 z-20 bg-gray-100`}>{tTable.planet}</th>
             <th className={thCenter}>{tTable.rasi}</th>
             <th className={thCenter}>{tTable.degree}</th>
             <th className={thCenter}>{tTable.min}</th>
@@ -106,7 +116,6 @@ export default function PlanetTable({ data, lang, mode = 'thai' }: PlanetTablePr
             <th className={`${thCenter} text-rose-700`}>{tTable.bigRerk}</th>
             <th className={thCenter}>{tTable.house}</th>
             <th className={thCenter}>{tTable.houseLord}</th>
-            {/* New aspect & sign-property columns */}
             <th className={`${thCenter} text-emerald-700 border-l border-gray-300`}>{tTable.kum}</th>
             <th className={`${thCenter} text-emerald-700`}>{tTable.yok}</th>
             <th className={`${thCenter} text-orange-600`}>{tTable.chak}</th>
@@ -123,7 +132,7 @@ export default function PlanetTable({ data, lang, mode = 'thai' }: PlanetTablePr
             const asp = computeAspects(data.lagna.rasi, 'LAGNA', allBodies);
             return (
               <tr className="bg-blue-50 border-b hover:bg-blue-100 font-medium whitespace-nowrap">
-                <td className="px-3 py-3 text-blue-900">{tTable.ascendant}</td>
+                <td className="px-3 py-3 text-blue-900 sticky left-0 z-10 bg-blue-50">{tTable.ascendant}</td>
                 <td className="px-3 py-3 text-center">{t.signs[data.lagna.rasi]}</td>
                 <td className="px-3 py-3 text-center">{pad(data.lagna.deg)}</td>
                 <td className="px-3 py-3 text-center">{pad(data.lagna.min)}</td>
@@ -159,7 +168,7 @@ export default function PlanetTable({ data, lang, mode = 'thai' }: PlanetTablePr
                 key={planet.key}
                 className="bg-white border-b hover:bg-gray-50 transition-colors whitespace-nowrap"
               >
-                <td className="px-3 py-3 font-medium">
+                <td className="px-3 py-3 font-medium sticky left-0 z-10 bg-white">
                   {t.planets[planet.key] || planet.key}
                   {showRetrograde && (
                     <span className="text-red-600 font-bold ml-1">({tTable.retroSymbol})</span>

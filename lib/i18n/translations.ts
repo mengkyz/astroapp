@@ -127,6 +127,11 @@ export const translations = {
       bhavaNote: 'Bhava Bala = Lord\'s Shadbala + Dig Bala + Drishti Bala. Higher = stronger house.',
     },
     planetTable: {
+      groupPosition: 'Position',
+      groupVargas: 'Vargas & Nakshatra',
+      groupHouse: 'Houses',
+      groupAspects: 'Thai Aspects',
+      groupSign: 'Sign Nature',
       planet: 'Planet',
       rasi: 'Sign',
       degree: 'Degree (°)',
@@ -384,6 +389,11 @@ export const translations = {
       csvDasha: 'CSV (ทศา Vimshottari)',
     },
     planetTable: {
+      groupPosition: 'ตำแหน่ง',
+      groupVargas: 'วรรค & นักษัตร',
+      groupHouse: 'ภพ',
+      groupAspects: 'ความสัมพันธ์ (โหรไทย)',
+      groupSign: 'ลักษณะราศี',
       planet: 'ดาว/ปัจจัย',
       rasi: 'ราศี',
       degree: 'องศา (°)',
