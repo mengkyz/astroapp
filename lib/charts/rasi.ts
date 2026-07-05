@@ -8,6 +8,15 @@ export function getRasi(longitude: number): number {
   return Math.floor(normalizeLon(longitude) / 30) + 1; // Returns 1-12
 }
 
+/**
+ * Snap a longitude to the exact arcsecond grid. Deriving sign, DMS, nakshatra
+ * and vargas from one snapped value keeps the display self-consistent: without
+ * this, 29°59'59.7" would show as sign X but round to an impossible 30°00'00".
+ */
+export function roundToArcsecond(longitude: number): number {
+  return normalizeLon(Math.round(longitude * 3600) / 3600);
+}
+
 export function getDegreesInRasi(longitude: number) {
   const raw = normalizeLon(longitude) % 30;
   let deg = Math.floor(raw);

@@ -53,6 +53,11 @@ export const translations = {
       calcError: 'Calculation failed. Please check the birth data and try again.',
       confirmDelete: 'Delete this saved person?',
       ayanamsa: 'Ayanamsa (Lahiri)',
+      yearHintBE: 'B.E.',
+      yearHintCE: 'C.E.',
+      coordsRequired: 'Please select a birthplace or enter latitude/longitude first.',
+      coordsInvalid: 'Latitude must be -90…90 and longitude -180…180.',
+      epheRangeWarning: 'Year is outside the high-precision ephemeris range (1800–2399); positions use a lower-precision model.',
     },
     months: [
       'January',
@@ -294,6 +299,11 @@ export const translations = {
       calcError: 'คำนวณไม่สำเร็จ กรุณาตรวจสอบข้อมูลเกิดแล้วลองใหม่',
       confirmDelete: 'ต้องการลบบุคคลนี้หรือไม่?',
       ayanamsa: 'อายนางศ์ (ลาหิรี)',
+      yearHintBE: 'พ.ศ.',
+      yearHintCE: 'ค.ศ.',
+      coordsRequired: 'กรุณาเลือกสถานที่เกิด หรือกรอกพิกัดละติจูด/ลองจิจูดก่อน',
+      coordsInvalid: 'ละติจูดต้องอยู่ระหว่าง -90…90 และลองจิจูด -180…180',
+      epheRangeWarning: 'ปีเกิดอยู่นอกช่วงข้อมูลดาวความละเอียดสูง (ค.ศ. 1800–2399) ตำแหน่งดาวใช้แบบจำลองความละเอียดต่ำกว่า',
     },
     months: [
       'มกราคม',

@@ -5,11 +5,12 @@ import {
   calcKetu,
   calcDeclination,
   calcSunriseSunset,
+  calcTrueSiderealYear,
   PLANET_IDS,
 } from '@/lib/ephemeris/swisseph';
 import { getLahiriAyanamsa } from '@/lib/ephemeris/ayanamsa';
 import { calcLagna } from '@/lib/charts/lagna';
-import { getRasi, getDegreesInRasi } from '@/lib/charts/rasi';
+import { getRasi, getDegreesInRasi, roundToArcsecond } from '@/lib/charts/rasi';
 import { getNakshatra } from '@/lib/charts/nakshatra';
 import { calculateVimshottariDasha } from '@/lib/charts/dasha';
 import { BirthInput } from '@/app/types/astrology';
@@ -90,29 +91,41 @@ export async function POST(req: NextRequest) {
     const jd = toJulianDay(input);
     const ayanamsa = getLahiriAyanamsa(jd);
 
-    const lagnaLon = calcLagna(jd, input.latitude, input.longitude);
-    const lagnaRasi = getRasi(lagnaLon);
+    // The bundled Swiss Ephemeris files cover 1800-2399; outside that range
+    // swisseph silently degrades to the lower-precision Moshier model.
+    const warnings: string[] = [];
+    if (input.year < 1800 || input.year > 2399) {
+      warnings.push('epheRange');
+    }
 
-    const lagnaDrekkanaPart = Math.floor((lagnaLon % 30) / 10);
+    // Raw longitudes feed every calculation (dasha, balas, aspects); the
+    // arcsecond-rounded value is used only to derive the display fields so
+    // sign + DMS never disagree (e.g. 29°59'59.7" showing as 30°00'00").
+    const lagnaLon = calcLagna(jd, input.latitude, input.longitude);
+    const lagnaDisplayLon = roundToArcsecond(lagnaLon);
+    const lagnaRasi = getRasi(lagnaDisplayLon);
+
+    const lagnaDrekkanaPart = Math.floor((lagnaDisplayLon % 30) / 10);
     const lagnaDrekkana = ((lagnaRasi - 1 + lagnaDrekkanaPart * 4) % 12) + 1;
-    const lagnaNavamsa = (Math.floor(lagnaLon / (10 / 3)) % 12) + 1;
+    const lagnaNavamsa = (Math.floor(lagnaDisplayLon / (10 / 3)) % 12) + 1;
     const { index: lagnaNakshatraIdx, pada: lagnaPada } =
-      getNakshatra(lagnaLon);
+      getNakshatra(lagnaDisplayLon);
 
     const planets = Object.entries(PLANET_IDS).map(([key, id]) => {
       const result = calcPlanet(id, jd);
       const longitude = result.longitude;
+      const displayLon = roundToArcsecond(longitude);
       const isRetrograde = result.isRetrograde;
-      const declination = calcDeclination(id, jd);
+      const declination = calcDeclination(id, jd) ?? undefined;
 
-      const rasi = getRasi(longitude);
-      const { deg, min, sec } = getDegreesInRasi(longitude);
-      const { index: nakshatraIdx, pada } = getNakshatra(longitude);
+      const rasi = getRasi(displayLon);
+      const { deg, min, sec } = getDegreesInRasi(displayLon);
+      const { index: nakshatraIdx, pada } = getNakshatra(displayLon);
       const house = ((rasi - lagnaRasi + 12) % 12) + 1;
 
-      const drekkanaPart = Math.floor((longitude % 30) / 10);
+      const drekkanaPart = Math.floor((displayLon % 30) / 10);
       const drekkanaRasi = ((rasi - 1 + drekkanaPart * 4) % 12) + 1;
-      const navamsaRasi = (Math.floor(longitude / (10 / 3)) % 12) + 1;
+      const navamsaRasi = (Math.floor(displayLon / (10 / 3)) % 12) + 1;
 
       return {
         key,
@@ -139,20 +152,22 @@ export async function POST(req: NextRequest) {
     const rahu = planets.find((p) => p.key === 'RAHU');
     if (rahu) {
       const ketuLon = calcKetu(rahu.longitude);
-      const ketuRasi = getRasi(ketuLon);
-      const { deg, min, sec } = getDegreesInRasi(ketuLon);
-      const { index: nakshatraIdx, pada } = getNakshatra(ketuLon);
+      const ketuDisplayLon = roundToArcsecond(ketuLon);
+      const ketuRasi = getRasi(ketuDisplayLon);
+      const { deg, min, sec } = getDegreesInRasi(ketuDisplayLon);
+      const { index: nakshatraIdx, pada } = getNakshatra(ketuDisplayLon);
       const house = ((ketuRasi - lagnaRasi + 12) % 12) + 1;
 
-      const drekkanaPart = Math.floor((ketuLon % 30) / 10);
+      const drekkanaPart = Math.floor((ketuDisplayLon % 30) / 10);
       const drekkanaRasi = ((ketuRasi - 1 + drekkanaPart * 4) % 12) + 1;
-      const navamsaRasi = (Math.floor(ketuLon / (10 / 3)) % 12) + 1;
+      const navamsaRasi = (Math.floor(ketuDisplayLon / (10 / 3)) % 12) + 1;
 
       planets.push({
         key: 'KETU',
         longitude: ketuLon,
         speed: rahu.speed,
-        declination: -rahu.declination,
+        // A node lies on the ecliptic, so the opposite point's declination is the exact negation
+        declination: rahu.declination === undefined ? undefined : -rahu.declination,
         rasi: ketuRasi,
         rasiName: RASI_NAMES[ketuRasi],
         degrees: deg,
@@ -179,7 +194,14 @@ export async function POST(req: NextRequest) {
       const pad = (n: number) => n.toString().padStart(2, '0');
       // Create a "timezone-less" local date string so UI formatting remains perfectly stable
       birthDateLocalStr = `${input.year}-${pad(input.month)}-${pad(input.day)}T${pad(input.hour)}:${pad(input.minute)}:${pad(input.second ?? 0)}`;
-      dashaData = calculateVimshottariDasha(moon.longitude, birthDateLocalStr);
+      // JHora's default year length: the Sun's true Aries-ingress-to-ingress
+      // duration around the birth moment.
+      dashaData = calculateVimshottariDasha(
+        moon.longitude,
+        birthDateLocalStr,
+        'trueSidereal',
+        calcTrueSiderealYear(jd),
+      );
     }
 
     // Sunrise/sunset of the birth day for the Kala Bala items
@@ -217,12 +239,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       julianDay: jd,
       ayanamsa,
+      warnings,
       birthDateLocalStr, // Needed by frontend for age calculation
       lagna: {
         longitude: lagnaLon,
         rasi: lagnaRasi,
         rasiName: RASI_NAMES[lagnaRasi],
-        ...getDegreesInRasi(lagnaLon),
+        ...getDegreesInRasi(lagnaDisplayLon),
         drekkana: lagnaDrekkana,
         drekkanaName: RASI_NAMES[lagnaDrekkana],
         navamsa: lagnaNavamsa,

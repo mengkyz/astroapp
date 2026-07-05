@@ -1,0 +1,6197 @@
+{
+ "generator": "PyJHora (JHora 4.8.x port), ayanamsa LAHIRI, sidereal year 365.256364",
+ "charts": [
+  {
+   "id": "golden-1990-bangkok",
+   "input": {
+    "year": 1990,
+    "month": 6,
+    "day": 15,
+    "hour": 8,
+    "minute": 30,
+    "second": 0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "utcOffset": 7.0
+   },
+   "modes": {
+    "apparent_mean": {
+     "ascendant": 95.41415328520786,
+     "planets": {
+      "SUN": 59.984401333500095,
+      "MOON": 315.8185515907727,
+      "MARS": 346.99937654009074,
+      "MERCURY": 41.21708172606396,
+      "JUPITER": 82.06747253091733,
+      "VENUS": 24.53590464988791,
+      "SATURN": 270.3302033213846,
+      "RAHU": 285.99377027277086,
+      "KETU": 105.99377027277086
+     },
+     "trueSiderealYearDays": 365.25492995092645,
+     "vimshottariBalanceYMD": [
+      5,
+      7,
+      23
+     ],
+     "vimshottari": [
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1978-02-05T14:43:00",
+       "durationYears": 2.7000000000003825
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1980-10-18T19:14:10",
+       "durationYears": 2.39999999999949
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "1983-03-14T09:55:13",
+       "durationYears": 2.850000000000191
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "1986-01-18T09:21:27",
+       "durationYears": 2.5500000000005736
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "1988-08-06T18:57:33",
+       "durationYears": 1.0499999999999363
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "1989-08-25T07:23:00",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "1992-08-25T01:44:18",
+       "durationYears": 0.9000000000001275
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "1993-07-19T19:14:41",
+       "durationYears": 1.4999999999993625
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "1995-01-18T16:25:20",
+       "durationYears": 1.0499999999999363
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "1996-02-06T04:50:47",
+       "durationYears": 2.133333333333163
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "1998-03-26T09:53:56",
+       "durationYears": 2.5333333333339283
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2000-10-06T17:23:55",
+       "durationYears": 2.266666666666327
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2003-01-12T15:16:01",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2003-12-19T12:58:38",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2006-08-19T13:17:34",
+       "durationYears": 0.800000000000255
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2007-06-07T18:11:15",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2008-10-06T18:20:43",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2009-09-12T16:03:20",
+       "durationYears": 2.39999999999949
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2012-02-06T06:44:23",
+       "durationYears": 3.0083333333339604
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2015-02-09T02:08:44",
+       "durationYears": 2.691666666666422
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2017-10-19T05:36:51",
+       "durationYears": 1.1083333333338328
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2018-11-28T01:23:43",
+       "durationYears": 3.1666666666664542
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2022-01-27T16:46:11",
+       "durationYears": 0.9500000000000638
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2023-01-09T16:34:56",
+       "durationYears": 1.5833333333338646
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2024-08-10T00:16:11",
+       "durationYears": 1.1083333333338328
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2025-09-18T20:03:03",
+       "durationYears": 2.850000000000191
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2028-07-25T19:29:17",
+       "durationYears": 2.5333333333313783
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2031-02-06T02:59:16",
+       "durationYears": 2.40833333333345
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2033-07-04T18:43:21",
+       "durationYears": 0.9916666666660399
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2034-07-01T23:47:24",
+       "durationYears": 2.8333333333335458
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2037-05-01T21:07:31",
+       "durationYears": 0.8500000000001913
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2038-03-08T08:19:33",
+       "durationYears": 1.4166666666661354
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2039-08-07T18:59:36",
+       "durationYears": 0.9916666666660399
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2040-08-04T00:03:39",
+       "durationYears": 2.5500000000005736
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2043-02-21T09:39:45",
+       "durationYears": 2.266666666666327
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2045-05-29T07:31:50",
+       "durationYears": 2.691666666667697
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2048-02-06T10:59:57",
+       "durationYears": 0.4083333333334502
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2048-07-04T14:29:51",
+       "durationYears": 1.1666666666664542
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2049-09-03T17:38:08",
+       "durationYears": 0.3499999999995538
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2050-01-09T13:46:37",
+       "durationYears": 0.5833333333338645
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2050-08-10T15:20:45",
+       "durationYears": 0.4083333333334502
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2051-01-06T18:50:39",
+       "durationYears": 1.0499999999999363
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2052-01-25T07:16:06",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2052-12-31T04:58:44",
+       "durationYears": 1.1083333333338328
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2054-02-09T00:45:36",
+       "durationYears": 0.9916666666660399
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2055-02-06T05:49:38",
+       "durationYears": 3.3333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2058-06-07T18:13:18",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2059-06-08T00:20:24",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2061-02-05T18:32:14",
+       "durationYears": 1.1666666666664542
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2062-04-07T21:40:31",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2065-04-07T16:01:49",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2067-12-07T16:20:45",
+       "durationYears": 3.1666666666664542
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2071-02-06T07:43:14",
+       "durationYears": 2.8333333333335458
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2073-12-07T05:03:20",
+       "durationYears": 1.1666666666664542
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2075-02-06T08:11:37",
+       "durationYears": 0.2999999999996175
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2075-05-26T22:01:45",
+       "durationYears": 0.5000000000006375
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2075-11-25T13:05:18",
+       "durationYears": 0.3499999999995538
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2076-04-01T09:13:47",
+       "durationYears": 0.9000000000001275
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2077-02-24T02:44:11",
+       "durationYears": 0.800000000000255
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2077-12-13T07:37:51",
+       "durationYears": 0.9500000000000638
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2078-11-25T07:26:36",
+       "durationYears": 0.8500000000001913
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2079-10-01T18:38:38",
+       "durationYears": 0.3499999999995538
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2080-02-06T14:47:07",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2081-02-05T20:54:13",
+       "durationYears": 0.8333333333335459
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2081-12-07T06:00:08",
+       "durationYears": 0.5833333333338645
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2082-07-08T07:34:16",
+       "durationYears": 1.5000000000006375
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2084-01-07T04:44:55",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2085-05-08T04:54:23",
+       "durationYears": 1.5833333333338646
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2086-12-07T12:35:38",
+       "durationYears": 1.4166666666661354
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2088-05-07T23:15:41",
+       "durationYears": 0.5833333333338645
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2088-12-07T00:49:50",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2090-08-07T19:01:40",
+       "durationYears": 0.49999999999808764
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2091-02-06T10:05:13",
+       "durationYears": 0.4083333333334502
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2091-07-05T13:35:06",
+       "durationYears": 1.0499999999999363
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2092-07-23T02:00:34",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2093-06-28T23:43:11",
+       "durationYears": 1.1083333333338328
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2094-08-07T19:30:03",
+       "durationYears": 0.9916666666660399
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2095-08-05T00:34:06",
+       "durationYears": 0.4083333333334502
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2096-01-01T04:04:00",
+       "durationYears": 1.1666666666664542
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2097-03-02T07:12:17",
+       "durationYears": 0.3499999999995538
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2097-07-08T03:20:46",
+       "durationYears": 0.5833333333338645
+      }
+     ]
+    },
+    "true_truenode": {
+     "ascendant": 95.41415328520786,
+     "planets": {
+      "SUN": 59.99000438277447,
+      "MOON": 315.8187467859227,
+      "MARS": 347.0047013564847,
+      "MERCURY": 41.227882417742755,
+      "JUPITER": 82.07513911604799,
+      "VENUS": 24.544405552920217,
+      "SATURN": 270.3271335288575,
+      "RAHU": 284.3874569866454,
+      "KETU": 104.38745698664542
+     },
+     "trueSiderealYearDays": 365.2549296375364,
+     "vimshottariBalanceYMD": [
+      5,
+      7,
+      23
+     ],
+     "vimshottari": [
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1978-02-05T12:24:25",
+       "durationYears": 2.70000000000051
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1980-10-18T16:55:35",
+       "durationYears": 2.399999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "1983-03-14T07:36:37",
+       "durationYears": 2.850000000000255
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "1986-01-18T07:02:51",
+       "durationYears": 2.54999999999949
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "1988-08-06T16:38:57",
+       "durationYears": 1.04999999999949
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "1989-08-25T05:04:24",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "1992-08-24T23:25:42",
+       "durationYears": 0.899999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "1993-07-19T16:56:05",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "1995-01-18T14:06:44",
+       "durationYears": 1.050000000000765
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "1996-02-06T02:32:11",
+       "durationYears": 2.1333333333328235
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "1998-03-26T07:35:20",
+       "durationYears": 2.5333333333338435
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2000-10-06T15:05:19",
+       "durationYears": 2.2666666666669215
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2003-01-12T12:57:24",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2003-12-19T10:40:02",
+       "durationYears": 2.6666666666666665
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2006-08-19T10:58:58",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2007-06-07T15:52:38",
+       "durationYears": 1.3333333333333333
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2008-10-06T16:02:06",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2009-09-12T13:44:44",
+       "durationYears": 2.399999999999745
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2012-02-06T04:25:46",
+       "durationYears": 3.0083333333334608
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2015-02-08T23:50:07",
+       "durationYears": 2.6916666666670492
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2017-10-19T03:18:14",
+       "durationYears": 1.1083333333337158
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2018-11-27T23:05:06",
+       "durationYears": 3.1666666666666665
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2022-01-27T14:27:35",
+       "durationYears": 0.95000000000051
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2023-01-09T14:16:19",
+       "durationYears": 1.5833333333333333
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2024-08-09T21:57:34",
+       "durationYears": 1.1083333333337158
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2025-09-18T17:44:26",
+       "durationYears": 2.850000000000255
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2028-07-25T17:10:40",
+       "durationYears": 2.5333333333312935
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2031-02-06T00:40:39",
+       "durationYears": 2.4083333333332058
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2033-07-04T16:24:44",
+       "durationYears": 0.9916666666665391
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2034-07-01T21:28:47",
+       "durationYears": 2.8333333333333335
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2037-05-01T18:48:53",
+       "durationYears": 0.850000000000255
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2038-03-08T06:00:56",
+       "durationYears": 1.4166666666666667
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2039-08-07T16:40:59",
+       "durationYears": 0.9916666666665391
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2040-08-03T21:45:01",
+       "durationYears": 2.54999999999949
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2043-02-21T07:21:07",
+       "durationYears": 2.2666666666669215
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2045-05-29T05:13:13",
+       "durationYears": 2.6916666666670492
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2048-02-06T08:41:19",
+       "durationYears": 0.4083333333332058
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2048-07-04T12:11:13",
+       "durationYears": 1.1666666666666667
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2049-09-03T15:19:30",
+       "durationYears": 0.350000000000255
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2050-01-09T11:27:59",
+       "durationYears": 0.5833333333333334
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2050-08-10T13:02:08",
+       "durationYears": 0.4083333333332058
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2051-01-06T16:32:02",
+       "durationYears": 1.04999999999949
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2052-01-25T04:57:29",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2052-12-31T02:40:06",
+       "durationYears": 1.1083333333337158
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2054-02-08T22:26:58",
+       "durationYears": 0.9916666666665391
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2055-02-06T03:31:01",
+       "durationYears": 3.3333333333333335
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2058-06-07T15:54:40",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2059-06-07T22:01:46",
+       "durationYears": 1.6666666666666667
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2061-02-05T16:13:36",
+       "durationYears": 1.1666666666666667
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2062-04-07T19:21:53",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2065-04-07T13:43:11",
+       "durationYears": 2.6666666666666665
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2067-12-07T14:02:07",
+       "durationYears": 3.1666666666666665
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2071-02-06T05:24:35",
+       "durationYears": 2.8333333333333335
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2073-12-07T02:44:42",
+       "durationYears": 1.1666666666666667
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2075-02-06T05:52:59",
+       "durationYears": 0.29999999999949006
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2075-05-26T19:43:07",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2075-11-25T10:46:40",
+       "durationYears": 0.350000000000255
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2076-04-01T06:55:09",
+       "durationYears": 0.899999999999745
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2077-02-24T00:25:32",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2077-12-13T05:19:13",
+       "durationYears": 0.95000000000051
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2078-11-25T05:07:58",
+       "durationYears": 0.850000000000255
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2079-10-01T16:20:00",
+       "durationYears": 0.350000000000255
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2080-02-06T12:28:29",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2081-02-05T18:35:35",
+       "durationYears": 0.8333333333333334
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2081-12-07T03:41:30",
+       "durationYears": 0.5833333333333334
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2082-07-08T05:15:38",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2084-01-07T02:26:17",
+       "durationYears": 1.3333333333333333
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2085-05-08T02:35:45",
+       "durationYears": 1.5833333333333333
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2086-12-07T10:16:59",
+       "durationYears": 1.4166666666666667
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2088-05-07T20:57:03",
+       "durationYears": 0.5833333333333334
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2088-12-06T22:31:11",
+       "durationYears": 1.6666666666666667
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2090-08-07T16:43:01",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2091-02-06T07:46:34",
+       "durationYears": 0.4083333333332058
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2091-07-05T11:16:28",
+       "durationYears": 1.04999999999949
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2092-07-22T23:41:55",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2093-06-28T21:24:32",
+       "durationYears": 1.1083333333337158
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2094-08-07T17:11:25",
+       "durationYears": 0.9916666666665391
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2095-08-04T22:15:27",
+       "durationYears": 0.4083333333332058
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2096-01-01T01:45:21",
+       "durationYears": 1.1666666666666667
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2097-03-02T04:53:38",
+       "durationYears": 0.350000000000255
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2097-07-08T01:02:07",
+       "durationYears": 0.5833333333333334
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "y2000-bangkok-noon",
+   "input": {
+    "year": 2000,
+    "month": 1,
+    "day": 1,
+    "hour": 12,
+    "minute": 0,
+    "second": 0,
+    "latitude": 13.7563,
+    "longitude": 100.5018,
+    "utcOffset": 7.0
+   },
+   "modes": {
+    "apparent_mean": {
+     "ascendant": 343.05518167706504,
+     "planets": {
+      "SUN": 256.21837694435396,
+      "MOON": 195.95776665609526,
+      "MARS": 303.8838545663151,
+      "MERCURY": 247.58238213490552,
+      "JUPITER": 1.3881318026383143,
+      "VENUS": 217.35998857595348,
+      "SATURN": 16.54834737077702,
+      "RAHU": 101.2028795739495,
+      "KETU": 281.20287957394953
+     },
+     "trueSiderealYearDays": 365.2539682597853,
+     "vimshottariBalanceYMD": [
+      5,
+      5,
+      15
+     ],
+     "vimshottari": [
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1987-06-17T02:59:57",
+       "durationYears": 2.7000000000006374
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1990-02-27T07:27:22",
+       "durationYears": 2.4
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "1992-07-22T22:05:05",
+       "durationYears": 2.8499999999996812
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "1995-05-29T21:27:22",
+       "durationYears": 2.5500000000003187
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "1997-12-16T06:59:57",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "1999-01-03T19:23:57",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2002-01-03T13:41:05",
+       "durationYears": 0.8999999999993625
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2002-11-28T07:10:14",
+       "durationYears": 1.5000000000006375
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2004-05-29T04:18:48",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "2005-06-16T16:42:48",
+       "durationYears": 2.1333333333333333
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "2007-08-04T21:42:59",
+       "durationYears": 2.533333333333333
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2010-02-15T05:09:28",
+       "durationYears": 2.2666666666666666
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2012-05-23T02:58:25",
+       "durationYears": 0.9333333333333333
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2013-04-29T00:39:45",
+       "durationYears": 2.6666666666666665
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2015-12-29T00:54:59",
+       "durationYears": 0.8
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2016-10-16T05:47:34",
+       "durationYears": 1.3333333333333333
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2018-02-15T05:55:11",
+       "durationYears": 0.9333333333333333
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2019-01-22T03:36:31",
+       "durationYears": 2.4
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2021-06-16T18:14:14",
+       "durationYears": 3.0083333333328555
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2024-06-19T13:34:25",
+       "durationYears": 2.6916666666665074
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2027-02-27T16:58:48",
+       "durationYears": 1.1083333333334926
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2028-04-07T12:44:08",
+       "durationYears": 3.1666666666673042
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2031-06-08T04:02:14",
+       "durationYears": 0.9500000000003187
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2032-05-20T03:49:39",
+       "durationYears": 1.5833333333330146
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2033-12-19T11:28:42",
+       "durationYears": 1.1083333333334926
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2035-01-28T07:14:02",
+       "durationYears": 2.8499999999996812
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2037-12-04T06:36:19",
+       "durationYears": 2.533333333333333
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2040-06-16T14:02:48",
+       "durationYears": 2.4083333333328554
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2042-11-13T05:43:34",
+       "durationYears": 0.9916666666671448
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2043-11-10T10:46:14",
+       "durationYears": 2.8333333333326958
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2046-09-10T08:02:25",
+       "durationYears": 0.8499999999996812
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2047-07-17T19:13:17",
+       "durationYears": 1.4166666666669854
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2048-12-16T05:51:22",
+       "durationYears": 0.9916666666671448
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2049-12-13T10:54:02",
+       "durationYears": 2.5500000000003187
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2052-07-01T20:26:37",
+       "durationYears": 2.2666666666666666
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2054-10-07T18:15:34",
+       "durationYears": 2.6916666666665074
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2057-06-16T21:39:57",
+       "durationYears": 0.40833333333285526
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2057-11-13T01:09:17",
+       "durationYears": 1.166666666667304
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2059-01-13T04:15:57",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2059-05-21T00:23:57",
+       "durationYears": 0.5833333333330146
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2059-12-20T01:57:17",
+       "durationYears": 0.40833333333285526
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2060-05-17T05:26:37",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2061-06-04T17:50:37",
+       "durationYears": 0.9333333333333333
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2062-05-11T15:31:57",
+       "durationYears": 1.1083333333334926
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2063-06-20T11:17:17",
+       "durationYears": 0.9916666666671448
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2064-06-16T16:19:57",
+       "durationYears": 3.3333333333333335
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2067-10-17T04:38:59",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2068-10-16T10:44:42",
+       "durationYears": 1.6666666666666667
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2070-06-17T04:54:14",
+       "durationYears": 1.1666666666660293
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2071-08-17T08:00:54",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2074-08-17T02:18:02",
+       "durationYears": 2.6666666666666665
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2077-04-17T02:33:17",
+       "durationYears": 3.1666666666673042
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2080-06-16T17:51:22",
+       "durationYears": 2.8333333333339707
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2083-04-17T15:07:34",
+       "durationYears": 1.1666666666660293
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2084-06-16T18:14:14",
+       "durationYears": 0.3000000000006374
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2084-10-04T08:03:57",
+       "durationYears": 0.49999999999936257
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2085-04-04T23:06:48",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2085-08-10T19:14:48",
+       "durationYears": 0.8999999999993625
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2086-07-05T12:43:57",
+       "durationYears": 0.8
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2087-04-23T17:36:31",
+       "durationYears": 0.9500000000003187
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2088-04-04T17:23:57",
+       "durationYears": 0.8499999999996812
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2089-02-09T04:34:48",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2089-06-17T00:42:48",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2090-06-17T06:48:31",
+       "durationYears": 0.8333333333339707
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2091-04-17T15:53:17",
+       "durationYears": 0.5833333333330146
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2091-11-16T17:26:37",
+       "durationYears": 1.5000000000006375
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2093-05-17T14:35:11",
+       "durationYears": 1.3333333333333333
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2094-09-16T14:42:48",
+       "durationYears": 1.5833333333330146
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2096-04-16T22:21:51",
+       "durationYears": 1.4166666666669854
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2097-09-16T08:59:57",
+       "durationYears": 0.5833333333330146
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2098-04-17T10:33:17",
+       "durationYears": 1.6666666666666667
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2099-12-17T04:42:48",
+       "durationYears": 0.49999999999936257
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2100-06-17T19:45:39",
+       "durationYears": 0.40833333333285526
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2100-11-13T23:14:59",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2101-12-02T11:38:59",
+       "durationYears": 0.9333333333333333
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2102-11-08T09:20:19",
+       "durationYears": 1.1083333333334926
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2103-12-18T05:05:39",
+       "durationYears": 0.9916666666671448
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2104-12-14T10:08:19",
+       "durationYears": 0.40833333333285526
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2105-05-12T13:37:39",
+       "durationYears": 1.1666666666660293
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2106-07-12T16:44:19",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2106-11-17T12:52:19",
+       "durationYears": 0.5833333333342895
+      }
+     ]
+    },
+    "true_truenode": {
+     "ascendant": 343.05518167706504,
+     "planets": {
+      "SUN": 256.22416617640016,
+      "MOON": 195.95795358568225,
+      "MARS": 303.8921325577043,
+      "MERCURY": 247.59508470294597,
+      "JUPITER": 1.3891932958600197,
+      "VENUS": 217.36791771867266,
+      "SATURN": 16.5473265197781,
+      "RAHU": 100.11620722702622,
+      "KETU": 280.1162072270262
+     },
+     "trueSiderealYearDays": 365.25396829657257,
+     "vimshottariBalanceYMD": [
+      5,
+      5,
+      15
+     ],
+     "vimshottari": [
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1987-06-17T00:47:13",
+       "durationYears": 2.700000000000255
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1990-02-27T05:14:38",
+       "durationYears": 2.40000000000051
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "1992-07-22T19:52:21",
+       "durationYears": 2.84999999999949
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "1995-05-29T19:14:38",
+       "durationYears": 2.549999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "1997-12-16T04:47:13",
+       "durationYears": 1.049999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "1999-01-03T17:11:13",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2002-01-03T11:28:21",
+       "durationYears": 0.90000000000051
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2002-11-28T04:57:30",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2004-05-29T02:06:04",
+       "durationYears": 1.049999999999745
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "2005-06-16T14:30:04",
+       "durationYears": 2.1333333333339284
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "2007-08-04T19:30:16",
+       "durationYears": 2.533333333333163
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2010-02-15T02:56:44",
+       "durationYears": 2.266666666666582
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2012-05-23T00:45:41",
+       "durationYears": 0.9333333333336733
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2013-04-28T22:27:01",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2015-12-28T22:42:16",
+       "durationYears": 0.799999999999745
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2016-10-16T03:34:50",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2018-02-15T03:42:27",
+       "durationYears": 0.9333333333336733
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2019-01-22T01:23:47",
+       "durationYears": 2.399999999999235
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2021-06-16T16:01:30",
+       "durationYears": 3.0083333333332907
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2024-06-19T11:21:41",
+       "durationYears": 2.691666666666964
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2027-02-27T14:46:04",
+       "durationYears": 1.108333333332781
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2028-04-07T10:31:24",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2031-06-08T01:49:30",
+       "durationYears": 0.950000000000255
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2032-05-20T01:36:56",
+       "durationYears": 1.5833333333329083
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2033-12-19T09:15:59",
+       "durationYears": 1.108333333332781
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2035-01-28T05:01:19",
+       "durationYears": 2.84999999999949
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2037-12-04T04:23:36",
+       "durationYears": 2.533333333334438
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2040-06-16T11:50:04",
+       "durationYears": 2.408333333333801
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2042-11-13T03:30:50",
+       "durationYears": 0.9916666666667092
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2043-11-10T08:33:30",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2046-09-10T05:49:42",
+       "durationYears": 0.84999999999949
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2047-07-17T17:00:33",
+       "durationYears": 1.4166666666670917
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2048-12-16T03:38:39",
+       "durationYears": 0.9916666666667092
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2049-12-13T08:41:19",
+       "durationYears": 2.549999999999745
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2052-07-01T18:13:53",
+       "durationYears": 2.266666666666582
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2054-10-07T16:02:50",
+       "durationYears": 2.691666666666964
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2057-06-16T19:27:13",
+       "durationYears": 0.4083333333338008
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2057-11-12T22:56:33",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2059-01-13T02:03:13",
+       "durationYears": 0.34999999999949005
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2059-05-20T22:11:13",
+       "durationYears": 0.5833333333329084
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2059-12-19T23:44:33",
+       "durationYears": 0.4083333333338008
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2060-05-17T03:13:53",
+       "durationYears": 1.049999999999745
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2061-06-04T15:37:53",
+       "durationYears": 0.9333333333336733
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2062-05-11T13:19:13",
+       "durationYears": 1.108333333332781
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2063-06-20T09:04:33",
+       "durationYears": 0.9916666666667092
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2064-06-16T14:07:13",
+       "durationYears": 3.3333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2067-10-17T02:26:16",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2068-10-16T08:31:59",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2070-06-17T02:41:30",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2071-08-17T05:48:10",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2074-08-17T00:05:19",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2077-04-17T00:20:33",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2080-06-16T15:38:39",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2083-04-17T12:54:50",
+       "durationYears": 1.1666666666658168
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2084-06-16T16:01:30",
+       "durationYears": 0.299999999999745
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2084-10-04T05:51:13",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2085-04-04T20:54:05",
+       "durationYears": 0.34999999999949005
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2085-08-10T17:02:05",
+       "durationYears": 0.90000000000051
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2086-07-05T10:31:13",
+       "durationYears": 0.799999999999745
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2087-04-23T15:23:47",
+       "durationYears": 0.950000000000255
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2088-04-04T15:11:13",
+       "durationYears": 0.84999999999949
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2089-02-09T02:22:05",
+       "durationYears": 0.34999999999949005
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2089-06-16T22:30:05",
+       "durationYears": 1.000000000001275
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2090-06-17T04:35:47",
+       "durationYears": 0.8333333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2091-04-17T13:40:33",
+       "durationYears": 0.5833333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2091-11-16T15:13:53",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2093-05-17T12:22:27",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2094-09-16T12:30:05",
+       "durationYears": 1.5833333333329083
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2096-04-16T20:09:07",
+       "durationYears": 1.4166666666670917
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2097-09-16T06:47:13",
+       "durationYears": 0.5833333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2098-04-17T08:20:33",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2099-12-17T02:30:05",
+       "durationYears": 0.5000000000012749
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2100-06-17T17:32:56",
+       "durationYears": 0.4083333333338008
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2100-11-13T21:02:16",
+       "durationYears": 1.049999999999745
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2101-12-02T09:26:16",
+       "durationYears": 0.9333333333336733
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2102-11-08T07:07:36",
+       "durationYears": 1.108333333332781
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2103-12-18T02:52:56",
+       "durationYears": 0.9916666666667092
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2104-12-14T07:55:36",
+       "durationYears": 0.4083333333338008
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2105-05-12T11:24:56",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2106-07-12T14:31:36",
+       "durationYears": 0.34999999999949005
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2106-11-17T10:39:36",
+       "durationYears": 0.5833333333329084
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "chiangmai-1985-night",
+   "input": {
+    "year": 1985,
+    "month": 11,
+    "day": 3,
+    "hour": 23,
+    "minute": 45,
+    "second": 10,
+    "latitude": 18.7883,
+    "longitude": 98.9853,
+    "utcOffset": 7.0
+   },
+   "modes": {
+    "apparent_mean": {
+     "ascendant": 103.62111292076213,
+     "planets": {
+      "SUN": 197.55267877986134,
+      "MOON": 82.68764524782492,
+      "MARS": 160.76963555530344,
+      "MERCURY": 220.05191868349883,
+      "JUPITER": 285.04547741287433,
+      "VENUS": 178.9271843903307,
+      "SATURN": 214.77153384742275,
+      "RAHU": 15.251651491306815,
+      "KETU": 195.2516514913068
+     },
+     "trueSiderealYearDays": 365.2542571644299,
+     "vimshottariBalanceYMD": [
+      12,
+      9,
+      10
+     ],
+     "vimshottari": [
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "1982-08-13T23:32:43",
+       "durationYears": 2.1333333333328235
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "1984-10-01T04:33:48",
+       "durationYears": 2.5333333333338435
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "1987-04-14T12:01:20",
+       "durationYears": 2.2666666666669215
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "1989-07-20T09:51:14",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "1990-06-26T07:32:57",
+       "durationYears": 2.6666666666666665
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "1993-02-24T07:49:18",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "1993-12-13T12:42:12",
+       "durationYears": 1.3333333333333333
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "1995-04-14T12:50:22",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "1996-03-20T10:32:06",
+       "durationYears": 2.399999999999745
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "1998-08-14T01:10:48",
+       "durationYears": 3.008333333333939
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2001-08-16T20:32:15",
+       "durationYears": 2.6916666666672087
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2004-04-25T23:57:45",
+       "durationYears": 1.1083333333335565
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2005-06-04T19:43:33",
+       "durationYears": 3.1666666666673042
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2008-08-04T11:02:57",
+       "durationYears": 0.9500000000001912
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2009-07-17T10:50:47",
+       "durationYears": 1.5833333333336521
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2011-02-15T18:30:29",
+       "durationYears": 1.1083333333335565
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2012-03-26T14:16:17",
+       "durationYears": 2.850000000000574
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2015-01-31T13:39:45",
+       "durationYears": 2.5333333333300185
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2017-08-13T21:07:17",
+       "durationYears": 2.408333333333684
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2020-01-10T12:49:03",
+       "durationYears": 0.9916666666660611
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2021-01-06T17:52:08",
+       "durationYears": 2.8333333333339707
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2023-11-07T15:09:30",
+       "durationYears": 0.8500000000005737
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2024-09-13T02:20:42",
+       "durationYears": 1.4166666666663479
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2026-02-12T12:59:23",
+       "durationYears": 0.9916666666660611
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2027-02-09T18:02:28",
+       "durationYears": 2.550000000000446
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2029-08-29T03:36:06",
+       "durationYears": 2.2666666666669215
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2031-12-05T01:26:00",
+       "durationYears": 2.6916666666659337
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2034-08-14T04:51:30",
+       "durationYears": 0.40833333333368393
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2035-01-10T08:21:00",
+       "durationYears": 1.166666666667304
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2036-03-11T11:28:09",
+       "durationYears": 0.34999999999993625
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2036-07-17T07:36:18",
+       "durationYears": 0.583333333333652
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2037-02-15T09:09:53",
+       "durationYears": 0.40833333333368393
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2037-07-14T12:39:23",
+       "durationYears": 1.0499999999998089
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2038-08-02T01:03:49",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2039-07-08T22:45:32",
+       "durationYears": 1.1083333333335565
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2040-08-16T18:31:20",
+       "durationYears": 0.9916666666647862
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2041-08-13T23:34:25",
+       "durationYears": 3.3333333333333335
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2044-12-13T11:54:51",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2045-12-13T18:00:59",
+       "durationYears": 1.6666666666666667
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2047-08-14T12:11:12",
+       "durationYears": 1.1666666666660293
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2048-10-13T15:18:21",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2051-10-14T09:36:44",
+       "durationYears": 2.6666666666666665
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2054-06-14T09:53:05",
+       "durationYears": 3.1666666666660293
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2057-08-14T01:12:30",
+       "durationYears": 2.8333333333326958
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2060-06-13T22:29:52",
+       "durationYears": 1.166666666668579
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2061-08-14T01:37:01",
+       "durationYears": 0.3000000000001275
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2061-12-01T15:26:51",
+       "durationYears": 0.5000000000006375
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2062-06-02T06:29:55",
+       "durationYears": 0.34999999999993625
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2062-10-08T02:38:04",
+       "durationYears": 0.9000000000003825
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2063-09-01T20:07:35",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2064-06-20T01:00:29",
+       "durationYears": 0.9500000000001912
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2065-06-02T00:48:19",
+       "durationYears": 0.8500000000005737
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2066-04-08T11:59:31",
+       "durationYears": 0.34999999999993625
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2066-08-14T08:07:40",
+       "durationYears": 0.9999999999987251
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2067-08-14T14:13:48",
+       "durationYears": 0.8333333333339707
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2068-06-13T23:18:54",
+       "durationYears": 0.583333333333652
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2069-01-13T00:52:29",
+       "durationYears": 1.5000000000006375
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2070-07-14T22:01:41",
+       "durationYears": 1.3333333333333333
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2071-11-13T22:09:51",
+       "durationYears": 1.5833333333336521
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2073-06-14T05:49:34",
+       "durationYears": 1.4166666666663479
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2074-11-13T16:28:15",
+       "durationYears": 0.583333333333652
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2075-06-14T18:01:49",
+       "durationYears": 1.6666666666666667
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2077-02-12T12:12:02",
+       "durationYears": 0.49999999999808764
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2077-08-14T03:15:06",
+       "durationYears": 0.40833333333368393
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2078-01-10T06:44:36",
+       "durationYears": 1.0499999999998089
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2079-01-28T19:09:03",
+       "durationYears": 0.9333333333335884
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2080-01-04T16:50:46",
+       "durationYears": 1.1083333333335565
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2081-02-12T12:36:33",
+       "durationYears": 0.9916666666660611
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2082-02-09T17:39:38",
+       "durationYears": 0.40833333333368393
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2082-07-08T21:09:08",
+       "durationYears": 1.166666666667304
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2083-09-08T00:16:18",
+       "durationYears": 0.34999999999993625
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2084-01-13T20:24:26",
+       "durationYears": 0.5833333333323771
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "2084-08-13T21:58:01",
+       "durationYears": 2.6999999999998727
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "2087-04-27T02:26:34",
+       "durationYears": 2.399999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "2089-09-19T17:05:17",
+       "durationYears": 2.850000000000574
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "2092-07-26T16:28:45",
+       "durationYears": 2.550000000000446
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "2095-02-13T02:02:23",
+       "durationYears": 1.0499999999998089
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "2096-03-02T14:26:49",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2099-03-03T08:45:13",
+       "durationYears": 0.9000000000003825
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2100-01-26T02:14:44",
+       "durationYears": 1.4999999999993625
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2101-07-27T23:23:55",
+       "durationYears": 1.0499999999998089
+      }
+     ]
+    },
+    "true_truenode": {
+     "ascendant": 103.62111292076213,
+     "planets": {
+      "SUN": 197.55841643507773,
+      "MOON": 82.6878342066197,
+      "MARS": 160.7781319123987,
+      "MERCURY": 220.0595440791289,
+      "JUPITER": 285.04830798472074,
+      "VENUS": 178.9386226648002,
+      "SATURN": 214.77879972485087,
+      "RAHU": 15.521522759147448,
+      "KETU": 195.52152275914744
+     },
+     "trueSiderealYearDays": 365.25421301741153,
+     "vimshottariBalanceYMD": [
+      12,
+      9,
+      9
+     ],
+     "vimshottari": [
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "1982-08-13T21:33:40",
+       "durationYears": 2.1333333333336735
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "1984-10-01T02:34:36",
+       "durationYears": 2.5333333333334185
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "1987-04-14T10:01:59",
+       "durationYears": 2.2666666666660715
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "1989-07-20T07:51:44",
+       "durationYears": 0.9333333333331634
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "1990-06-26T05:33:23",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "1993-02-24T05:49:34",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "1993-12-13T10:42:25",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "1995-04-14T10:50:31",
+       "durationYears": 0.9333333333331634
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "1996-03-20T08:32:10",
+       "durationYears": 2.40000000000102
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "1998-08-13T23:10:44",
+       "durationYears": 3.0083333333327174
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2001-08-16T18:31:59",
+       "durationYears": 2.691666666666518
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2004-04-25T21:57:19",
+       "durationYears": 1.1083333333329721
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2005-06-04T17:43:02",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2008-08-04T09:02:15",
+       "durationYears": 0.9499999999998725
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2009-07-17T08:50:01",
+       "durationYears": 1.5833333333335458
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2011-02-15T16:29:37",
+       "durationYears": 1.1083333333329721
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2012-03-26T12:15:20",
+       "durationYears": 2.8499999999996177
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2015-01-31T11:38:38",
+       "durationYears": 2.533333333334693
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2017-08-13T19:06:00",
+       "durationYears": 2.408333333333737
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2020-01-10T10:47:37",
+       "durationYears": 0.9916666666672829
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2021-01-06T15:50:38",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2023-11-07T13:07:49",
+       "durationYears": 0.8499999999996175
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2024-09-13T00:18:58",
+       "durationYears": 1.4166666666664542
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2026-02-12T10:57:34",
+       "durationYears": 0.9916666666672829
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2027-02-09T16:00:35",
+       "durationYears": 2.5500000000001273
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2029-08-29T01:34:03",
+       "durationYears": 2.2666666666660715
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2031-12-04T23:23:48",
+       "durationYears": 2.691666666666518
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2034-08-14T02:49:08",
+       "durationYears": 0.40833333333373706
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2035-01-10T06:18:37",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2036-03-11T09:25:41",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2036-07-17T05:33:49",
+       "durationYears": 0.5833333333335459
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2037-02-15T07:07:21",
+       "durationYears": 0.40833333333373706
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2037-07-14T10:36:50",
+       "durationYears": 1.0500000000001275
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2038-08-01T23:01:12",
+       "durationYears": 0.9333333333331634
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2039-07-08T20:42:52",
+       "durationYears": 1.1083333333329721
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2040-08-16T16:28:35",
+       "durationYears": 0.991666666666008
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2041-08-13T21:31:36",
+       "durationYears": 3.3333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2044-12-13T09:51:49",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2045-12-13T15:57:53",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2047-08-14T10:08:00",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2048-10-13T13:15:05",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2051-10-14T07:33:17",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2054-06-14T07:49:27",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2057-08-13T23:08:40",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2060-06-13T20:25:52",
+       "durationYears": 1.1666666666658168
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2061-08-13T23:32:56",
+       "durationYears": 0.29999999999949006
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2061-12-01T13:22:45",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2062-06-02T04:25:47",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2062-10-08T00:33:55",
+       "durationYears": 0.899999999999745
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2063-09-01T18:03:22",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2064-06-19T22:56:14",
+       "durationYears": 0.9499999999998725
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2065-06-01T22:43:59",
+       "durationYears": 0.8499999999996175
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2066-04-08T09:55:09",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2066-08-14T06:03:16",
+       "durationYears": 1.0000000000025497
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2067-08-14T12:09:20",
+       "durationYears": 0.8333333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2068-06-13T21:14:24",
+       "durationYears": 0.5833333333335459
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2069-01-12T22:47:56",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2070-07-14T19:57:02",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2071-11-13T20:05:07",
+       "durationYears": 1.5833333333335458
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2073-06-14T03:44:44",
+       "durationYears": 1.4166666666664542
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2074-11-13T14:23:19",
+       "durationYears": 0.5833333333335459
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2075-06-14T15:56:52",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2077-02-12T10:06:58",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2077-08-14T01:10:00",
+       "durationYears": 0.40833333333373706
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2078-01-10T04:39:29",
+       "durationYears": 1.0500000000001275
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2079-01-28T17:03:51",
+       "durationYears": 0.9333333333331634
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2080-01-04T14:45:31",
+       "durationYears": 1.1083333333329721
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2081-02-12T10:31:14",
+       "durationYears": 0.9916666666672829
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2082-02-09T15:34:15",
+       "durationYears": 0.40833333333373706
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2082-07-08T19:03:44",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2083-09-07T22:10:49",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2084-01-13T18:18:56",
+       "durationYears": 0.5833333333322709
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "2084-08-13T19:52:28",
+       "durationYears": 2.70000000000051
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "2087-04-27T00:20:51",
+       "durationYears": 2.399999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "2089-09-19T14:59:25",
+       "durationYears": 2.8499999999996177
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "2092-07-26T14:22:42",
+       "durationYears": 2.5500000000001273
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "2095-02-12T23:56:10",
+       "durationYears": 1.0500000000001275
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "2096-03-02T12:20:33",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2099-03-03T06:38:45",
+       "durationYears": 0.899999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2100-01-26T00:08:12",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2101-07-27T21:17:18",
+       "durationYears": 1.0500000000001275
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "london-1975-bst",
+   "input": {
+    "year": 1975,
+    "month": 4,
+    "day": 14,
+    "hour": 6,
+    "minute": 5,
+    "second": 0,
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "utcOffset": 1.0
+   },
+   "modes": {
+    "apparent_mean": {
+     "ascendant": 355.03005350395176,
+     "planets": {
+      "SUN": 0.12465047697646106,
+      "MOON": 28.983102046615677,
+      "MARS": 308.3197321651094,
+      "MERCURY": 355.03318492620093,
+      "JUPITER": 342.86071815567936,
+      "VENUS": 36.81197259396687,
+      "SATURN": 79.29541746755106,
+      "RAHU": 219.61469018158974,
+      "KETU": 39.61469018158971
+     },
+     "trueSiderealYearDays": 365.25693551730365,
+     "vimshottariBalanceYMD": [
+      4,
+      11,
+      15
+     ],
+     "vimshottari": [
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "1974-03-29T12:16:02",
+       "durationYears": 0.30000000000050997
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "1974-07-17T02:07:02",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "1975-01-15T17:12:01",
+       "durationYears": 0.35000000000038245
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "1975-05-23T13:21:31",
+       "durationYears": 0.9000000000002549
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "1976-04-16T06:54:30",
+       "durationYears": 0.80000000000051
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "1977-02-02T11:50:30",
+       "durationYears": 0.9500000000001275
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "1978-01-15T11:41:59",
+       "durationYears": 0.8500000000003824
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "1978-11-21T22:56:28",
+       "durationYears": 0.35000000000038245
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "1979-03-29T19:05:58",
+       "durationYears": 0.9999999999974503
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "1980-03-29T01:15:57",
+       "durationYears": 0.8333333333337583
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "1981-01-27T10:24:17",
+       "durationYears": 0.5833333333331209
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "1981-08-28T12:00:06",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "1983-02-27T09:15:05",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "1984-06-28T09:28:24",
+       "durationYears": 1.5833333333331208
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "1986-01-27T17:14:13",
+       "durationYears": 1.4166666666668792
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "1987-06-29T03:58:22",
+       "durationYears": 0.5833333333331209
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "1988-01-28T05:34:11",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "1989-09-27T23:50:50",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "1990-03-29T14:55:50",
+       "durationYears": 0.4083333333329296
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "1990-08-25T18:26:54",
+       "durationYears": 1.0499999999998726
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "1991-09-13T06:55:23",
+       "durationYears": 0.9333333333335033
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "1992-08-19T04:40:43",
+       "durationYears": 1.1083333333336947
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "1993-09-28T00:30:47",
+       "durationYears": 0.9916666666660505
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "1994-09-25T05:37:41",
+       "durationYears": 0.4083333333329296
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "1995-02-21T09:08:46",
+       "durationYears": 1.1666666666662417
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "1996-04-22T12:20:25",
+       "durationYears": 0.35000000000038245
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "1996-08-28T08:29:55",
+       "durationYears": 0.5833333333343957
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1997-03-29T10:05:44",
+       "durationYears": 2.69999999999949
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1999-12-10T14:44:42",
+       "durationYears": 2.400000000000255
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "2002-05-05T05:32:40",
+       "durationYears": 2.8500000000003824
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "2005-03-11T05:07:08",
+       "durationYears": 2.5499999999998724
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "2007-09-28T14:50:36",
+       "durationYears": 1.0499999999998726
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "2008-10-16T03:19:05",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2011-10-16T21:49:03",
+       "durationYears": 0.9000000000002549
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2012-09-09T15:22:02",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2014-03-11T12:37:01",
+       "durationYears": 1.0499999999998726
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "2015-03-30T01:05:30",
+       "durationYears": 2.1333333333329936
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "2017-05-17T06:14:49",
+       "durationYears": 2.5333333333332484
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2019-11-28T13:52:07",
+       "durationYears": 2.2666666666672617
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2022-03-05T11:50:45",
+       "durationYears": 0.9333333333335033
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2023-02-09T09:36:04",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2025-10-10T10:02:42",
+       "durationYears": 0.80000000000051
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2026-07-29T14:58:41",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2027-11-28T15:12:00",
+       "durationYears": 0.9333333333335033
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2028-11-03T12:57:20",
+       "durationYears": 2.3999999999989803
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2031-03-30T03:45:18",
+       "durationYears": 3.0083333333339497
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2034-04-01T23:18:21",
+       "durationYears": 2.691666666666815
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2036-12-10T02:54:13",
+       "durationYears": 1.1083333333336947
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2038-01-18T22:44:18",
+       "durationYears": 3.1666666666662415
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2041-03-20T14:15:55",
+       "durationYears": 0.9500000000001275
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2042-03-02T14:07:24",
+       "durationYears": 1.5833333333331208
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2043-10-01T21:53:13",
+       "durationYears": 1.1083333333336947
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2044-11-09T17:43:17",
+       "durationYears": 2.8500000000003824
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2047-09-16T17:17:45",
+       "durationYears": 2.5333333333319734
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2050-03-30T00:55:03",
+       "durationYears": 2.4083333333329295
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2052-08-25T16:46:06",
+       "durationYears": 0.9916666666660505
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2053-08-22T21:53:01",
+       "durationYears": 2.8333333333337585
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2056-06-22T19:21:18",
+       "durationYears": 0.8500000000003824
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2057-04-29T06:35:48",
+       "durationYears": 1.4166666666668792
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2058-09-28T17:19:57",
+       "durationYears": 0.9916666666660505
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2059-09-25T22:26:51",
+       "durationYears": 2.5499999999998724
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2062-04-14T08:10:19",
+       "durationYears": 2.2666666666672617
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2064-07-20T06:08:57",
+       "durationYears": 2.691666666666815
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2067-03-30T09:44:50",
+       "durationYears": 0.4083333333329296
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2067-08-26T13:15:55",
+       "durationYears": 1.1666666666662417
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2068-10-25T16:27:34",
+       "durationYears": 0.35000000000038245
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2069-03-02T12:37:04",
+       "durationYears": 0.5833333333331209
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2069-10-01T14:12:53",
+       "durationYears": 0.4083333333329296
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2070-02-27T17:43:58",
+       "durationYears": 1.0499999999998726
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2071-03-18T06:12:27",
+       "durationYears": 0.9333333333335033
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2072-02-22T03:57:46",
+       "durationYears": 1.1083333333336947
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2073-04-01T23:47:50",
+       "durationYears": 0.9916666666673254
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2074-03-30T04:54:45",
+       "durationYears": 3.3333333333337585
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2077-07-29T17:28:02",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2078-07-29T23:38:01",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2080-03-29T17:54:40",
+       "durationYears": 1.1666666666662417
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2081-05-29T21:06:19",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2084-05-29T15:36:17",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2087-01-28T16:02:55",
+       "durationYears": 3.1666666666662415
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2090-03-30T07:34:32",
+       "durationYears": 2.8333333333337585
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2093-01-28T05:02:50",
+       "durationYears": 1.1666666666675165
+      }
+     ]
+    },
+    "true_truenode": {
+     "ascendant": 355.03005350395176,
+     "planets": {
+      "SUN": 0.13032761284673403,
+      "MOON": 28.98329368517081,
+      "MARS": 308.3275858599085,
+      "MERCURY": 355.04883889559426,
+      "JUPITER": 342.8687886514649,
+      "VENUS": 36.82016082623542,
+      "SATURN": 79.29832612240028,
+      "RAHU": 217.76263880343345,
+      "KETU": 37.76263880343345
+     },
+     "trueSiderealYearDays": 365.256935658399,
+     "vimshottariBalanceYMD": [
+      4,
+      11,
+      15
+     ],
+     "vimshottari": [
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "1974-03-29T11:30:40",
+       "durationYears": 0.3000000000006374
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "1974-07-17T01:21:40",
+       "durationYears": 0.49999999999936257
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "1975-01-15T16:26:40",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "1975-05-23T12:36:09",
+       "durationYears": 0.8999999999993625
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "1976-04-16T06:09:09",
+       "durationYears": 0.8
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "1977-02-02T11:05:08",
+       "durationYears": 0.9500000000003187
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "1978-01-15T10:56:37",
+       "durationYears": 0.8499999999996812
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "1978-11-21T22:11:07",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "1979-03-29T18:20:37",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "1980-03-29T00:30:36",
+       "durationYears": 0.8333333333331209
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "1981-01-27T09:38:55",
+       "durationYears": 0.5833333333334396
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "1981-08-28T11:14:45",
+       "durationYears": 1.4999999999993625
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "1983-02-27T08:29:44",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "1984-06-28T08:43:03",
+       "durationYears": 1.5833333333334396
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "1986-01-27T16:28:51",
+       "durationYears": 1.4166666666665604
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "1987-06-29T03:13:00",
+       "durationYears": 0.5833333333334396
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "1988-01-28T04:48:50",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "1989-09-27T23:05:29",
+       "durationYears": 0.5000000000006375
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "1990-03-29T14:10:28",
+       "durationYears": 0.4083333333332802
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "1990-08-25T17:41:33",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "1991-09-13T06:10:02",
+       "durationYears": 0.9333333333337583
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "1992-08-19T03:55:21",
+       "durationYears": 1.1083333333339176
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "1993-09-27T23:45:26",
+       "durationYears": 0.9916666666667198
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "1994-09-25T04:52:20",
+       "durationYears": 0.4083333333332802
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "1995-02-21T08:23:24",
+       "durationYears": 1.1666666666668792
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "1996-04-22T11:35:04",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "1996-08-28T07:44:33",
+       "durationYears": 0.5833333333321646
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1997-03-29T09:20:23",
+       "durationYears": 2.7000000000006374
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1999-12-10T13:59:21",
+       "durationYears": 2.4
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "2002-05-05T04:47:19",
+       "durationYears": 2.8499999999996812
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "2005-03-11T04:21:47",
+       "durationYears": 2.5500000000003187
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "2007-09-28T14:05:15",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "2008-10-16T02:33:44",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2011-10-16T21:03:42",
+       "durationYears": 0.8999999999993625
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2012-09-09T14:36:41",
+       "durationYears": 1.5000000000006375
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2014-03-11T11:51:40",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "2015-03-30T00:20:09",
+       "durationYears": 2.1333333333337583
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "2017-05-17T05:29:28",
+       "durationYears": 2.533333333333758
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2019-11-28T13:06:46",
+       "durationYears": 2.2666666666662416
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2022-03-05T11:05:24",
+       "durationYears": 0.9333333333337583
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2023-02-09T08:50:43",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2025-10-10T09:17:21",
+       "durationYears": 0.8
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2026-07-29T14:13:21",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2027-11-28T14:26:40",
+       "durationYears": 0.9333333333337583
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2028-11-03T12:11:59",
+       "durationYears": 2.399999999998725
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2031-03-30T02:59:57",
+       "durationYears": 3.00833333333328
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2034-04-01T22:33:00",
+       "durationYears": 2.6916666666660825
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2036-12-10T02:08:53",
+       "durationYears": 1.1083333333339176
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2038-01-18T21:58:57",
+       "durationYears": 3.1666666666668792
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2041-03-20T13:30:35",
+       "durationYears": 0.9500000000003187
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2042-03-02T13:22:04",
+       "durationYears": 1.5833333333334396
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2043-10-01T21:07:53",
+       "durationYears": 1.1083333333339176
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2044-11-09T16:57:57",
+       "durationYears": 2.8499999999996812
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2047-09-16T16:32:25",
+       "durationYears": 2.5333333333324832
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2050-03-30T00:09:43",
+       "durationYears": 2.4083333333332804
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2052-08-25T16:00:46",
+       "durationYears": 0.9916666666667198
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2053-08-22T21:07:40",
+       "durationYears": 2.8333333333331208
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2056-06-22T18:35:58",
+       "durationYears": 0.8499999999996812
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2057-04-29T05:50:27",
+       "durationYears": 1.4166666666665604
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2058-09-28T16:34:36",
+       "durationYears": 0.9916666666667198
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2059-09-25T21:41:30",
+       "durationYears": 2.5500000000003187
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2062-04-14T07:24:59",
+       "durationYears": 2.2666666666662416
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2064-07-20T05:23:37",
+       "durationYears": 2.6916666666673574
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2067-03-30T08:59:30",
+       "durationYears": 0.4083333333332802
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2067-08-26T12:30:34",
+       "durationYears": 1.1666666666668792
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2068-10-25T15:42:14",
+       "durationYears": 0.3500000000003187
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2069-03-02T11:51:43",
+       "durationYears": 0.5833333333334396
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2069-10-01T13:27:33",
+       "durationYears": 0.4083333333332802
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2070-02-27T16:58:38",
+       "durationYears": 1.0499999999996812
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2071-03-18T05:27:07",
+       "durationYears": 0.9333333333337583
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2072-02-22T03:12:26",
+       "durationYears": 1.1083333333339176
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2073-04-01T23:02:30",
+       "durationYears": 0.9916666666654449
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2074-03-30T04:09:24",
+       "durationYears": 3.3333333333337585
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2077-07-29T16:42:42",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2078-07-29T22:52:41",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2080-03-29T17:09:20",
+       "durationYears": 1.1666666666668792
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2081-05-29T20:20:59",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2084-05-29T14:50:57",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2087-01-28T15:17:35",
+       "durationYears": 3.1666666666668792
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2090-03-30T06:49:12",
+       "durationYears": 2.8333333333331208
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2093-01-28T04:17:30",
+       "durationYears": 1.1666666666668792
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "khonkaen-2010-evening",
+   "input": {
+    "year": 2010,
+    "month": 12,
+    "day": 25,
+    "hour": 18,
+    "minute": 30,
+    "second": 0,
+    "latitude": 16.4322,
+    "longitude": 102.8236,
+    "utcOffset": 7.0
+   },
+   "modes": {
+    "apparent_mean": {
+     "ascendant": 80.9570879295418,
+     "planets": {
+      "SUN": 249.54259806180866,
+      "MOON": 123.75569227480227,
+      "MARS": 259.32512190853544,
+      "MERCURY": 237.57947051378912,
+      "JUPITER": 331.71747208164754,
+      "VENUS": 203.4908750946179,
+      "SATURN": 172.321644236908,
+      "RAHU": 248.63759100616375,
+      "KETU": 68.63759100616375
+     },
+     "trueSiderealYearDays": 365.2519174851477,
+     "vimshottariBalanceYMD": [
+      5,
+      0,
+      11
+     ],
+     "vimshottari": [
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2009-01-04T14:09:00",
+       "durationYears": 0.4083333333329084
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2009-06-02T17:37:08",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2010-08-02T20:40:21",
+       "durationYears": 0.35
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2010-12-08T16:47:19",
+       "durationYears": 0.5833333333329084
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2011-07-09T18:18:56",
+       "durationYears": 0.4083333333329084
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2011-12-05T21:47:03",
+       "durationYears": 1.05
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2012-12-23T10:07:57",
+       "durationYears": 0.9333333333329084
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2013-11-29T07:46:32",
+       "durationYears": 1.1083333333329084
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2015-01-08T03:28:36",
+       "durationYears": 0.9916666666683666
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2016-01-05T08:28:20",
+       "durationYears": 3.3333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2019-05-06T20:37:32",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2020-05-06T02:40:18",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2022-01-04T20:44:54",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2023-03-06T23:48:07",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2026-03-06T17:56:24",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2028-11-04T18:03:46",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2032-01-05T09:12:31",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2034-11-05T06:20:20",
+       "durationYears": 1.1666666666658168
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2036-01-05T09:23:33",
+       "durationYears": 0.3
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2036-04-23T23:12:23",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2036-10-23T14:13:46",
+       "durationYears": 0.35
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2037-02-28T10:20:44",
+       "durationYears": 0.9
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2038-01-23T03:47:13",
+       "durationYears": 0.8
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2038-11-11T08:37:25",
+       "durationYears": 0.95
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2039-10-24T08:22:03",
+       "durationYears": 0.85
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2040-08-29T19:30:24",
+       "durationYears": 0.35
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2041-01-04T15:37:22",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2042-01-04T21:40:07",
+       "durationYears": 0.8333333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2042-11-05T06:42:25",
+       "durationYears": 0.5833333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2043-06-06T08:14:02",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2044-12-05T05:18:11",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2046-04-06T05:21:51",
+       "durationYears": 1.5833333333329083
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2047-11-05T12:56:14",
+       "durationYears": 1.4166666666670917
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2049-04-05T23:30:08",
+       "durationYears": 0.5833333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2049-11-05T01:01:45",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2051-07-06T19:06:21",
+       "durationYears": 0.5000000000012749
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2052-01-05T10:07:44",
+       "durationYears": 0.4083333333329084
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2052-06-02T13:35:52",
+       "durationYears": 1.05
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2053-06-21T01:56:46",
+       "durationYears": 0.9333333333329084
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2054-05-27T23:35:20",
+       "durationYears": 1.1083333333329084
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2055-07-06T19:17:24",
+       "durationYears": 0.9916666666670917
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2056-07-03T00:17:08",
+       "durationYears": 0.4083333333329084
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2056-11-29T03:45:16",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2058-01-29T06:48:29",
+       "durationYears": 0.35
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2058-06-06T02:55:27",
+       "durationYears": 0.5833333333341832
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "2059-01-05T04:27:04",
+       "durationYears": 2.7
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "2061-09-17T08:46:31",
+       "durationYears": 2.4
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "2064-02-10T23:17:09",
+       "durationYears": 2.85
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "2066-12-17T22:31:01",
+       "durationYears": 2.55
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "2069-07-06T07:56:03",
+       "durationYears": 1.05
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "2070-07-24T20:16:57",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2073-07-24T14:25:14",
+       "durationYears": 0.9
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2074-06-18T07:51:43",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2075-12-18T04:55:52",
+       "durationYears": 1.05
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "2077-01-04T17:16:46",
+       "durationYears": 2.1333333333329083
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "2079-02-22T22:10:39",
+       "durationYears": 2.533333333332908
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2081-09-05T05:29:39",
+       "durationYears": 2.2666666666670916
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2083-12-12T03:11:54",
+       "durationYears": 0.9333333333329084
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2084-11-17T00:50:29",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2087-07-19T00:57:51",
+       "durationYears": 0.8
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2088-05-06T05:48:03",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2089-09-05T05:51:44",
+       "durationYears": 0.9333333333329084
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2090-08-12T03:30:19",
+       "durationYears": 2.400000000001275
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2093-01-04T18:00:57",
+       "durationYears": 3.0083333333329083
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2096-01-08T13:12:15",
+       "durationYears": 2.6916666666670914
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2098-09-17T16:28:41",
+       "durationYears": 1.1083333333329084
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2099-10-27T12:10:44",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2102-12-28T03:19:29",
+       "durationYears": 0.95
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2103-12-10T03:04:07",
+       "durationYears": 1.5833333333329083
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2105-07-10T10:38:29",
+       "durationYears": 1.1083333333329084
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2106-08-19T06:20:32",
+       "durationYears": 2.85
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2109-06-25T05:34:25",
+       "durationYears": 2.533333333334183
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2112-01-06T12:53:24",
+       "durationYears": 2.408333333332908
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2114-06-04T04:27:03",
+       "durationYears": 0.9916666666670917
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2115-06-01T09:26:48",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2118-04-01T06:34:37",
+       "durationYears": 0.85
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2119-02-05T17:42:58",
+       "durationYears": 1.4166666666670917
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2120-07-07T04:16:52",
+       "durationYears": 0.9916666666670917
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2121-07-04T09:16:37",
+       "durationYears": 2.55
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2124-01-21T18:41:39",
+       "durationYears": 2.2666666666670916
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2126-04-28T16:23:55",
+       "durationYears": 2.691666666665817
+      }
+     ]
+    },
+    "true_truenode": {
+     "ascendant": 80.9570879295418,
+     "planets": {
+      "SUN": 249.5483834812713,
+      "MOON": 123.7558963455122,
+      "MARS": 259.33567843664576,
+      "MERCURY": 237.57603420754901,
+      "JUPITER": 331.7208405662443,
+      "VENUS": 203.49380416255022,
+      "SATURN": 172.32472456739205,
+      "RAHU": 248.7241914389227,
+      "KETU": 68.72419143892273
+     },
+     "trueSiderealYearDays": 365.2519178511575,
+     "vimshottariBalanceYMD": [
+      5,
+      0,
+      11
+     ],
+     "vimshottari": [
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2009-01-04T13:12:39",
+       "durationYears": 0.4083333333329721
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2009-06-02T16:40:47",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2010-08-02T19:44:00",
+       "durationYears": 0.3499999999998725
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2010-12-08T15:50:58",
+       "durationYears": 0.5833333333335459
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2011-07-09T17:22:35",
+       "durationYears": 0.4083333333329721
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2011-12-05T20:50:42",
+       "durationYears": 1.0499999999996175
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2012-12-23T09:11:36",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2013-11-29T06:50:11",
+       "durationYears": 1.1083333333327172
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2015-01-08T02:32:15",
+       "durationYears": 0.9916666666677928
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2016-01-05T07:31:59",
+       "durationYears": 3.3333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2019-05-06T19:41:11",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2020-05-06T01:43:57",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2022-01-04T19:48:33",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2023-03-06T22:51:47",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2026-03-06T17:00:04",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2028-11-04T17:07:26",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2032-01-05T08:16:10",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2034-11-05T05:24:00",
+       "durationYears": 1.1666666666658168
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2036-01-05T08:27:13",
+       "durationYears": 0.300000000000255
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2036-04-23T22:16:03",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2036-10-23T13:17:26",
+       "durationYears": 0.3499999999998725
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2037-02-28T09:24:24",
+       "durationYears": 0.89999999999949
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2038-01-23T02:50:53",
+       "durationYears": 0.800000000000255
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2038-11-11T07:41:05",
+       "durationYears": 0.9500000000003824
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2039-10-24T07:25:43",
+       "durationYears": 0.8499999999998725
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2040-08-29T18:34:04",
+       "durationYears": 0.3499999999998725
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2041-01-04T14:41:02",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2042-01-04T20:43:47",
+       "durationYears": 0.8333333333329084
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2042-11-05T05:46:05",
+       "durationYears": 0.5833333333335459
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2043-06-06T07:17:42",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2044-12-05T04:21:51",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2046-04-06T04:25:32",
+       "durationYears": 1.5833333333335458
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2047-11-05T11:59:54",
+       "durationYears": 1.4166666666664542
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2049-04-05T22:33:49",
+       "durationYears": 0.5833333333335459
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2049-11-05T00:05:25",
+       "durationYears": 1.6666666666670917
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2051-07-06T18:10:01",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2052-01-05T09:11:24",
+       "durationYears": 0.4083333333329721
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2052-06-02T12:39:32",
+       "durationYears": 1.0499999999996175
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2053-06-21T01:00:26",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2054-05-27T22:39:01",
+       "durationYears": 1.1083333333327172
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2055-07-06T18:21:04",
+       "durationYears": 0.9916666666665179
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2056-07-02T23:20:49",
+       "durationYears": 0.4083333333329721
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2056-11-29T02:48:56",
+       "durationYears": 1.1666666666670917
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2058-01-29T05:52:10",
+       "durationYears": 0.3499999999998725
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2058-06-06T01:59:08",
+       "durationYears": 0.5833333333348207
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "2059-01-05T03:30:44",
+       "durationYears": 2.699999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "2061-09-17T07:50:12",
+       "durationYears": 2.39999999999949
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "2064-02-10T22:20:49",
+       "durationYears": 2.8499999999998726
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "2066-12-17T21:34:42",
+       "durationYears": 2.5499999999996175
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "2069-07-06T06:59:44",
+       "durationYears": 1.0499999999996175
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "2070-07-24T19:20:38",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "2073-07-24T13:28:55",
+       "durationYears": 0.89999999999949
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "2074-06-18T06:55:24",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "2075-12-18T03:59:33",
+       "durationYears": 1.0500000000021674
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "2077-01-04T16:20:27",
+       "durationYears": 2.133333333333163
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "2079-02-22T21:14:20",
+       "durationYears": 2.5333333333339283
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "2081-09-05T04:33:20",
+       "durationYears": 2.266666666666327
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "2083-12-12T02:15:36",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "2084-11-16T23:54:10",
+       "durationYears": 2.6666666666670915
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "2087-07-19T00:01:32",
+       "durationYears": 0.800000000000255
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "2088-05-06T04:51:45",
+       "durationYears": 1.3333333333329083
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "2089-09-05T04:55:26",
+       "durationYears": 0.9333333333334183
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "2090-08-12T02:34:00",
+       "durationYears": 2.39999999999949
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "2093-01-04T17:04:38",
+       "durationYears": 3.008333333333482
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "2096-01-08T12:15:57",
+       "durationYears": 2.6916666666662628
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "2098-09-17T15:32:23",
+       "durationYears": 1.1083333333327172
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "2099-10-27T11:14:26",
+       "durationYears": 3.1666666666670915
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "2102-12-28T02:23:11",
+       "durationYears": 0.9500000000003824
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "2103-12-10T02:07:48",
+       "durationYears": 1.5833333333335458
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "2105-07-10T09:42:11",
+       "durationYears": 1.1083333333327172
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2106-08-19T05:24:14",
+       "durationYears": 2.8499999999998726
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2109-06-25T04:38:07",
+       "durationYears": 2.5333333333339283
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2112-01-06T11:57:06",
+       "durationYears": 2.408333333332972
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2114-06-04T03:30:46",
+       "durationYears": 0.9916666666665179
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2115-06-01T08:30:30",
+       "durationYears": 2.8333333333329085
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2118-04-01T05:38:19",
+       "durationYears": 0.8499999999998725
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2119-02-05T16:46:40",
+       "durationYears": 1.4166666666664542
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2120-07-07T03:20:35",
+       "durationYears": 0.9916666666665179
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2121-07-04T08:20:19",
+       "durationYears": 2.5499999999996175
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2124-01-21T17:45:22",
+       "durationYears": 2.266666666666327
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2126-04-28T15:27:37",
+       "durationYears": 2.6916666666688127
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "songkhla-1962-predawn",
+   "input": {
+    "year": 1962,
+    "month": 8,
+    "day": 17,
+    "hour": 3,
+    "minute": 10,
+    "second": 0,
+    "latitude": 7.1988,
+    "longitude": 100.5951,
+    "utcOffset": 7.0
+   },
+   "modes": {
+    "apparent_mean": {
+     "ascendant": 76.69975458242826,
+     "planets": {
+      "SUN": 120.1298973110826,
+      "MOON": 314.063550276926,
+      "MARS": 63.00614089225589,
+      "MERCURY": 137.19910190936932,
+      "JUPITER": 316.2801844560346,
+      "VENUS": 165.3777135175928,
+      "SATURN": 283.56716486833807,
+      "RAHU": 104.61659090270702,
+      "KETU": 284.616590902707
+     },
+     "trueSiderealYearDays": 365.25619868794456,
+     "vimshottariBalanceYMD": [
+      8,
+      0,
+      5
+     ],
+     "vimshottari": [
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1952-08-21T18:13:15",
+       "durationYears": 2.6999999999998727
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1955-05-04T22:49:21",
+       "durationYears": 2.399999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "1957-09-27T13:34:46",
+       "durationYears": 2.849999999999936
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "1960-08-03T13:06:13",
+       "durationYears": 2.549999999999809
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "1963-02-20T22:46:58",
+       "durationYears": 1.0500000000004461
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "1964-03-10T11:14:21",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "1967-03-11T05:41:07",
+       "durationYears": 0.9000000000003825
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "1968-02-02T23:13:09",
+       "durationYears": 1.4999999999993625
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "1969-08-03T20:26:33",
+       "durationYears": 1.0500000000004461
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "1970-08-22T08:53:55",
+       "durationYears": 2.1333333333332485
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "1972-10-09T14:00:57",
+       "durationYears": 2.5333333333329935
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "1975-04-22T21:35:34",
+       "durationYears": 2.2666666666664965
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "1977-07-28T19:31:48",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "1978-07-04T17:16:08",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "1981-03-04T17:39:56",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "1981-12-21T22:35:05",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "1983-04-22T22:46:59",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "1984-03-28T20:31:19",
+       "durationYears": 2.400000000002295
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "1986-08-22T11:16:44",
+       "durationYears": 3.00833333333277
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "1989-08-25T06:46:35",
+       "durationYears": 2.691666666667102
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "1992-05-04T10:19:37",
+       "durationYears": 1.1083333333336627
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "1993-06-13T06:08:30",
+       "durationYears": 3.1666666666668792
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "1996-08-12T21:36:46",
+       "durationYears": 0.9499999999995538
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "1997-07-25T21:27:15",
+       "durationYears": 1.5833333333334396
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "1999-02-24T05:11:23",
+       "durationYears": 1.1083333333336627
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2000-04-04T01:00:17",
+       "durationYears": 2.849999999999936
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2003-02-09T00:31:43",
+       "durationYears": 2.5333333333329935
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2005-08-22T08:06:20",
+       "durationYears": 2.40833333333379
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2008-01-18T23:54:50",
+       "durationYears": 0.9916666666672297
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2009-01-15T05:00:41",
+       "durationYears": 2.8333333333331208
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2011-11-16T02:25:58",
+       "durationYears": 0.8499999999999363
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2012-09-21T13:39:33",
+       "durationYears": 1.4166666666665604
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2014-02-21T00:22:12",
+       "durationYears": 0.9916666666672297
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2015-02-18T05:28:03",
+       "durationYears": 2.549999999999809
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2017-09-06T15:08:49",
+       "durationYears": 2.2666666666664965
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2019-12-13T13:05:03",
+       "durationYears": 2.6916666666658275
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2022-08-22T16:38:04",
+       "durationYears": 0.4083333333337902
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2023-01-18T20:08:43",
+       "durationYears": 1.1666666666668792
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2024-03-19T23:19:08",
+       "durationYears": 0.3500000000005737
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2024-07-25T19:28:15",
+       "durationYears": 0.5833333333334396
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2025-02-23T21:03:28",
+       "durationYears": 0.4083333333337902
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2025-07-23T00:34:06",
+       "durationYears": 1.0500000000004461
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2026-08-10T13:01:29",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2027-07-17T10:45:49",
+       "durationYears": 1.1083333333336627
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2028-08-25T06:34:42",
+       "durationYears": 0.99166666666468
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2029-08-22T11:40:33",
+       "durationYears": 3.3333333333337585
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2032-12-22T00:10:19",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2033-12-22T06:19:14",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2035-08-23T00:34:07",
+       "durationYears": 1.1666666666668792
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2036-10-22T03:44:32",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2039-10-22T22:11:18",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2042-06-22T22:35:06",
+       "durationYears": 3.1666666666668792
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2045-08-22T14:03:22",
+       "durationYears": 2.8333333333331208
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2048-06-22T11:28:40",
+       "durationYears": 1.1666666666668792
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2049-08-22T14:39:05",
+       "durationYears": 0.3000000000001275
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2049-12-10T04:29:45",
+       "durationYears": 0.5000000000006375
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2050-06-10T19:34:13",
+       "durationYears": 0.3500000000005737
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2050-10-16T15:43:21",
+       "durationYears": 0.9000000000003825
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2051-09-10T09:15:23",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2052-06-28T14:10:31",
+       "durationYears": 0.9499999999995538
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2053-06-10T14:01:00",
+       "durationYears": 0.8499999999999363
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2054-04-17T01:14:35",
+       "durationYears": 0.3500000000005737
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2054-08-22T21:23:43",
+       "durationYears": 0.9999999999987251
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2055-08-23T03:32:38",
+       "durationYears": 0.8333333333331209
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2056-06-22T12:40:04",
+       "durationYears": 0.5833333333334396
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2057-01-21T14:15:17",
+       "durationYears": 1.5000000000006375
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2058-07-23T11:28:40",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2059-11-22T11:40:34",
+       "durationYears": 1.5833333333334396
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2061-06-22T19:24:42",
+       "durationYears": 1.4166666666665604
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2062-11-22T06:07:21",
+       "durationYears": 0.5833333333334396
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2063-06-23T07:42:33",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2065-02-21T01:57:26",
+       "durationYears": 0.49999999999936257
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2065-08-22T17:01:54",
+       "durationYears": 0.4083333333337902
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2066-01-18T20:32:32",
+       "durationYears": 1.0500000000004461
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2067-02-06T08:59:55",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2068-01-13T06:44:15",
+       "durationYears": 1.1083333333336627
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2069-02-21T02:33:08",
+       "durationYears": 0.9916666666672297
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2070-02-18T07:38:59",
+       "durationYears": 0.4083333333337902
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2070-07-17T11:09:38",
+       "durationYears": 1.1666666666668792
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2071-09-16T14:20:03",
+       "durationYears": 0.3500000000005737
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2072-01-22T10:29:10",
+       "durationYears": 0.5833333333308898
+      }
+     ]
+    },
+    "true_truenode": {
+     "ascendant": 76.69975458242826,
+     "planets": {
+      "SUN": 120.1355165207779,
+      "MOON": 314.0637584471957,
+      "MARS": 63.01276952900859,
+      "MERCURY": 137.21136899452154,
+      "JUPITER": 316.27736503471294,
+      "VENUS": 165.38272196686577,
+      "SATURN": 283.5635600971145,
+      "RAHU": 105.6146365650951,
+      "KETU": 285.6146365650951
+     },
+     "trueSiderealYearDays": 365.2561988765374,
+     "vimshottariBalanceYMD": [
+      8,
+      0,
+      5
+     ],
+     "vimshottari": [
+      {
+       "maha": "RAHU",
+       "bhukti": "RAHU",
+       "start": "1952-08-21T15:45:26",
+       "durationYears": 2.70000000000051
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "JUPITER",
+       "start": "1955-05-04T20:21:32",
+       "durationYears": 2.399999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SATURN",
+       "start": "1957-09-27T11:06:57",
+       "durationYears": 2.8499999999996177
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MERCURY",
+       "start": "1960-08-03T10:38:24",
+       "durationYears": 2.5500000000001273
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "KETU",
+       "start": "1963-02-20T20:19:09",
+       "durationYears": 1.0500000000001275
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "VENUS",
+       "start": "1964-03-10T08:46:32",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "SUN",
+       "start": "1967-03-11T03:13:19",
+       "durationYears": 0.899999999999745
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MOON",
+       "start": "1968-02-02T20:45:21",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "RAHU",
+       "bhukti": "MARS",
+       "start": "1969-08-03T17:58:44",
+       "durationYears": 1.0500000000001275
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "JUPITER",
+       "start": "1970-08-22T06:26:06",
+       "durationYears": 2.1333333333332485
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SATURN",
+       "start": "1972-10-09T11:33:09",
+       "durationYears": 2.5333333333329935
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MERCURY",
+       "start": "1975-04-22T19:07:46",
+       "durationYears": 2.2666666666664965
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "KETU",
+       "start": "1977-07-28T17:04:00",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "VENUS",
+       "start": "1978-07-04T14:48:20",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "SUN",
+       "start": "1981-03-04T15:12:08",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MOON",
+       "start": "1981-12-21T20:07:16",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "MARS",
+       "start": "1983-04-22T20:19:10",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "JUPITER",
+       "bhukti": "RAHU",
+       "start": "1984-03-28T18:03:30",
+       "durationYears": 2.400000000002295
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SATURN",
+       "start": "1986-08-22T08:48:56",
+       "durationYears": 3.008333333333567
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MERCURY",
+       "start": "1989-08-25T04:18:47",
+       "durationYears": 2.691666666666943
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "KETU",
+       "start": "1992-05-04T07:51:48",
+       "durationYears": 1.1083333333338221
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "VENUS",
+       "start": "1993-06-13T03:40:42",
+       "durationYears": 3.1666666666662415
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "SUN",
+       "start": "1996-08-12T19:08:58",
+       "durationYears": 0.9499999999998725
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MOON",
+       "start": "1997-07-25T18:59:27",
+       "durationYears": 1.5833333333331208
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "MARS",
+       "start": "1999-02-24T02:43:35",
+       "durationYears": 1.1083333333338221
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "RAHU",
+       "start": "2000-04-03T22:32:28",
+       "durationYears": 2.8499999999996177
+      },
+      {
+       "maha": "SATURN",
+       "bhukti": "JUPITER",
+       "start": "2003-02-08T22:03:55",
+       "durationYears": 2.5333333333329935
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MERCURY",
+       "start": "2005-08-22T05:38:32",
+       "durationYears": 2.408333333333312
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "KETU",
+       "start": "2008-01-18T21:27:02",
+       "durationYears": 0.9916666666664329
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "VENUS",
+       "start": "2009-01-15T02:32:53",
+       "durationYears": 2.8333333333337585
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SUN",
+       "start": "2011-11-15T23:58:10",
+       "durationYears": 0.8499999999996175
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MOON",
+       "start": "2012-09-21T11:11:45",
+       "durationYears": 1.4166666666668792
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "MARS",
+       "start": "2014-02-20T21:54:24",
+       "durationYears": 0.9916666666664329
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "RAHU",
+       "start": "2015-02-18T03:00:15",
+       "durationYears": 2.5500000000001273
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "JUPITER",
+       "start": "2017-09-06T12:41:01",
+       "durationYears": 2.2666666666664965
+      },
+      {
+       "maha": "MERCURY",
+       "bhukti": "SATURN",
+       "start": "2019-12-13T10:37:15",
+       "durationYears": 2.691666666666943
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "KETU",
+       "start": "2022-08-22T14:10:17",
+       "durationYears": 0.40833333333331207
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "VENUS",
+       "start": "2023-01-18T17:40:55",
+       "durationYears": 1.1666666666662417
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SUN",
+       "start": "2024-03-19T20:51:20",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MOON",
+       "start": "2024-07-25T17:00:28",
+       "durationYears": 0.5833333333331209
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MARS",
+       "start": "2025-02-23T18:35:40",
+       "durationYears": 0.40833333333331207
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "RAHU",
+       "start": "2025-07-22T22:06:19",
+       "durationYears": 1.0500000000001275
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "JUPITER",
+       "start": "2026-08-10T10:33:41",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "SATURN",
+       "start": "2027-07-17T08:18:01",
+       "durationYears": 1.1083333333338221
+      },
+      {
+       "maha": "KETU",
+       "bhukti": "MERCURY",
+       "start": "2028-08-25T04:06:55",
+       "durationYears": 0.9916666666677079
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "VENUS",
+       "start": "2029-08-22T09:12:46",
+       "durationYears": 3.3333333333337585
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SUN",
+       "start": "2032-12-21T21:42:31",
+       "durationYears": 1.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MOON",
+       "start": "2033-12-22T03:51:27",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MARS",
+       "start": "2035-08-22T22:06:19",
+       "durationYears": 1.1666666666662417
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "RAHU",
+       "start": "2036-10-22T01:16:44",
+       "durationYears": 3.0
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "JUPITER",
+       "start": "2039-10-22T19:43:31",
+       "durationYears": 2.6666666666662415
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "SATURN",
+       "start": "2042-06-22T20:07:19",
+       "durationYears": 3.1666666666662415
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "MERCURY",
+       "start": "2045-08-22T11:35:35",
+       "durationYears": 2.8333333333337585
+      },
+      {
+       "maha": "VENUS",
+       "bhukti": "KETU",
+       "start": "2048-06-22T09:00:53",
+       "durationYears": 1.1666666666675165
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SUN",
+       "start": "2049-08-22T12:11:17",
+       "durationYears": 0.29999999999949006
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MOON",
+       "start": "2049-12-10T02:01:58",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MARS",
+       "start": "2050-06-10T17:06:26",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "RAHU",
+       "start": "2050-10-16T13:15:33",
+       "durationYears": 0.899999999999745
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "JUPITER",
+       "start": "2051-09-10T06:47:35",
+       "durationYears": 0.79999999999949
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "SATURN",
+       "start": "2052-06-28T11:42:44",
+       "durationYears": 0.9499999999998725
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "MERCURY",
+       "start": "2053-06-10T11:33:13",
+       "durationYears": 0.8499999999996175
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "KETU",
+       "start": "2054-04-16T22:46:48",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "SUN",
+       "bhukti": "VENUS",
+       "start": "2054-08-22T18:55:55",
+       "durationYears": 1.0000000000025497
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MOON",
+       "start": "2055-08-23T01:04:51",
+       "durationYears": 0.8333333333337583
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MARS",
+       "start": "2056-06-22T10:12:17",
+       "durationYears": 0.5833333333331209
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "RAHU",
+       "start": "2057-01-21T11:47:30",
+       "durationYears": 1.5
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "JUPITER",
+       "start": "2058-07-23T09:00:53",
+       "durationYears": 1.3333333333337583
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SATURN",
+       "start": "2059-11-22T09:12:47",
+       "durationYears": 1.5833333333331208
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "MERCURY",
+       "start": "2061-06-22T16:56:55",
+       "durationYears": 1.4166666666668792
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "KETU",
+       "start": "2062-11-22T03:39:34",
+       "durationYears": 0.5833333333331209
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "VENUS",
+       "start": "2063-06-23T05:14:46",
+       "durationYears": 1.6666666666662417
+      },
+      {
+       "maha": "MOON",
+       "bhukti": "SUN",
+       "start": "2065-02-20T23:29:39",
+       "durationYears": 0.5
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MARS",
+       "start": "2065-08-22T14:34:07",
+       "durationYears": 0.40833333333331207
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "RAHU",
+       "start": "2066-01-18T18:04:45",
+       "durationYears": 1.0500000000001275
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "JUPITER",
+       "start": "2067-02-06T06:32:08",
+       "durationYears": 0.9333333333327384
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SATURN",
+       "start": "2068-01-13T04:16:28",
+       "durationYears": 1.1083333333338221
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MERCURY",
+       "start": "2069-02-21T00:05:21",
+       "durationYears": 0.9916666666664329
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "KETU",
+       "start": "2070-02-18T05:11:12",
+       "durationYears": 0.40833333333331207
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "VENUS",
+       "start": "2070-07-17T08:41:51",
+       "durationYears": 1.1666666666662417
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "SUN",
+       "start": "2071-09-16T11:52:16",
+       "durationYears": 0.3499999999996175
+      },
+      {
+       "maha": "MARS",
+       "bhukti": "MOON",
+       "start": "2072-01-22T08:01:23",
+       "durationYears": 0.5833333333343957
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

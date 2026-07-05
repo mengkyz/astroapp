@@ -42,3 +42,9 @@ next-env.d.ts
 
 # private saved-persons data (contains personal information)
 /data/
+
+# PyJHora reference source (221MB, downloaded separately - see calc-service/README.md)
+/PyJHora-main/
+
+# calc-service local artifacts
+calc-service/uvicorn.log

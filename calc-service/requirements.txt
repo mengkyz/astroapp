@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+pyswisseph==2.10.3.2
+numpy
+pytz
+geocoder
+geopy
+requests
+timezonefinder
+pandas
+scipy
