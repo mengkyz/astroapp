@@ -15,6 +15,7 @@ import { calcLagna } from '@/lib/charts/lagna';
 import { getRasi, getDegreesInRasi, roundToArcsecond } from '@/lib/charts/rasi';
 import { getNakshatra } from '@/lib/charts/nakshatra';
 import { calculateVimshottariDasha } from '@/lib/charts/dasha';
+import { computePanchanga } from '@/lib/charts/panchanga';
 import { BirthInput } from '@/app/types/astrology';
 import { RASI_NAMES } from '@/lib/data/signs';
 import { NAKSHATRA_NAMES } from '@/lib/data/nakshatras';
@@ -236,6 +237,16 @@ export async function POST(req: NextRequest) {
     // Sunrise/sunset of the birth day for the Kala Bala items
     const sunTimes = calcSunriseSunset(jd, input.latitude, input.longitude, input.utcOffset);
 
+    // Panchanga: the five limbs of the birth day (sunrise-to-sunrise weekday)
+    const sunPl = planets.find((p) => p.key === 'SUN');
+    let panchanga = null;
+    if (sunPl && moon) {
+      const jdLocal = jd + input.utcOffset / 24;
+      let vaara = (((Math.floor(jdLocal + 0.5) + 1) % 7) + 7) % 7; // 0 = Sunday
+      if (sunTimes && jd < sunTimes.sunriseJd) vaara = (vaara + 6) % 7;
+      panchanga = computePanchanga(sunPl.longitude, moon.longitude, vaara);
+    }
+
     // Calculate Shadbala (Graha Bala) and Bhava Bala
     const balas = calculateBalas(
       planets.map((p) => ({
@@ -291,6 +302,7 @@ export async function POST(req: NextRequest) {
       },
       planets,
       dasha: dashaData,
+      panchanga,
       balas, // Graha Bala (Shadbala) + Bhava Bala
     });
   } catch (error) {

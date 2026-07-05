@@ -10,6 +10,7 @@ import PrintLayout from './components/PrintLayout';
 import BalasTable from './components/BalasTable';
 import { translations, Language } from '@/lib/i18n/translations';
 import { BalasResult } from '@/lib/charts/shadbala';
+import { PanchangaResult } from '@/lib/charts/panchanga';
 import { SavedPerson, personDisplayName, personLocName } from '@/lib/types/person';
 import { decimalToDMS, dmsToDecimal } from '@/lib/utils/format';
 import { generatePlanetCSV, generateDashaCSV, downloadCSV } from '@/lib/csv/export';
@@ -32,6 +33,7 @@ type ChartResult = PlanetTableData & {
   warnings?: string[];
   birthDateLocalStr: string;
   dasha?: DashaTableData;
+  panchanga?: PanchangaResult | null;
   balas?: BalasResult;
 };
 
@@ -1227,6 +1229,49 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
+
+                {/* Panchanga strip: the five limbs of the birth day */}
+                {result.panchanga && (
+                  <div className="mt-4 pt-4 border-t border-indigo-200">
+                    <h4 className="text-xs font-extrabold text-indigo-400 uppercase tracking-widest mb-3">
+                      {t.panchanga.title}
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 text-sm">
+                      <div>
+                        <span className="block text-indigo-400 font-semibold mb-0.5">{t.panchanga.vaara}</span>
+                        <span className="block text-indigo-900 font-medium">
+                          {t.panchanga.dayNames[result.panchanga.vaara]}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="block text-indigo-400 font-semibold mb-0.5">{t.panchanga.tithi}</span>
+                        <span className="block text-indigo-900 font-medium">
+                          {lang === 'th'
+                            ? `${result.panchanga.waxing ? t.panchanga.shukla : t.panchanga.krishna} ${result.panchanga.pakshaDay} ค่ำ`
+                            : `${result.panchanga.waxing ? 'Shukla' : 'Krishna'} ${t.panchanga.tithiNames[result.panchanga.pakshaDay - 1]}`}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="block text-indigo-400 font-semibold mb-0.5">{t.panchanga.nakshatra}</span>
+                        <span className="block text-indigo-900 font-medium">
+                          {t.nakshatras[result.panchanga.nakshatraIndex]} · {t.panchanga.pada} {result.panchanga.pada}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="block text-indigo-400 font-semibold mb-0.5">{t.panchanga.yoga}</span>
+                        <span className="block text-indigo-900 font-medium">
+                          {t.panchanga.yogaNames[result.panchanga.yogaIndex - 1]}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="block text-indigo-400 font-semibold mb-0.5">{t.panchanga.karana}</span>
+                        <span className="block text-indigo-900 font-medium">
+                          {t.panchanga.karanaNames[result.panchanga.karanaNameIndex]}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* TABS & EXPORT BUTTON */}
