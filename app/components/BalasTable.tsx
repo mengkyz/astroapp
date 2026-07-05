@@ -154,6 +154,7 @@ function GrashaBalaTable({ grahaBala, lang }: { grahaBala: GrahaBala[]; lang: La
                               <div className="flex justify-between"><span>{t.balaTable.abda}</span><span className="font-medium">{fmt(g.kala.abda)}</span></div>
                               <div className="flex justify-between"><span>{t.balaTable.masa}</span><span className="font-medium">{fmt(g.kala.masa)}</span></div>
                               <div className="flex justify-between"><span>{t.balaTable.ayana}</span><span className="font-medium">{fmt(g.kala.ayana)}</span></div>
+                              <div className="flex justify-between"><span>{t.balaTable.yuddha}</span><span className="font-medium">{fmt(g.kala.yuddha)}</span></div>
                             </div>
                           </div>
                           {/* Other components */}

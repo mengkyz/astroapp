@@ -16,6 +16,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'PyJHora-main',
 from jhora.panchanga import drik
 from jhora import utils, const
 from jhora.horoscope.dhasa.graha import vimsottari
+from jhora.horoscope.chart import strength
+from jhora.horoscope.chart import charts as jcharts
 
 PLANET_KEYS = ['SUN', 'MOON', 'MARS', 'MERCURY', 'JUPITER', 'VENUS', 'SATURN', 'RAHU', 'KETU']
 
@@ -56,6 +58,47 @@ def frac_hour_to_hms(fh: float):
     return total // 3600, (total % 3600) // 60, total % 60
 
 
+def compute_shadbala(jd, place):
+    """Granular shadbala components from PyJHora's strength module (the
+    JHora/PVR method) for calibrating the TS implementation."""
+    pp1 = jcharts.divisional_chart(jd, place, divisional_chart_factor=1)[:10]
+    pp9 = jcharts.divisional_chart(jd, place, divisional_chart_factor=9)[:10]
+    comp = {
+        'uchcha': strength._uchcha_bala(pp1),
+        'saptavargaja': strength._sapthavargaja_bala1(jd, place),
+        'ojayugma': strength._ojayugama_bala(pp1, pp9),
+        'kendra': strength._kendra_bala(pp1),
+        'drekkana': strength._dreshkon_bala(pp1),
+        'sthanaTotal': strength._sthana_bala(jd, place),
+        'nathonnatha': strength._nathonnath_bala(jd, place),
+        'paksha': strength._paksha_bala(jd, place),
+        'tribhaga': strength._tribhaga_bala(jd, place),
+        'abda': strength._abdadhipathi(jd, place),
+        'masa': strength._masadhipathi(jd, place),
+        'vara': strength._vaaradhipathi(jd, place),
+        'hora': strength._hora_bala(jd, place),
+        'ayana': strength._ayana_bala(jd, place),
+        'yuddha': strength._yuddha_bala(jd, place),
+        'kalaTotal': strength._kaala_bala(jd, place),
+        'dig': strength._dig_bala(jd, place),
+        'cheshtaSS': strength._cheshta_bala_new(jd, place, use_epoch_table=False),
+        'cheshtaEpoch': strength._cheshta_bala_new(jd, place, use_epoch_table=True),
+        'naisargika': list(strength._naisargika_bala()),
+        'drik': strength._drik_bala(jd, place),
+    }
+    bb = strength.bhava_bala(jd, place)
+    sb = strength.shad_bala(jd, place)
+    return {
+        'components': comp,
+        'total': sb[6],
+        'rupas': sb[7],
+        'bhavaAdhipathi': strength._bhava_adhipathi_bala(jd, place),
+        'bhavaDig': strength._bhava_dig_bala(jd, place),
+        'bhavaDrik': strength._bhava_drik_bala(jd, place),
+        'bhavaTotal': bb[0],
+    }
+
+
 def compute_chart(c):
     place = drik.Place(c['id'], c['latitude'], c['longitude'], c['utcOffset'])
     dob = drik.Date(c['year'], c['month'], c['day'])
@@ -88,6 +131,7 @@ def compute_chart(c):
         result[mode_name] = {
             'ascendant': ascendant,
             'planets': planets,
+            **({'shadbala': compute_shadbala(jd, place)} if mode_name == 'apparent_mean' else {}),
             # PyJHora's own year measurement (sunrise-anchored Lagrange search,
             # ±1 min noise) — used to test the TS dasha arithmetic in isolation.
             'trueSiderealYearDays': drik.true_sidereal_year(jd, place),

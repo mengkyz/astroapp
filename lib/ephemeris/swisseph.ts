@@ -78,7 +78,7 @@ export function calcSunriseSunset(
   latitude: number,
   longitude: number,
   utcOffset: number,
-): { sunriseJd: number; sunsetJd: number } | null {
+): { sunriseJd: number; sunsetJd: number; midnightJd: number | null } | null {
   // Local midnight of the birth day, expressed in UT
   const localJd = jd + utcOffset / 24;
   const localMidnightUt = Math.floor(localJd - 0.5) + 0.5 - utcOffset / 24;
@@ -103,12 +103,50 @@ export function calcSunriseSunset(
   const sunriseJd = search(swisseph.SE_CALC_RISE);
   const sunsetJd = search(swisseph.SE_CALC_SET);
   if (sunriseJd === null || sunsetJd === null) return null;
-  return { sunriseJd, sunsetJd };
+
+  // Sun's lower transit ("local midnight") near the start of the birth day —
+  // used by Nathonnatha Bala. Search from 12h before local midnight so the
+  // event found is the one adjoining 0h local.
+  const midnight = swisseph.swe_rise_trans(
+    localMidnightUt - 0.5,
+    swisseph.SE_SUN,
+    '',
+    swisseph.SEFLG_SWIEPH,
+    swisseph.SE_CALC_ITRANSIT,
+    longitude,
+    latitude,
+    0,
+    0,
+    0,
+  ) as { transitTime?: number; error?: string };
+  const midnightJd =
+    midnight.error || midnight.transitTime === undefined ? null : midnight.transitTime;
+
+  return { sunriseJd, sunsetJd, midnightJd };
 }
 
 // Ketu (๙) is always exactly 180 degrees opposite Rahu (๘)
 export function calcKetu(rahuLon: number): number {
   return (rahuLon + 180) % 360;
+}
+
+/**
+ * Sidereal Placidus house cusps (KP convention — what Jagannatha Hora uses as
+ * bhava madhya for Dig Bala). Returns 12 longitudes, index 0 = 1st cusp.
+ * Falls back to null near polar latitudes where Placidus is undefined.
+ */
+export function calcPlacidusCusps(
+  jd: number,
+  latitude: number,
+  longitude: number,
+): number[] | null {
+  swisseph.swe_set_sid_mode(swisseph.SE_SIDM_LAHIRI, 0, 0);
+  const res = swisseph.swe_houses_ex(jd, swisseph.SEFLG_SIDEREAL, latitude, longitude, 'P') as {
+    house?: number[];
+    error?: string;
+  };
+  if (res.error || !res.house || res.house.length < 12) return null;
+  return res.house.slice(0, 12).map((c) => ((c % 360) + 360) % 360);
 }
 
 /**
