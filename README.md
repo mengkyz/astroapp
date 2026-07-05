@@ -5,7 +5,7 @@ A bilingual (ไทย/English) **Thai–Vedic natal chart calculator** built wi
 ## Features
 
 - **Planet positions** — sidereal longitudes for the Lagna, Sun–Saturn, Rahu/Ketu (mean node) and Uranus (มฤตยู), with sign, degree/minute/second, drekkana (D3), navamsa (D9), nakshatra + pada, house, house lordship (Thai convention: Rahu rules Aquarius), Thai aspect columns (กุม/โยค/ฉาก/ตรีโกณ/เล็ง + special aspects), Big Rerk, element and modality.
-- **Vimshottari Dasha** — maha dasha / bhukti tables with ages, periods and the current period highlighted. Uses the traditional calendar-walk (Y/M/D) method; the final bhukti is pinned to the maha dasha boundary.
+- **Vimshottari Dasha** — maha dasha / bhukti tables with ages, periods and the current period highlighted. Uses Jagannatha Hora's default method: exact day arithmetic with the **true sidereal year** (the Sun's actual Aries-ingress-to-ingress duration around the birth). Alternative year lengths (mean sidereal 365.256364, Gregorian 365.2425, savana 360, and the traditional Thai calendar-walk) are supported by the engine (`lib/charts/dasha.ts`).
 - **Rasi chart** — a traditional Thai ราศีจักร wheel (SVG) with navamsa, drekkana, nakshatra, navamsa-lord and dasha rings, zoom/pan and tooltips.
 - **Personal Rerk** — the 9 rerk groups derived from the natal Moon's nakshatra, with nakshatra lords and occupying planets.
 - **Graha Bala (Shadbala) & Bhava Bala** — per B.V. Raman's *Graha and Bhava Balas*, computed with true sunrise/sunset (`swe_rise_trans`), true declinations and speed-based Chesta Bala. (Shadbala follows Raman's Parashari lordship: Saturn owns Aquarius.)
@@ -49,6 +49,8 @@ tests/                      # vitest suite incl. golden ephemeris chart
 
 ## Accuracy notes
 
-- The Swiss Ephemeris data files bundled with the `swisseph` npm package are loaded at startup (`swe_set_ephe_path`); without them the library silently degrades to the Moshier model.
+- **Calibrated against PyJHora** (the verified Python port of Jagannatha Hora): `tests/fixtures/pyjhora-golden.json` holds reference positions and vimshottari tables for 6 charts in two convention modes (apparent+mean node = this engine / Thai preset; true positions+true node = JHora defaults). `tests/pyjhora-parity.test.ts` and `tests/dasha-parity.test.ts` assert parity. Regenerate fixtures with `calc-service/generate_fixtures.py`.
+- `calc-service/` is a FastAPI wrapper around PyJHora providing JHora-parity calculations (chart, vimshottari, panchanga) for upcoming features; see its README.
+- The Swiss Ephemeris data files bundled with the `swisseph` npm package are loaded at startup (`swe_set_ephe_path`); without them the library silently degrades to the Moshier model. The files cover 1800–2399 CE; the API returns an `epheRange` warning outside that range.
 - Documented approximations in Shadbala: Abda/Masa lords use Gregorian anchor dates rather than true Sankranti, and drishti strength uses the discrete house table rather than continuous sputa-drishti.
 - Thai births before April 1920 used Bangkok Mean Time (UTC+6:42) — set the UTC offset field accordingly.

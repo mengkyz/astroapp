@@ -21,6 +21,7 @@ type DashaTableData = ComponentProps<typeof DashaTable>['dashaData'];
 type ChartResult = PlanetTableData & {
   julianDay?: number;
   ayanamsa?: number;
+  warnings?: string[];
   birthDateLocalStr: string;
   dasha?: DashaTableData;
   balas?: BalasResult;
@@ -186,6 +187,7 @@ export default function Home() {
             nicknameTh: lang === 'th' ? formData.nickname : p.nicknameTh,
             day: Number(formData.day), month: Number(formData.month), year: Number(formData.year),
             hour: Number(formData.hour), minute: Number(formData.minute), second: Number(formData.second),
+            utcOffset: Number(formData.utcOffset),
             locationNameEn: locationNameBilingual.en,
             locationNameTh: locationNameBilingual.th,
             latitude: formData.latitude,
@@ -209,6 +211,7 @@ export default function Home() {
         nicknameTh: lang === 'th' ? formData.nickname : '',
         day: Number(formData.day), month: Number(formData.month), year: Number(formData.year),
         hour: Number(formData.hour), minute: Number(formData.minute), second: Number(formData.second),
+        utcOffset: Number(formData.utcOffset),
         locationNameEn: locationNameBilingual.en,
         locationNameTh: locationNameBilingual.th,
         latitude: formData.latitude,
@@ -236,6 +239,7 @@ export default function Home() {
       nickname: displayNick,
       day: person.day, month: person.month, year: person.year,
       hour: person.hour, minute: person.minute, second: person.second,
+      utcOffset: person.utcOffset ?? 7,
       locationName: displayLoc,
       latitude: person.latitude,
       longitude: person.longitude,
@@ -288,13 +292,27 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setErrorMsg(null);
+
+    // Never fall back to 0,0 silently — an empty location must be an error,
+    // not a chart for the Gulf of Guinea.
+    const lat = Number(formData.latitude);
+    const lng = Number(formData.longitude);
+    if (formData.latitude === '' || formData.longitude === '' || Number.isNaN(lat) || Number.isNaN(lng)) {
+      showError(t.form.coordsRequired);
+      return;
+    }
+    if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+      showError(t.form.coordsInvalid);
+      return;
+    }
+
+    setLoading(true);
     try {
       const payload = {
         ...formData,
-        latitude: Number(formData.latitude) || 0,
-        longitude: Number(formData.longitude) || 0,
+        latitude: lat,
+        longitude: lng,
         utcOffset: Number(formData.utcOffset),
       };
 
@@ -593,6 +611,12 @@ export default function Home() {
                       onChange={handleYearChange}
                       className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 outline-none"
                     />
+                    {/* Live era conversion so a CE year typed in Thai mode (or vice versa) is caught at a glance */}
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      {lang === 'th'
+                        ? `= ${t.form.yearHintCE} ${formData.year}`
+                        : `= ${t.form.yearHintBE} ${formData.year + 543}`}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -935,6 +959,12 @@ export default function Home() {
           {/* Output Section */}
           {result && submittedData && (
             <div className="mt-8">
+              {result.warnings?.includes('epheRange') && (
+                <div className="flex items-start gap-2 bg-amber-50 border border-amber-300 text-amber-800 rounded-xl px-4 py-3 mb-4 text-sm">
+                  <span aria-hidden>⚠</span>
+                  <span>{t.form.epheRangeWarning}</span>
+                </div>
+              )}
               <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5 mb-8 shadow-sm">
                 <h3 className="text-xs font-extrabold text-indigo-400 uppercase tracking-widest border-b border-indigo-200 pb-2 mb-4">
                   {t.form.summaryTitle}

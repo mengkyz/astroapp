@@ -7,6 +7,8 @@ export interface SavedPerson {
   firstNameTh: string; lastNameTh: string; nicknameTh: string;
   day: number; month: number; year: number;
   hour: number; minute: number; second: number;
+  /** Hours east of UTC. Older saves lack this column; loaders default it to +7 (Thailand). */
+  utcOffset: number;
   locationNameEn: string; locationNameTh: string;
   latitude: number | string; longitude: number | string;
   quickSelect: { p: string; d: string; s: string } | null;

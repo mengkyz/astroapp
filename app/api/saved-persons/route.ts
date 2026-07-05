@@ -11,7 +11,11 @@ const CSV_PATH = path.join(DATA_DIR, 'savedPersons.csv');
 const LEGACY_CSV_PATH = path.join(process.cwd(), 'public', 'data', 'savedPersons.csv');
 
 const CSV_HEADER =
-  'id,firstNameEn,lastNameEn,nicknameEn,firstNameTh,lastNameTh,nicknameTh,day,month,year,hour,minute,second,locationNameEn,locationNameTh,latitude,longitude,quickSelectP,quickSelectD,quickSelectS';
+  'id,firstNameEn,lastNameEn,nicknameEn,firstNameTh,lastNameTh,nicknameTh,day,month,year,hour,minute,second,utcOffset,locationNameEn,locationNameTh,latitude,longitude,quickSelectP,quickSelectD,quickSelectS';
+
+// Files written before the utcOffset column had 20 fields; assume Thailand (+7).
+const LEGACY_FIELD_COUNT = 20;
+const DEFAULT_UTC_OFFSET = 7;
 
 const MAX_PERSONS = 2000;
 
@@ -21,6 +25,7 @@ interface SavedPerson {
   firstNameTh: string; lastNameTh: string; nicknameTh: string;
   day: number; month: number; year: number;
   hour: number; minute: number; second: number;
+  utcOffset: number;
   locationNameEn: string; locationNameTh: string;
   latitude: number | string; longitude: number | string;
   quickSelect: { p: string; d: string; s: string } | null;
@@ -66,19 +71,27 @@ function readPersons(): SavedPerson[] {
   if (!fs.existsSync(CSV_PATH)) return [];
   const lines = fs.readFileSync(CSV_PATH, 'utf-8').split('\n').filter(Boolean);
   return lines.slice(1).map((line) => {
+    const fields = parseCsvLine(line);
+    // Rows from before the utcOffset column: splice in the Thai default so the
+    // remaining columns line up.
+    if (fields.length === LEGACY_FIELD_COUNT) {
+      fields.splice(13, 0, String(DEFAULT_UTC_OFFSET));
+    }
     const [
       id, firstNameEn, lastNameEn, nicknameEn,
       firstNameTh, lastNameTh, nicknameTh,
-      day, month, year, hour, minute, second,
+      day, month, year, hour, minute, second, utcOffset,
       locationNameEn, locationNameTh,
       latitude, longitude,
       quickSelectP, quickSelectD, quickSelectS,
-    ] = parseCsvLine(line);
+    ] = fields;
+    const parsedOffset = Number(utcOffset);
     return {
       id, firstNameEn, lastNameEn, nicknameEn,
       firstNameTh, lastNameTh, nicknameTh,
       day: Number(day), month: Number(month), year: Number(year),
       hour: Number(hour), minute: Number(minute), second: Number(second),
+      utcOffset: Number.isFinite(parsedOffset) ? parsedOffset : DEFAULT_UTC_OFFSET,
       locationNameEn, locationNameTh,
       latitude, longitude,
       quickSelect: quickSelectP ? { p: quickSelectP, d: quickSelectD ?? '', s: quickSelectS ?? '' } : null,
@@ -95,6 +108,7 @@ function writePersons(persons: SavedPerson[]): void {
       csvField(p.firstNameTh), csvField(p.lastNameTh), csvField(p.nicknameTh),
       csvField(p.day), csvField(p.month), csvField(p.year),
       csvField(p.hour), csvField(p.minute), csvField(p.second),
+      csvField(p.utcOffset),
       csvField(p.locationNameEn), csvField(p.locationNameTh),
       csvField(p.latitude), csvField(p.longitude),
       csvField(p.quickSelect?.p ?? ''),
@@ -120,6 +134,7 @@ function isValidPerson(p: unknown): p is SavedPerson {
     isStr(o.firstNameTh) && isStr(o.lastNameTh) && isStr(o.nicknameTh) &&
     isNum(o.day) && isNum(o.month) && isNum(o.year) &&
     isNum(o.hour) && isNum(o.minute) && isNum(o.second) &&
+    isNum(o.utcOffset) && Math.abs(o.utcOffset as number) <= 14 &&
     isStr(o.locationNameEn) && isStr(o.locationNameTh) &&
     isLatLng(o.latitude) && isLatLng(o.longitude) &&
     (o.quickSelect === null ||

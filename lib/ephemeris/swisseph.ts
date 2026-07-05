@@ -41,16 +41,19 @@ export function calcPlanet(planetId: number, jd: number) {
   };
 }
 
-/** True equatorial declination of a planet, in degrees (north positive). */
-export function calcDeclination(planetId: number, jd: number): number {
+/**
+ * True equatorial declination of a planet, in degrees (north positive).
+ * Returns null when unavailable so callers can apply their own fallback —
+ * a silent 0 here would quietly corrupt Ayana Bala.
+ */
+export function calcDeclination(planetId: number, jd: number): number | null {
   const flags = swisseph.SEFLG_SPEED | swisseph.SEFLG_EQUATORIAL;
   const result = swisseph.swe_calc_ut(jd, planetId, flags) as {
     error?: string;
     declination?: number;
   };
   if (result.error || result.declination === undefined) {
-    // Fall back to an ecliptic approximation if the call fails
-    return 0;
+    return null;
   }
   return result.declination;
 }
@@ -96,4 +99,30 @@ export function calcSunriseSunset(
 // Ketu (๙) is always exactly 180 degrees opposite Rahu (๘)
 export function calcKetu(rahuLon: number): number {
   return (rahuLon + 180) % 360;
+}
+
+/**
+ * True sidereal year around the given moment: the number of days between the
+ * Sun's previous and next entry into sidereal 0° Aries. This is Jagannatha
+ * Hora's default year length for dashas (varies slightly chart to chart,
+ * ≈365.25–365.26 days) rather than the mean constant 365.256364.
+ */
+export function calcTrueSiderealYear(jd: number): number {
+  const sunLon = (t: number) => calcPlanet(PLANET_IDS.SUN, t).longitude;
+  // Deviation from 0° Aries mapped into [-180, 180)
+  const wrap = (x: number) => ((((x + 180) % 360) + 360) % 360) - 180;
+  const MEAN_SPEED = 360 / 365.2564; // deg/day, good enough for Newton steps
+
+  const refineIngress = (t: number): number => {
+    for (let i = 0; i < 10; i++) {
+      const err = wrap(sunLon(t));
+      if (Math.abs(err) < 1e-9) break;
+      t -= err / MEAN_SPEED;
+    }
+    return t;
+  };
+
+  const prevIngress = refineIngress(jd - sunLon(jd) / MEAN_SPEED);
+  const nextIngress = refineIngress(prevIngress + 365.2564);
+  return nextIngress - prevIngress;
 }
