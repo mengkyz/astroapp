@@ -3,11 +3,12 @@ import { translations, Language } from '@/lib/i18n/translations';
 import {
   PLANET_ORDER,
   PLANET_CODE,
-  PLANET_DOMICILES,
+  getPlanetDomiciles,
   SIGN_ELEMENT_KEY,
   SIGN_MODALITY_KEY,
 } from '@/lib/astro/constants';
 import { computeAspects, AspectBody } from '@/lib/astro/aspects';
+import { SystemMode } from '@/lib/astro/settings';
 import { formatLocalDate, formatDuration, pad2 } from '@/lib/utils/format';
 
 // ─── Loose shapes matching the natal-chart API response ─────────────────────
@@ -65,9 +66,10 @@ function esc(v: string) {
 
 // ─── Planet positions CSV ────────────────────────────────────────────────────
 
-export function generatePlanetCSV(data: PlanetCSVData, lang: Language): string {
+export function generatePlanetCSV(data: PlanetCSVData, lang: Language, mode: SystemMode = 'thai'): string {
   const t = translations[lang];
   const tT = t.planetTable;
+  const modeDomiciles = getPlanetDomiciles(mode);
   const headers = [
     tT.planet, tT.rasi, tT.degree, tT.min, tT.sec,
     tT.drekkana, tT.navamsa, tT.nakshatra, tT.pada, tT.house, tT.houseLord,
@@ -105,7 +107,7 @@ export function generatePlanetCSV(data: PlanetCSVData, lang: Language): string {
   for (const planet of visiblePlanets) {
     const isNode = planet.key === 'RAHU' || planet.key === 'KETU';
     const planetName = (t.planets[planet.key as keyof typeof t.planets] || planet.key) + (planet.isRetrograde && !isNode ? ` (${tT.retroSymbol})` : '');
-    const domiciles = PLANET_DOMICILES[planet.key];
+    const domiciles = modeDomiciles[planet.key];
     const houseLord = domiciles
       ? domiciles.map((sign) => { let h = sign - lagna.rasi + 1; if (h <= 0) h += 12; return `${t.houses[h]} (${h})`; }).join(', ')
       : '-';

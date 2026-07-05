@@ -5,6 +5,7 @@ import { translations, Language } from '@/lib/i18n/translations';
 import RasiChart from './RasiChart';
 import { formatLocalDate, formatDuration } from '@/lib/utils/format';
 import { PLANET_ORDER, RERKS_ORDER } from '@/lib/astro/constants';
+import { SystemMode } from '@/lib/astro/settings';
 
 // --- สร้าง Interfaces ให้ตรงกับ ChartResult ที่ส่งมาจากหน้าหลักเป๊ะๆ ---
 interface PlanetData {
@@ -70,12 +71,14 @@ interface PrintLayoutProps {
     longitude: number | string;
   };
   lang: Language;
+  mode?: SystemMode;
 }
 
 export default function PrintLayout({
   data,
   formData,
   lang,
+  mode = 'thai',
 }: PrintLayoutProps) {
   if (!data) return null;
   const t = translations[lang];
@@ -248,6 +251,7 @@ export default function PrintLayout({
         <RasiChart
           data={{ lagna: data.lagna, planets: data.planets }} // Map the necessary properties instead of casting as any
           lang={lang}
+          mode={mode}
           birthDateText={`${formData.day} ${t.months[formData.month - 1]} ${lang === 'th' ? formData.year + 543 : formData.year}`}
           birthTimeText={`${String(formData.hour).padStart(2, '0')}:${String(formData.minute).padStart(2, '0')}:${String(formData.second).padStart(2, '0')}`}
           printMode={true}

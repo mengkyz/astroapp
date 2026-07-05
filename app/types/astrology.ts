@@ -1,3 +1,5 @@
+import { ApiCalcSettings } from '@/lib/astro/settings';
+
 export interface BirthInput {
   name?: string;
   year: number;
@@ -9,4 +11,6 @@ export interface BirthInput {
   latitude: number;
   longitude: number;
   utcOffset: number;
+  /** Optional calculation conventions; omitted fields fall back to the Thai preset. */
+  settings?: ApiCalcSettings;
 }

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { toJulianDay } from '@/lib/ephemeris/julian';
-import { calcPlanet, calcKetu, PLANET_IDS } from '@/lib/ephemeris/swisseph';
+import { calcPlanet, calcKetu, getPlanetIds, PLANET_IDS } from '@/lib/ephemeris/swisseph';
 import { calcLagna } from '@/lib/charts/lagna';
 import fixtures from './fixtures/pyjhora-golden.json';
 
@@ -12,8 +12,8 @@ import fixtures from './fixtures/pyjhora-golden.json';
  *  - apparent_mean : apparent positions + mean node — what this TS engine
  *    computes today (Thai preset). Asserted here.
  *  - true_truenode : true geometric positions + true node — JHora's defaults
- *    (Vedic preset). Asserted once the settings model lands; until then the
- *    fixture documents the target values.
+ *    (Vedic preset). Asserted below via calcPlanet(..., truePositions=true)
+ *    and getPlanetIds(true).
  *
  * Tolerances: planets 0.7" (light-time-free quantities agree to ~1e-6°),
  * ascendant 0.005° (PyJHora rounds house cusps slightly differently).
@@ -48,6 +48,28 @@ describe('PyJHora parity — apparent positions + mean node (current engine / Th
       it('matches the ascendant', () => {
         const got = calcLagna(jd, chart.input.latitude, chart.input.longitude);
         expect(Math.abs(got - expected.ascendant)).toBeLessThan(ASC_TOL_DEG);
+      });
+    });
+  }
+});
+
+describe('PyJHora parity — true positions + true node (JHora defaults / Vedic preset)', () => {
+  const vedicIds = getPlanetIds(true);
+
+  for (const chart of fixtures.charts as FixtureChart[]) {
+    describe(chart.id, () => {
+      const jd = toJulianDay(chart.input);
+      const expected = chart.modes.true_truenode;
+
+      it('matches all planet longitudes incl. true-node Rahu/Ketu', () => {
+        for (const [key, id] of Object.entries(vedicIds)) {
+          if (key === 'URANUS') continue;
+          const got = calcPlanet(id, jd, true).longitude;
+          const want = expected.planets[key as keyof typeof expected.planets];
+          expect(Math.abs(got - want), `${key} got=${got} want=${want}`).toBeLessThan(PLANET_TOL_DEG);
+        }
+        const ketu = calcKetu(calcPlanet(vedicIds.RAHU, jd, true).longitude);
+        expect(Math.abs(ketu - expected.planets.KETU)).toBeLessThan(PLANET_TOL_DEG);
       });
     });
   }

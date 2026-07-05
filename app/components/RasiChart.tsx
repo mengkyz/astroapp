@@ -10,10 +10,11 @@ import {
   PLANET_ORDER as SHARED_PLANET_ORDER,
   THAI_SYMBOLS,
   EN_SYMBOLS,
-  THAI_SIGN_LORDS,
+  getSignLords,
   VIMSHOTTARI_LORDS,
   VIMSHOTTARI_YEARS,
 } from '@/lib/astro/constants';
+import { SystemMode } from '@/lib/astro/settings';
 
 // --- Core SVG Mathematical Engine ---
 function polarToCartesian(radius: number, angleInDegrees: number) {
@@ -112,7 +113,6 @@ const formatDegMin = (lon: number) => {
 };
 
 const PLANET_ORDER: readonly string[] = SHARED_PLANET_ORDER;
-const SIGN_LORDS = THAI_SIGN_LORDS;
 
 const THAI_PLANET_NAMES: Record<string, string> = {
   SUN: 'อาทิตย์',
@@ -170,6 +170,8 @@ interface LagnaData {
 interface RasiChartProps {
   data: { lagna: LagnaData; planets: PlanetData[] };
   lang: Language;
+  /** Sign lordship convention for the navamsa-lord ring (Thai: Rahu owns Aquarius). */
+  mode?: SystemMode;
   printMode?: boolean;
   /** Optional caption lines shown above the chart (birth date / time). */
   birthDateText?: string;
@@ -186,11 +188,13 @@ interface Occupant {
 export default function RasiChart({
   data,
   lang,
+  mode = 'thai',
   printMode,
   birthDateText,
   birthTimeText,
 }: RasiChartProps) {
   const t = translations[lang];
+  const SIGN_LORDS = getSignLords(mode);
   const containerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const contentWrapperRef = useRef<HTMLDivElement>(null);
@@ -528,7 +532,7 @@ export default function RasiChart({
       }
     }
     return { ring2: r2, ring5: r5, ring5Styles: dynamicStyles.join(' ') };
-  }, [data, lang, t, showTooltip, updateTooltip, hideTooltip]);
+  }, [data, lang, t, SIGN_LORDS, showTooltip, updateTooltip, hideTooltip]);
 
   const ring3 = useMemo(() => {
     const slices = [];
