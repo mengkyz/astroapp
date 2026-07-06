@@ -20,6 +20,18 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
+## Deployment (Docker, personal mini-PC)
+
+```bash
+# One-time: place the PyJHora-main folder in the repo root (not in git)
+docker compose up -d --build
+# Web UI:       http://<host>:3000
+# Calc service: http://<host>:8087 (PyJHora JHora-parity API)
+```
+
+Saved persons persist in `./data` on the host (mounted into the web container).
+To update: `git pull && docker compose up -d --build`.
+
 Other scripts:
 
 ```bash

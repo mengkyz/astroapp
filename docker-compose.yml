@@ -1,0 +1,36 @@
+# Verdict Astrology — personal deployment (mini-PC)
+#
+#   docker compose up -d --build
+#
+# Web UI:        http://<host>:3000
+# Calc service:  http://<host>:8087  (PyJHora JHora-parity API)
+#
+# The PyJHora-main folder must exist in this directory (it is not in git);
+# see calc-service/README.md.
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      # saved persons (CSV) persist across container updates
+      - ./data:/app/data
+    environment:
+      - CALC_SERVICE_URL=http://calc:8087
+    restart: unless-stopped
+    depends_on:
+      - calc
+
+  calc:
+    build:
+      context: .
+      dockerfile: calc-service/Dockerfile
+    ports:
+      - "8087:8087"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8087/health')"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
