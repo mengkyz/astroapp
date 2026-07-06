@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+data
+calc-service/.venv
+calc-service/uvicorn.log
+PyJHora-main/PyJHora-main/src/jhora/images
+PyJHora-main/PyJHora-main/src/jhora/docs
+tsconfig.tsbuildinfo

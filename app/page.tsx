@@ -106,6 +106,7 @@ export default function Home() {
   // Saved Persons
   const [savedPersons, setSavedPersons] = useState<SavedPerson[]>([]);
   const [savedPersonsOpen, setSavedPersonsOpen] = useState(false);
+  const [personSearch, setPersonSearch] = useState('');
   const [editingPersonId, setEditingPersonId] = useState<string | null>(null);
   const [saveToast, setSaveToast] = useState<'saved' | 'updated' | null>(null);
   const [locationNameBilingual, setLocationNameBilingual] = useState({ en: '', th: '' });
@@ -635,11 +636,33 @@ export default function Home() {
                     className="text-gray-400 hover:text-gray-700 text-lg font-bold transition"
                   >✕</button>
                 </div>
+                {savedPersons.length > 3 && (
+                  <div className="px-4 pt-3">
+                    <input
+                      type="text"
+                      value={personSearch}
+                      onChange={(e) => setPersonSearch(e.target.value)}
+                      placeholder="🔍"
+                      aria-label={t.form.savedPersons}
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 outline-none focus:ring-2 focus:ring-indigo-400"
+                    />
+                  </div>
+                )}
                 <div className="overflow-y-auto flex-1 p-4 space-y-2">
                   {savedPersons.length === 0 ? (
                     <p className="text-sm text-gray-400 text-center py-6">{t.form.noSavedPersons}</p>
                   ) : (
-                    savedPersons.map((person) => (
+                    savedPersons
+                      .filter((person) => {
+                        const q = personSearch.trim().toLowerCase();
+                        if (!q) return true;
+                        return [
+                          person.firstNameEn, person.lastNameEn, person.nicknameEn,
+                          person.firstNameTh, person.lastNameTh, person.nicknameTh,
+                          person.locationNameEn, person.locationNameTh,
+                        ].some((v) => (v ?? '').toLowerCase().includes(q));
+                      })
+                      .map((person) => (
                       <div key={person.id} className="flex items-center gap-2 border border-gray-200 rounded-xl p-3 hover:bg-gray-50 transition">
                         <div className="flex-1 min-w-0">
                           <div className="font-semibold text-gray-800 text-sm truncate">{personDisplayName(person, lang)}</div>

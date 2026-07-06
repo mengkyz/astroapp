@@ -12,7 +12,12 @@ import os
 import sys
 import threading
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'PyJHora-main', 'PyJHora-main', 'src'))
+# PyJHora source location: env override for Docker, dev-tree default otherwise
+_PYJHORA_SRC = os.environ.get(
+    'PYJHORA_SRC',
+    os.path.join(os.path.dirname(__file__), '..', 'PyJHora-main', 'PyJHora-main', 'src'),
+)
+sys.path.insert(0, _PYJHORA_SRC)
 
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
